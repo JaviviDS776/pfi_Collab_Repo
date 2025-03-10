@@ -4,7 +4,7 @@
 
 ```python
 integrantes = {
-    "@kevenbarba": "Kevin Barba Ramirez",
+    "@kevenbarba": "Kevin Josué Barba Ramirez",
     "@JaviviDS776": "Luis Javier Garnica Escamilla",
     "@galaxyfab72": "Fabián Emmanuel Candia Villa",
     "@RamonToribio1403": "Ramon Toribio Rodriguez Gutierrez",
