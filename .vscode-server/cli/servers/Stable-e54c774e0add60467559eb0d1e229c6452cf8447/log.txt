@@ -1,0 +1,44 @@
+*
+* Visual Studio Code Server
+*
+* By using the software, you agree to
+* the Visual Studio Code Server License Terms (https://aka.ms/vscode-server-license) and
+* the Microsoft Privacy Statement (https://privacy.microsoft.com/en-US/privacystatement).
+*
+Server bound to /tmp/code-e3e10880-8590-4989-9056-f5f29a90bbe2
+Extension host agent listening on /tmp/code-e3e10880-8590-4989-9056-f5f29a90bbe2
+
+[22:57:44] 
+
+
+
+
+[22:57:45] Extension host agent started.
+[node.js fs] readdir with filetypes failed with error:  Error: ENOENT: no such file or directory, scandir '/home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.2.1'
+    at async Object.readdir (node:internal/fs/promises:948:18)
+    at async RR (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:43:4079)
+    at async Object.Ku (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:43:4008)
+    at async ou.readdir (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:67:15747)
+    at async el.t (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:64:48935)
+    at async el.resolve (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:64:48052)
+    at async Hh.H (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:55:24981)
+    at async Promise.all (index 2)
+    at async Hh.scanAllUserExtensions (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:55:20195)
+    at async K9.H (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:55:9952)
+    at async K9.s (file:///home/admin/.vscode-server/cli/servers/Stable-e54c774e0add60467559eb0d1e229c6452cf8447/server/out/server-main.js:55:7847) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.2.1'
+}
+[22:57:45] Deleted marked for removal extension from disk ms-python.vscode-pylance /home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.2.1
+[22:57:45] Marked extension as removed ms-python.vscode-pylance-2025.2.1
+[22:57:45] [<unknown>][c19e6633][ExtensionHostConnection] New connection established.
+[22:57:45] [<unknown>][9f7114a3][ManagementConnection] New connection established.
+[22:57:45] [<unknown>][c19e6633][ExtensionHostConnection] <3591> Launched Extension Host Process.
+New EH opened, aborting shutdown
+[23:02:45] New EH opened, aborting shutdown
+[23:04:44] [<unknown>][9f7114a3][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[23:04:44] [<unknown>][c19e6633][ExtensionHostConnection] <3591> Extension Host Process exited with code: 0, signal: null.
+Last EH closed, waiting before shutting down
+[23:04:44] Last EH closed, waiting before shutting down

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="dashboard-container">
+            <h1>Dashboard</h1>
+
+            <div class="user-info">
+                <h2>Bienvenido, {{ user.username }}!</h2>
+                <p>Has iniciado sesión correctamente.</p>
+            </div>
+
+            <div class="dashboard-content">
+                <p>Este es tu panel de control. Aquí puedes gestionar tu cuenta y ver tus datos.</p>
+            </div>
+
+            <a href="{% url 'logout' %}" class="btn btn-secondary">Cerrar Sesión</a>
+        </div>
+    </div>
+</body>
+
+</html>

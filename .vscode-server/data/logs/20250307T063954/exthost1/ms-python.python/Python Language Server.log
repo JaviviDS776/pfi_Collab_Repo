@@ -1,0 +1,26 @@
+2025-03-07 06:42:36.999 [info] (Client) Pylance async client (2025.3.1) started with python extension (2025.2.0)
+2025-03-07 06:42:37.294 [info] [Info  - 6:42:37 AM] (856) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 06:42:37.295 [info] [Info  - 6:42:37 AM] (856) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 06:42:37.295 [info] [Info  - 6:42:37 AM] (856) Starting service instance "admin"
+2025-03-07 06:42:37.406 [info] [Info  - 6:42:37 AM] (856) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 06:42:37.407 [info] [Info  - 6:42:37 AM] (856) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 06:42:37.407 [info] [Info  - 6:42:37 AM] (856) No include entries specified; assuming /home/admin
+2025-03-07 06:42:37.408 [info] [Info  - 6:42:37 AM] (856) Auto-excluding **/node_modules
+2025-03-07 06:42:37.409 [info] [Info  - 6:42:37 AM] (856) Auto-excluding **/__pycache__
+2025-03-07 06:42:37.410 [info] [Info  - 6:42:37 AM] (856) Auto-excluding **/.*
+2025-03-07 06:42:37.535 [info] [Info  - 6:42:37 AM] (856) Assuming Python version 3.11.2.final.0
+2025-03-07 06:42:37.773 [info] [Info  - 6:42:37 AM] (856) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 06:42:37.799 [info] [Info  - 6:42:37 AM] (856) Found 24 source files
+2025-03-07 06:42:39.867 [info] [Info  - 6:42:39 AM] (856) Background analysis(1) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 06:42:39.875 [info] [Info  - 6:42:39 AM] (856) Background analysis(1) started
+2025-03-07 06:42:40.091 [info] [Info  - 6:42:40 AM] (856) Indexer background runner(2) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist (index)
+2025-03-07 06:42:40.094 [info] [Info  - 6:42:40 AM] (856) Indexing(2) started
+2025-03-07 06:42:43.018 [info] [Info  - 6:42:43 AM] (856) [IDX(2)] Long operation: scan packages file:///home/admin (2604ms)
+2025-03-07 06:42:43.020 [info] [Info  - 6:42:43 AM] (856) scanned(2) 58 files over 1 exec env
+2025-03-07 06:42:43.292 [info] [Info  - 6:42:43 AM] (856) [BG(1)] Long operation: analyzing: file:///home/admin/Which_Journal/principal/models.py (3069ms)
+2025-03-07 06:42:44.042 [info] [Info  - 6:42:44 AM] (856) indexed(2) 58 files over 1 exec env
+2025-03-07 06:42:44.199 [info] [Info  - 6:42:44 AM] (856) Indexing finished(2).
+2025-03-07 06:46:04.045 [info] [Info  - 6:46:04 AM] (856) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 06:46:04.078 [info] [Info  - 6:46:04 AM] (856) Found 24 source files
+2025-03-07 06:46:04.402 [info] [Info  - 6:46:04 AM] (856) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 06:46:04.420 [info] [Info  - 6:46:04 AM] (856) Found 24 source files

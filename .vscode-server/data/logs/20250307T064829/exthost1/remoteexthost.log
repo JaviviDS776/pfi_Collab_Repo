@@ -1,0 +1,20 @@
+2025-03-07 06:48:45.028 [info] Extension host with pid 677 started
+2025-03-07 06:48:45.029 [error] Error: EEXIST: file already exists, open '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261/vscode.lock'
+2025-03-07 06:48:45.037 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261/vscode.lock': Could not acquire lock, checking if the file is stale.
+2025-03-07 06:48:45.075 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261/vscode.lock': The lock does not look stale, elapsed: 42192 ms, giving up.
+2025-03-07 06:48:45.078 [error] Error: EEXIST: file already exists, open '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261-1/vscode.lock'
+2025-03-07 06:48:45.079 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261-1/vscode.lock': Could not acquire lock, checking if the file is stale.
+2025-03-07 06:48:45.079 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261-1/vscode.lock': The pid 661 appears to be gone.
+2025-03-07 06:48:45.080 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261-1/vscode.lock': Deleting a stale lock.
+2025-03-07 06:48:45.087 [info] Lock '/home/admin/.vscode-server/data/User/workspaceStorage/9d0739de19f266d8f657cc3986e47261-1/vscode.lock': Lock acquired.
+2025-03-07 06:48:45.703 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: false, activationEvent: '*', root cause: vscode.git
+2025-03-07 06:48:45.706 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-03-07 06:48:45.710 [info] ExtensionService#_doActivateExtension ms-python.python, startup: false, activationEvent: 'onLanguage:python', root cause: ms-python.debugpy
+2025-03-07 06:48:47.236 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: '*'
+2025-03-07 06:48:47.238 [info] ExtensionService#_doActivateExtension vscode.github, startup: false, activationEvent: '*'
+2025-03-07 06:48:47.872 [info] Eager extensions activated
+2025-03-07 06:48:47.872 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-03-07 06:48:47.872 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-03-07 06:48:48.440 [info] ExtensionService#_doActivateExtension ms-python.debugpy, startup: false, activationEvent: 'onLanguage:python'
+2025-03-07 06:48:48.441 [info] ExtensionService#_doActivateExtension ms-python.vscode-pylance, startup: false, activationEvent: 'onLanguage:python'
+2025-03-07 06:51:11.629 [info] ExtensionService#_doActivateExtension vscode.html-language-features, startup: false, activationEvent: 'onLanguage:html'

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Drive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 0;
+            background-color: white;
+            box-shadow: 3px 0 5px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar.open {
+            width: 250px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: #4285F4;
+            color: white;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-sections {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .section-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .section-item.active {
+            background-color: #e6f1ff;
+            color: #1a73e8;
+        }
+
+        .section-item i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar-footer {
+            padding: 15px;
+            border-top: 1px solid #f1f1f1;
+        }
+
+        .settings-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            transition: background-color 0.2s;
+        }
+
+        .settings-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .edit-sections-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.2s;
+        }
+
+        .edit-sections-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .edit-sections-button i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .search-container {
+            flex: 1;
+            position: relative;
+            max-width: 700px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+            background-color: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s;
+        }
+
+        .search-box:focus {
+            box-shadow: 0 1px 5px rgba(66, 133, 244, 0.3);
+            border-color: #4285F4;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5f6368;
+        }
+
+        .filter-button {
+            margin-left: 15px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-button:hover {
+            background-color: #f8f8f8;
+        }
+
+        .filter-button i {
+            margin-right: 5px;
+        }
+
+        .drop-area {
+            margin-top: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            background-color: white;
+            transition: border-color 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .drop-area.highlight {
+            border-color: #4285F4;
+            transform: scale(1.01);
+        }
+
+        .drop-area i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #4285F4;
+        }
+
+        .drop-area p {
+            margin: 5px 0;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        .files-container {
+            margin-top: 30px;
+        }
+
+        .files-header {
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .file-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-thumbnail {
+            height: 150px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .file-thumbnail i {
+            font-size: 50px;
+            color: #DB4437;
+        }
+
+        .file-info {
+            padding: 15px;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-details {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .file-date {
+            margin-right: 10px;
+        }
+
+        .file-size {
+            margin-left: auto;
+        }
+
+        .card-actions {
+            display: flex;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 10;
+        }
+
+        .file-card:hover .card-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-button {
+            padding: 5px;
+            cursor: pointer;
+            margin: 0 2px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .action-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: bounceIn 0.5s;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #DB4437;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .close-modal {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .cancel-button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .save-button {
+            padding: 8px 16px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .save-button:hover {
+            background-color: #3367d6;
+        }
+
+        /* Preview modal */
+        .preview-modal .modal-content {
+            width: 800px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            background-color: #f5f5f5;
+        }
+
+        /* Animation for file upload */
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-30px);
+            }
+
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .bounce {
+            animation: bounce 1s;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="profile-button">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <div class="sidebar-sections">
+                <div class="section-item active">
+                    <i class="fas fa-file"></i>
+                    <span>Mi unidad</span>
+                </div>
+
+                <div class="section-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Reciente</span>
+                </div>
+                <div class="section-item">
+                    <i class="fas fa-star"></i>
+                    <span>Destacado</span>
+                </div>
+                <div class="section-item">
+                    <i class="fas fa-trash"></i>
+                    <span>Papelera</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="edit-sections-button">
+                    <i class="fas fa-edit"></i>
+                    <span>Editar secciones</span>
+                </div>
+                <div class="settings-button">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-box" placeholder="Buscar en Mi Drive">
+                </div>
+
+                <div class="filter-button">
+                    <i class="fas fa-filter"></i>
+                    <span>Filtros</span>
+                </div>
+            </div>
+
+            <div class="drop-area" id="drop-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Arrastra archivos PDF aquí</h3>
+                <p>O haz clic para seleccionar archivos</p>
+                <input type="file" class="file-upload-input" id="file-upload" accept=".pdf" multiple>
+            </div>
+
+            <div class="files-container">
+                <div class="files-header">Mis archivos</div>
+                <div class="files-grid" id="files-grid">
+                    <!-- Archivos serán añadidos aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para añadir información de archivo -->
+    <div class="modal" id="file-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="file-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="modal-title" id="modal-file-name">Nombre del archivo</div>
+                <div class="close-modal" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nombre del archivo</label>
+                    <input type="text" class="form-input" id="input-file-name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" class="form-input" id="input-file-date">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notas</label>
+                    <textarea class="form-textarea" id="input-file-notes"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Etiquetas (separadas por comas)</label>
+                    <input type="text" class="form-input" id="input-file-tags">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cancel-button" id="cancel-button">Cancelar</button>
+                <button class="save-button" id="save-button">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para previsualizar archivo -->
+    <div class="modal preview-modal" id="preview-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="file-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="modal-title" id="preview-file-name">Nombre del archivo</div>
+                <div class="close-modal" id="close-preview">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+
+            <iframe class="preview-iframe" id="preview-iframe"></iframe>
+
+            <div class="modal-footer">
+                <button class="cancel-button" id="close-preview-button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Variables para los elementos del DOM
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            const dropArea = document.getElementById('drop-area');
+            const fileUpload = document.getElementById('file-upload');
+            const filesGrid = document.getElementById('files-grid');
+            const fileModal = document.getElementById('file-modal');
+            const closeModal = document.getElementById('close-modal');
+            const cancelButton = document.getElementById('cancel-button');
+            const saveButton = document.getElementById('save-button');
+            const previewModal = document.getElementById('preview-modal');
+            const closePreview = document.getElementById('close-preview');
+            const closePreviewButton = document.getElementById('close-preview-button');
+
+            // Estado de la aplicación
+            let files = [];
+            let currentFileId = null;
+
+            // Toggle sidebar
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('open');
+            });
+
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropArea.classList.add('highlight');
+            }
+
+            function unhighlight() {
+                dropArea.classList.remove('highlight');
+            }
+
+            dropArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            dropArea.addEventListener('click', () => {
+                fileUpload.click();
+            });
+
+            fileUpload.addEventListener('change', () => {
+                handleFiles(fileUpload.files);
+            });
+
+            function handleFiles(fileList) {
+                if (fileList.length === 0) return;
+
+                for (let i = 0; i < fileList.length; i++) {
+                    const file = fileList[i];
+                    if (file.type === 'application/pdf' || true) { // Por ahora aceptamos todos los tipos
+                        uploadFile(file);
+                    }
+                }
+            }
+
+            function uploadFile(file) {
+                // Simulamos la subida del archivo
+                const fileId = 'file-' + Date.now();
+                const fileObj = {
+                    id: fileId,
+                    name: file.name,
+                    type: file.type || 'application/octet-stream',
+                    size: file.size,
+                    date: new Date().toISOString().split('T')[0],
+                    notes: '',
+                    tags: [],
+                    file: file, // Guardamos el archivo para simulación
+                };
+
+                // Añadir a la lista de archivos
+                files.push(fileObj);
+
+                // Crear tarjeta con animación de rebote
+                const fileCard = createFileCard(fileObj);
+                filesGrid.appendChild(fileCard);
+
+                // Añadir clase para animar
+                fileCard.classList.add('bounce');
+
+                // Mostrar modal de información
+                showFileModal(fileObj);
+            }
+
+            function createFileCard(fileObj) {
+                const fileCard = document.createElement('div');
+                fileCard.className = 'file-card';
+                fileCard.dataset.id = fileObj.id;
+
+                // Determinar el icono basado en el tipo de archivo
+                let icon = 'fa-file';
+                if (fileObj.type.includes('pdf')) {
+                    icon = 'fa-file-pdf';
+                } else if (fileObj.type.includes('image')) {
+                    icon = 'fa-file-image';
+                } else if (fileObj.type.includes('word') || fileObj.type.includes('document')) {
+                    icon = 'fa-file-word';
+                } else if (fileObj.type.includes('excel') || fileObj.type.includes('sheet')) {
+                    icon = 'fa-file-excel';
+                }
+
+                fileCard.innerHTML = `
+          <div class="file-thumbnail">
+            <i class="fas ${icon}"></i>
+          </div>
+          <div class="file-info">
+            <div class="file-name">${fileObj.name}</div>
+            <div class="file-details">
+              <span class="file-date">${formatDate(fileObj.date)}</span>
+              <span class="file-size">${formatSize(fileObj.size)}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <div class="action-button preview-button" title="Previsualizar">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="action-button edit-button" title="Editar">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="action-button download-button" title="Descargar">
+              <i class="fas fa-download"></i>
+            </div>
+          </div>
+        `;
+
+                // Añadir event listeners
+                const previewButton = fileCard.querySelector('.preview-button');
+                const editButton = fileCard.querySelector('.edit-button');
+                const downloadButton = fileCard.querySelector('.download-button');
+
+                previewButton.addEventListener('click', () => showPreview(fileObj));
+                editButton.addEventListener('click', () => showFileModal(fileObj));
+                downloadButton.addEventListener('click', () => downloadFile(fileObj));
+
+                return fileCard;
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString();
+            }
+
+            function formatSize(size) {
+                if (size < 1024) {
+                    return size + ' B';
+                } else if (size < 1024 * 1024) {
+                    return (size / 1024).toFixed(1) + ' KB';
+                } else {
+                    return (size / (1024 * 1024)).toFixed(1) + ' MB';
+                }
+            }
+
+            function showFileModal(fileObj) {
+                currentFileId = fileObj.id;
+
+                // Llenar el modal con la información del archivo
+                document.getElementById('modal-file-name').textContent = fileObj.name;
+                document.getElementById('input-file-name').value = fileObj.name;
+                document.getElementById('input-file-date').value = fileObj.date;
+                document.getElementById('input-file-notes').value = fileObj.notes;
+                document.getElementById('input-file-tags').value = fileObj.tags.join(', ');
+
+                // Mostrar el modal
+                fileModal.style.display = 'block';
+            }
+
+            function saveFileInfo() {
+                if (!currentFileId) return;
+
+                // Encontrar el archivo en la lista
+                const fileIndex = files.findIndex(file => file.id === currentFileId);
+                if (fileIndex === -1) return;
+
+                // Actualizar la información
+                files[fileIndex].name = document.getElementById('input-file-name').value;
+                files[fileIndex].date = document.getElementById('input-file-date').value;
+                files[fileIndex].notes = document.getElementById('input-file-notes').value;
+                files[fileIndex].tags = document.getElementById('input-file-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+                // Actualizar la tarjeta del archivo
+                const fileCard = document.querySelector(`.file-card[data-id="${currentFileId}"]`);
+                if (fileCard) {
+                    fileCard.querySelector('.file-name').textContent = files[fileIndex].name;
+                    fileCard.querySelector('.file-date').textContent = formatDate(files[fileIndex].date);
+                }
+
+                // Cerrar el modal
+                closeFileModal();
+            }
+
+            function closeFileModal() {
+                fileModal.style.display = 'none';
+                currentFileId = null;
+            }
+
+            function showPreview(fileObj) {
+                // En un entorno real, aquí cargaríamos el PDF en el iframe
+                // Para esta demostración, solo mostramos el modal
+                document.getElementById('preview-file-name').textContent = fileObj.name;
+
+                // Si es un PDF y el navegador lo soporta, podríamos crear un objeto URL
+                // Por ahora solo simulamos
+                document.getElementById('preview-iframe').src = "/api/placeholder/600/400";
+
+                previewModal.style.display = 'block';
+            }
+
+            function closePreviewModal() {
+                previewModal.style.display = 'none';
+            }
+
+            function downloadFile(fileObj) {
+                // En un entorno real, aquí crearíamos un enlace de descarga
+                // Para esta demostración, solo alertamos
+                alert(`Descargando ${fileObj.name}...`);
+            }
+
+            // Event listeners para botones de modal
+            closeModal.addEventListener('click', closeFileModal);
+            cancelButton.addEventListener('click', closeFileModal);
+            saveButton.addEventListener('click', saveFileInfo);
+
+            closePreview.addEventListener('click', closePreviewModal);
+            closePreviewButton.addEventListener('click', closePreviewModal);
+
+            // Inicializar con la sidebar abierta
+            sidebar.classList.add('open');
+
+            // Añadir algunos archivos de ejemplo
+            const sampleFiles = [
+                {
+                    id: 'file-1',
+                    name: 'Informe Anual 2024.pdf',
+                    type: 'application/pdf',
+                    size: 2540000,
+                    date: '2024-02-15',
+                    notes: 'Informe anual de la empresa',
+                    tags: ['informe', 'anual', 'importante']
+                },
+                {
+                    id: 'file-2',
+                    name: 'Presentación Q1.pdf',
+                    type: 'application/pdf',
+                    size: 1250000,
+                    date: '2024-01-25',
+                    notes: 'Presentación del primer trimestre',
+                    tags: ['presentación', 'Q1']
+                },
+                {
+                    id: 'file-3',
+                    name: 'Manual Usuario.pdf',
+                    type: 'application/pdf',
+                    size: 3450000,
+                    date: '2024-02-10',
+                    notes: 'Manual del usuario para la aplicación',
+                    tags: ['manual', 'documentación']
+                }
+            ];
+
+            sampleFiles.forEach(file => {
+                files.push(file);
+                filesGrid.appendChild(createFileCard(file));
+            });
+        });
+    </script>
+</body>
+
+</html>

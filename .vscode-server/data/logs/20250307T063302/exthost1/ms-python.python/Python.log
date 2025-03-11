@@ -1,0 +1,11 @@
+2025-03-07 06:33:10.408 [info] Experiment 'pythonRecommendTensorboardExt' is active
+2025-03-07 06:33:10.408 [info] Experiment 'pythonSurveyNotification' is active
+2025-03-07 06:33:10.408 [info] Experiment 'pythonTerminalEnvVarActivation' is active
+2025-03-07 06:33:10.408 [info] Experiment 'pythonTestAdapter' is active
+2025-03-07 06:33:10.408 [info] Native locator: Refresh started
+2025-03-07 06:33:10.417 [info] > pyenv which python
+2025-03-07 06:33:10.417 [info] cwd: .
+2025-03-07 06:33:10.653 [info] Native locator: Refresh finished in 2642 ms
+2025-03-07 06:33:10.672 [info] Python interpreter path: /bin/python3
+2025-03-07 06:33:12.063 [info] Starting Pylance language server.
+2025-03-07 06:33:20.308 [info] Discover tests for workspace name: admin - uri: /home/admin/Which_Journal/Which_Journal/settings.py

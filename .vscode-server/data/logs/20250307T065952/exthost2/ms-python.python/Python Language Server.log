@@ -1,0 +1,23 @@
+2025-03-07 07:00:32.042 [info] (Client) Pylance async client (2025.3.1) started with python extension (2025.2.0)
+2025-03-07 07:00:33.070 [info] [Info  - 7:00:32 AM] (906) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 07:00:33.075 [info] [Info  - 7:00:33 AM] (906) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 07:00:33.075 [info] [Info  - 7:00:33 AM] (906) Starting service instance "admin"
+2025-03-07 07:00:33.157 [info] [Info  - 7:00:33 AM] (906) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 07:00:33.158 [info] [Info  - 7:00:33 AM] (906) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 07:00:33.159 [info] [Info  - 7:00:33 AM] (906) No include entries specified; assuming /home/admin
+2025-03-07 07:00:33.159 [info] [Info  - 7:00:33 AM] (906) Auto-excluding **/node_modules
+2025-03-07 07:00:33.160 [info] [Info  - 7:00:33 AM] (906) Auto-excluding **/__pycache__
+2025-03-07 07:00:33.160 [info] [Info  - 7:00:33 AM] (906) Auto-excluding **/.*
+2025-03-07 07:00:33.291 [info] [Info  - 7:00:33 AM] (906) Assuming Python version 3.11.2.final.0
+2025-03-07 07:00:33.591 [info] [Info  - 7:00:33 AM] (906) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 07:00:33.611 [info] [Info  - 7:00:33 AM] (906) Found 24 source files
+2025-03-07 07:00:34.967 [info] [Info  - 7:00:34 AM] (906) Background analysis(1) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 07:00:34.967 [info] [Info  - 7:00:34 AM] (906) Background analysis(1) started
+2025-03-07 07:00:35.327 [info] [Info  - 7:00:35 AM] (906) Indexer background runner(2) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist (index)
+2025-03-07 07:00:35.328 [info] [Info  - 7:00:35 AM] (906) Indexing(2) started
+2025-03-07 07:01:08.801 [info] [Info  - 7:01:08 AM] (906) [BG(1)] Long operation: checking: file:///home/admin/Which_Journal/principal/views.py (31687ms)
+2025-03-07 07:01:08.819 [info] [Info  - 7:01:08 AM] (906) [BG(1)] Long operation: analyzing: file:///home/admin/Which_Journal/principal/views.py (33241ms)
+2025-03-07 07:01:09.217 [info] [Info  - 7:01:09 AM] (906) [IDX(2)] Long operation: scan packages file:///home/admin (33245ms)
+2025-03-07 07:01:09.221 [info] [Info  - 7:01:09 AM] (906) scanned(2) 58 files over 1 exec env
+2025-03-07 07:21:02.866 [info] [Info  - 7:21:02 AM] (906) indexed(2) 58 files over 1 exec env
+2025-03-07 07:21:04.564 [info] [Info  - 7:21:04 AM] (906) Indexing finished(2).

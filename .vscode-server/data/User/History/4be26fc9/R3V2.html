@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WJournal - Equipo</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f3f2ee;
+            /* Fondo beige claro similar a LinkedIn */
+            color: #5a4a3f;
+            /* Café para texto */
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1128px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Barra de navegación */
+        .navbar {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 52px;
+            padding: 0 16px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f5f2e9;
+            /* Blanco beige */
+            text-decoration: none;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            margin-top: 72px;
+            padding: 20px 0;
+        }
+
+        /* Encabezado de la página */
+        .page-header {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: #3a6b35;
+            /* Verde oscuro */
+            margin-bottom: 12px;
+        }
+
+        .page-description {
+            color: #5a4a3f;
+            /* Café */
+            font-size: 1rem;
+            max-width: 800px;
+        }
+
+        /* Tarjetas de perfil */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            gap: 16px;
+        }
+
+        .profile-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.3s;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-cover {
+            height: 60px;
+            background-color: #6b8f59;
+            /* Verde más claro */
+        }
+
+        .profile-content {
+            padding: 12px 24px 24px;
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background-color: #e6dfd3;
+            /* Beige más oscuro */
+            border: 4px solid #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -52px;
+            left: 24px;
+            color: #5a4a3f;
+            /* Café */
+            font-weight: bold;
+        }
+
+        .profile-info {
+            margin-top: 60px;
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #3a6b35;
+            /* Verde oscuro */
+            margin-bottom: 4px;
+        }
+
+        .profile-headline {
+            font-size: 1rem;
+            color: #5a4a3f;
+            /* Café */
+            margin-bottom: 8px;
+        }
+
+        .profile-location {
+            font-size: 0.9rem;
+            color: rgba(90, 74, 63, 0.7);
+            /* Café con opacidad */
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .profile-button {
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .primary-button {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            color: #f5f2e9;
+            /* Blanco beige */
+        }
+
+        .secondary-button {
+            background-color: rgba(58, 107, 53, 0.1);
+            /* Verde oscuro con opacidad */
+            color: #3a6b35;
+            /* Verde oscuro */
+        }
+
+        .profile-about {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5a4a3f;
+            /* Café */
+            margin-bottom: 8px;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #5a4a3f;
+            /* Café */
+            line-height: 1.5;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            color: #f5f2e9;
+            /* Blanco beige */
+            padding: 24px 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            color: #f5f2e9;
+            /* Blanco beige */
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .profiles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+            }
+        }
+
+        @media (max-width: 767px) {
+            .profile-picture {
+                width: 80px;
+                height: 80px;
+                top: -40px;
+            }
+
+            .profile-info {
+                margin-top: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container container">
+            <a href="#" class="logo">WJournal</a>
+            <!-- Se quitaron los accesos de la barra superior -->
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Encabezado de la página -->
+            <div class="page-header">
+                <h1 class="page-title">Equipo WJournal</h1>
+                <p class="page-description">Somos un grupo de profesionales apasionados por el desarrollo web y la
+                    creación de soluciones digitales innovadoras. Cada miembro de nuestro equipo aporta habilidades
+                    únicas y experiencia especializada.</p>
+            </div>
+
+            <!-- Perfiles -->
+            <div class="profiles-grid">
+                <!-- Perfil 1 -->
+                <div class="profile-card">
+                    <div class="profile-cover"></div>
+                    <div class="profile-content">
+                        <div class="profile-picture">Foto</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Luis Javier Garnica Escamilla</h2>
+                            <p class="profile-headline">Backend Developer / Project Manager en WJournal</p>
+                            <p class="profile-location">Ciudad de México, México</p>
+
+                            <div class="profile-buttons">
+                                <button class="profile-button primary-button">Conectar</button>
+                                <button class="profile-button secondary-button">Mensaje</button>
+                            </div>
+
+                            <div class="profile-about">
+                                <h3 class="section-title">Acerca de</h3>
+                                <p class="profile-bio">Lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 2 -->
+                <div class="profile-card">
+                    <div class="profile-cover"></div>
+                    <div class="profile-content">
+                        <div class="profile-picture">Foto</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Santiago Vargas Ascencio</h2>
+                            <p class="profile-headline">Backend Developer en WJournal</p>
+                            <p class="profile-location">Ciudad de México, México</p>
+
+                            <div class="profile-buttons">
+                                <button class="profile-button primary-button">Conectar</button>
+                                <button class="profile-button secondary-button">Mensaje</button>
+                            </div>
+
+                            <div class="profile-about">
+                                <h3 class="section-title">Acerca de</h3>
+                                <p class="profile-bio">Lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 3 -->
+                <div class="profile-card">
+                    <div class="profile-cover"></div>
+                    <div class="profile-content">
+                        <div class="profile-picture">Foto</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Fabian Emmanuel Candia Villa</h2>
+                            <p class="profile-headline">Frontend Developer en WJournal</p>
+                            <p class="profile-location">Ciudad de México, México</p>
+
+                            <div class="profile-buttons">
+                                <button class="profile-button primary-button">Conectar</button>
+                                <button class="profile-button secondary-button">Mensaje</button>
+                            </div>
+
+                            <div class="profile-about">
+                                <h3 class="section-title">Acerca de</h3>
+                                <p class="profile-bio">Lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 4 -->
+                <div class="profile-card">
+                    <div class="profile-cover"></div>
+                    <div class="profile-content">
+                        <div class="profile-picture">Foto</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Ramon Toribio Rodriguez Gutierrez</h2>
+                            <p class="profile-headline">Frontend Developer en WJournal</p>
+                            <p class="profile-location">Ciudad de México, México</p>
+
+                            <div class="profile-buttons">
+                                <button class="profile-button primary-button">Conectar</button>
+                                <button class="profile-button secondary-button">Mensaje</button>
+                            </div>
+
+                            <div class="profile-about">
+                                <h3 class="section-title">Acerca de</h3>
+                                <p class="profile-bio">Lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 5 -->
+                <div class="profile-card">
+                    <div class="profile-cover"></div>
+                    <div class="profile-content">
+                        <div class="profile-picture">Foto</div>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Kevin Josue Barba Ramirez</h2>
+                            <p class="profile-headline">Frontend Developer en WJournal</p>
+                            <p class="profile-location">Ciudad de México, México</p>
+
+                            <div class="profile-buttons">
+                                <button class="profile-button primary-button">Conectar</button>
+                                <button class="profile-button secondary-button">Mensaje</button>
+                            </div>
+
+                            <div class="profile-about">
+                                <h3 class="section-title">Acerca de</h3>
+                                <p class="profile-bio">Lorem ipsum</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">WJournal</div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Acerca de</a>
+                    <a href="#" class="footer-link">Accesibilidad</a>
+                    <a href="#" class="footer-link">Centro de ayuda</a>
+                    <a href="#" class="footer-link">Privacidad y Términos</a>
+                    <a href="#" class="footer-link">Opciones de publicidad</a>
+                    <a href="#" class="footer-link">Servicios empresariales</a>
+                    <a href="#" class="footer-link">Contacto</a>
+                </div>
+                <p class="copyright">© 2025 WJournal. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

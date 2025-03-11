@@ -1,0 +1,10 @@
+2025-03-07 06:48:49.758 [info] Experiment 'pythonRecommendTensorboardExt' is active
+2025-03-07 06:48:49.758 [info] Experiment 'pythonSurveyNotification' is active
+2025-03-07 06:48:49.758 [info] Experiment 'pythonTerminalEnvVarActivation' is active
+2025-03-07 06:48:49.758 [info] Experiment 'pythonTestAdapter' is active
+2025-03-07 06:48:49.758 [info] Native locator: Refresh started
+2025-03-07 06:48:49.781 [info] > pyenv which python
+2025-03-07 06:48:49.781 [info] cwd: .
+2025-03-07 06:48:49.867 [info] Native locator: Refresh finished in 2715 ms
+2025-03-07 06:48:49.868 [info] Python interpreter path: /bin/python3
+2025-03-07 06:48:51.413 [info] Starting Pylance language server.

@@ -1,0 +1,11 @@
+2025-03-07 06:33:02.741 [info] 
+
+
+
+
+2025-03-07 06:33:02.760 [info] Extension host agent started.
+2025-03-07 06:33:03.034 [info] [<unknown>][6de5950d][ManagementConnection] New connection established.
+2025-03-07 06:33:03.036 [info] [<unknown>][da0654b4][ExtensionHostConnection] New connection established.
+2025-03-07 06:33:03.112 [info] [<unknown>][da0654b4][ExtensionHostConnection] <612> Launched Extension Host Process.
+2025-03-07 06:33:12.968 [error] [File Watcher] Unexpected error: inotify_add_watch on '/home/admin/.vscode-server/data/logs/20250305T234828/exthost1/output_logging_20250305T234954' failed: No such file or directory (EUNKNOWN) (path: /home/admin)
+2025-03-07 06:33:12.971 [error] [File Watcher (universal)] inotify_add_watch on '/home/admin/.vscode-server/data/logs/20250305T234828/exthost1/output_logging_20250305T234954' failed: No such file or directory
