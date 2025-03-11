@@ -1,0 +1,41 @@
+2025-03-07 15:48:26.790 [info] (Client) Pylance async client (2025.3.1) started with python extension (2025.2.0)
+2025-03-07 15:48:27.271 [info] [Info  - 3:48:27 PM] (820) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 15:48:27.272 [info] [Info  - 3:48:27 PM] (820) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 15:48:27.272 [info] [Info  - 3:48:27 PM] (820) Starting service instance "admin"
+2025-03-07 15:48:27.366 [info] [Info  - 3:48:27 PM] (820) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 15:48:27.367 [info] [Info  - 3:48:27 PM] (820) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 15:48:27.368 [info] [Info  - 3:48:27 PM] (820) No include entries specified; assuming /home/admin
+2025-03-07 15:48:27.369 [info] [Info  - 3:48:27 PM] (820) Auto-excluding **/node_modules
+2025-03-07 15:48:27.369 [info] [Info  - 3:48:27 PM] (820) Auto-excluding **/__pycache__
+2025-03-07 15:48:27.370 [info] [Info  - 3:48:27 PM] (820) Auto-excluding **/.*
+2025-03-07 15:48:27.488 [info] [Info  - 3:48:27 PM] (820) Assuming Python version 3.11.2.final.0
+2025-03-07 15:48:27.843 [info] [Info  - 3:48:27 PM] (820) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 15:48:27.861 [info] [Info  - 3:48:27 PM] (820) Found 25 source files
+2025-03-07 15:48:29.768 [info] [Info  - 3:48:29 PM] (820) Background analysis(1) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 15:48:29.769 [info] [Info  - 3:48:29 PM] (820) Background analysis(1) started
+2025-03-07 15:48:31.057 [info] [Info  - 3:48:31 PM] (820) Indexer background runner(2) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist (index)
+2025-03-07 15:48:31.059 [info] [Info  - 3:48:31 PM] (820) Indexing(2) started
+2025-03-07 15:48:42.758 [info] [Info  - 3:48:42 PM] (820) [BG(1)] Long operation: parsing: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist/typeshed-fallback/stdlib/os/__init__.pyi (4287ms)
+2025-03-07 15:48:42.781 [info] [Info  - 3:48:42 PM] (820) [BG(1)] Long operation: checking: file:///home/admin/Which_Journal/Which_Journal/settings.py (9755ms)
+2025-03-07 15:48:42.781 [info] [Info  - 3:48:42 PM] (820) [BG(1)] Long operation: analyzing: file:///home/admin/Which_Journal/Which_Journal/settings.py (9756ms)
+2025-03-07 15:48:43.596 [info] [Info  - 3:48:43 PM] (820) [IDX(2)] Long operation: scan packages file:///home/admin (12043ms)
+2025-03-07 15:48:43.597 [info] [Info  - 3:48:43 PM] (820) scanned(2) 58 files over 1 exec env
+2025-03-07 15:48:44.565 [info] [Info  - 3:48:44 PM] (820) indexed(2) 58 files over 1 exec env
+2025-03-07 15:48:45.466 [info] [Info  - 3:48:45 PM] (820) Indexing finished(2).
+2025-03-07 15:49:01.533 [info] [Error - 3:49:01 PM] Server process exited with signal SIGKILL.
+2025-03-07 15:49:01.553 [info] [Info  - 3:49:01 PM] Connection to server got closed. Server will restart.
+2025-03-07 15:49:01.553 [info] true
+2025-03-07 15:59:30.818 [info] [Info  - 3:59:30 PM] (880) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 15:59:30.819 [info] [Info  - 3:59:30 PM] (880) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 15:59:30.819 [info] [Info  - 3:59:30 PM] (880) Starting service instance "admin"
+2025-03-07 15:59:30.956 [info] [Info  - 3:59:30 PM] (880) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 15:59:30.957 [info] [Info  - 3:59:30 PM] (880) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 15:59:30.957 [info] [Info  - 3:59:30 PM] (880) No include entries specified; assuming /home/admin
+2025-03-07 15:59:30.958 [info] [Info  - 3:59:30 PM] (880) Auto-excluding **/node_modules
+2025-03-07 15:59:30.960 [info] [Info  - 3:59:30 PM] (880) Auto-excluding **/__pycache__
+2025-03-07 15:59:30.961 [info] [Info  - 3:59:30 PM] (880) Auto-excluding **/.*
+2025-03-07 15:59:31.076 [info] [Info  - 3:59:31 PM] (880) Assuming Python version 3.11.2.final.0
+2025-03-07 15:59:31.318 [info] [Info  - 3:59:31 PM] (880) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 15:59:31.321 [info] [Info  - 3:59:31 PM] (880) No source files found.
+2025-03-07 15:59:31.937 [info] [Info  - 3:59:31 PM] (880) Background analysis(1) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 15:59:31.940 [info] [Info  - 3:59:31 PM] (880) Background analysis(1) started

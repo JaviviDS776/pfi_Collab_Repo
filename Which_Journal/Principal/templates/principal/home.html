@@ -1,0 +1,18 @@
+{% extends "principal/base.html" %} {% block title %}Inicio - Which
+Journal{%endblock %} {% block content %}
+<div class="mt-4">
+  {% if not user.is_authenticated %}
+  <a class="btn btn-primary btn-lg me-2" href="{% url 'login' %}"
+    >Iniciar sesión</a
+  >
+  <a class="btn btn-outline-primary btn-lg" href="{% url 'registro' %}"
+    >Registrarse</a
+  >
+  {% else %}
+  <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}"
+    >Ir al Dashboard</a
+  >
+  {% endif %}
+</div>
+
+{% endblock %}

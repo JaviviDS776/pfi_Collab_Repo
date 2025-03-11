@@ -1,0 +1,51 @@
+{% extends "principal/base.html" %} {% block title %}Iniciar Sesión - Which
+Journal{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Iniciar Sesión</h2>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuario</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+          <div class="mb-3 text-end">
+            <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              Iniciar Sesión
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center">
+        <p class="mb-0">
+          ¿No tienes una cuenta?
+          <a href="{% url 'registro' %}">Regístrate aquí</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

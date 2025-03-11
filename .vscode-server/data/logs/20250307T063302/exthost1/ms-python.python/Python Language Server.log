@@ -1,0 +1,21 @@
+2025-03-07 06:33:11.824 [info] (Client) Pylance async client (2025.3.1) started with python extension (2025.2.0)
+2025-03-07 06:33:12.028 [info] [Info  - 6:33:11 AM] (809) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 06:33:12.030 [info] [Info  - 6:33:12 AM] (809) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 06:33:12.030 [info] [Info  - 6:33:12 AM] (809) Starting service instance "admin"
+2025-03-07 06:33:12.131 [info] [Info  - 6:33:12 AM] (809) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 06:33:12.132 [info] [Info  - 6:33:12 AM] (809) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 06:33:12.133 [info] [Info  - 6:33:12 AM] (809) No include entries specified; assuming /home/admin
+2025-03-07 06:33:12.134 [info] [Info  - 6:33:12 AM] (809) Auto-excluding **/node_modules
+2025-03-07 06:33:12.135 [info] [Info  - 6:33:12 AM] (809) Auto-excluding **/__pycache__
+2025-03-07 06:33:12.135 [info] [Info  - 6:33:12 AM] (809) Auto-excluding **/.*
+2025-03-07 06:33:12.245 [info] [Info  - 6:33:12 AM] (809) Assuming Python version 3.11.2.final.0
+2025-03-07 06:33:12.615 [info] [Info  - 6:33:12 AM] (809) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 06:33:12.641 [info] [Info  - 6:33:12 AM] (809) Found 23 source files
+2025-03-07 06:33:15.154 [info] [Info  - 6:33:15 AM] (809) Background analysis(1) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 06:33:15.171 [info] [Info  - 6:33:15 AM] (809) Background analysis(1) started
+2025-03-07 06:33:15.509 [info] [Info  - 6:33:15 AM] (809) Indexer background runner(2) root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist (index)
+2025-03-07 06:33:15.511 [info] [Info  - 6:33:15 AM] (809) Indexing(2) started
+2025-03-07 06:33:18.841 [info] [Info  - 6:33:18 AM] (809) [IDX(2)] Long operation: scan packages file:///home/admin (2748ms)
+2025-03-07 06:33:18.845 [info] [Info  - 6:33:18 AM] (809) scanned(2) 58 files over 1 exec env
+2025-03-07 06:33:19.643 [info] [Info  - 6:33:19 AM] (809) indexed(2) 58 files over 1 exec env
+2025-03-07 06:33:19.800 [info] [Info  - 6:33:19 AM] (809) Indexing finished(2).

@@ -1,0 +1,13 @@
+2025-03-07 15:27:02.245 [info] (Client) Pylance async client (2025.3.1) started with python extension (2025.2.0)
+2025-03-07 15:27:02.411 [info] [Info  - 3:27:02 PM] (1629) Server root directory: file:///home/admin/.vscode-server/extensions/ms-python.vscode-pylance-2025.3.1/dist
+2025-03-07 15:27:02.416 [info] [Info  - 3:27:02 PM] (1629) Pylance language server 2025.3.1 (pyright version 1.1.396, commit 3e2236a7) starting
+2025-03-07 15:27:02.417 [info] [Info  - 3:27:02 PM] (1629) Starting service instance "admin"
+2025-03-07 15:27:02.500 [info] [Info  - 3:27:02 PM] (1629) Setting environmentName for service "admin": "3.11.2 (global)"
+2025-03-07 15:27:02.500 [info] [Info  - 3:27:02 PM] (1629) Setting pythonPath for service "admin": "/bin/python3"
+2025-03-07 15:27:02.500 [info] [Info  - 3:27:02 PM] (1629) No include entries specified; assuming /home/admin
+2025-03-07 15:27:02.502 [info] [Info  - 3:27:02 PM] (1629) Auto-excluding **/node_modules
+2025-03-07 15:27:02.503 [info] [Info  - 3:27:02 PM] (1629) Auto-excluding **/__pycache__
+2025-03-07 15:27:02.503 [info] [Info  - 3:27:02 PM] (1629) Auto-excluding **/.*
+2025-03-07 15:27:02.643 [info] [Info  - 3:27:02 PM] (1629) Assuming Python version 3.11.2.final.0
+2025-03-07 15:27:03.017 [info] [Info  - 3:27:03 PM] (1629) Auto-excluding /home/admin/entornos/proyecto
+2025-03-07 15:27:03.034 [info] [Info  - 3:27:03 PM] (1629) Found 25 source files

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WJournal - Nuestro Equipo</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f2e9;
+            /* Blanco beige */
+            color: #5a4a3f;
+            /* Café para texto */
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Encabezado */
+        header {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            color: #f5f2e9;
+            /* Blanco beige */
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Sección de introducción */
+        .intro {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .intro h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #5a4a3f;
+            /* Café */
+        }
+
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Equipo */
+        .team {
+            padding: 2rem 0 4rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background-color: #ffffff;
+            /* Blanco */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(90, 74, 63, 0.1);
+            /* Sombra café */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e6dfd3;
+            /* Borde beige */
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(90, 74, 63, 0.15);
+        }
+
+        .member-image {
+            height: 200px;
+            background-color: #e6dfd3;
+            /* Beige más oscuro para placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5a4a3f;
+            /* Texto café */
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .member-info {
+            padding: 20px;
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            color: #3a6b35;
+            /* Verde oscuro */
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            color: #6b8f59;
+            /* Verde más claro */
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: #5a4a3f;
+            /* Café */
+            font-size: 0.95rem;
+        }
+
+        .member-social {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #e6dfd3;
+            /* Beige */
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            color: #5a4a3f;
+            /* Café */
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            color: #f5f2e9;
+            /* Blanco beige */
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: #3a6b35;
+            /* Verde oscuro */
+            color: #f5f2e9;
+            /* Blanco beige */
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #f5f2e9;
+            /* Blanco beige */
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .intro h2 {
+                font-size: 1.8rem;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .intro h2 {
+                font-size: 1.5rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>WJournal</h1>
+            <p>Desarrollando soluciones innovadoras</p>
+        </div>
+    </header>
+
+    <section class="intro">
+        <div class="container">
+            <h2>Nuestro Equipo</h2>
+            <p>Somos un grupo de profesionales apasionados por el desarrollo web y la creación de soluciones digitales
+                innovadoras. Cada miembro de nuestro equipo aporta habilidades únicas y experiencia especializada para
+                ofrecer resultados excepcionales en cada proyecto.</p>
+        </div>
+    </section>
+
+    <section class="team">
+        <div class="container">
+            <div class="team-grid">
+                <!-- Miembro 1 -->
+                <div class="team-member">
+                    <div class="member-image">
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Luis Javier Garnica Escamilla</h3>
+                        <p class="member-role">Backend Developer / Project Manager</p>
+                        <p class="member-bio">Especialista en desarrollo backend y gestión de proyectos. Lidera el
+                            equipo técnico y coordina el flujo de trabajo para garantizar entregas de calidad.</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">gh</a>
+                            <a href="#" class="social-icon">tw</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miembro 2 -->
+                <div class="team-member">
+                    <div class="member-image">
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Santiago Vargas Ascencio</h3>
+                        <p class="member-role">Backend Developer</p>
+                        <p class="member-bio">Experto en desarrollo backend, diseño de bases de datos y arquitectura de
+                            sistemas. Crea soluciones robustas y escalables para nuestros proyectos.</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">gh</a>
+                            <a href="#" class="social-icon">tw</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miembro 3 -->
+                <div class="team-member">
+                    <div class="member-image">
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Fabian Emmanuel Candia Villa</h3>
+                        <p class="member-role">Frontend Developer</p>
+                        <p class="member-bio">Especialista en desarrollo frontend con amplio conocimiento en frameworks
+                            modernos. Transforma diseños en interfaces interactivas y atractivas.</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">gh</a>
+                            <a href="#" class="social-icon">tw</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miembro 4 -->
+                <div class="team-member">
+                    <div class="member-image">
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Ramon Toribio Rodriguez Gutierrez</h3>
+                        <p class="member-role">Frontend Developer</p>
+                        <p class="member-bio">Desarrollador frontend con enfoque en experiencia de usuario y
+                            accesibilidad. Crea interfaces intuitivas y optimizadas para todos los usuarios.</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">gh</a>
+                            <a href="#" class="social-icon">tw</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miembro 5 -->
+                <div class="team-member">
+                    <div class="member-image">
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Kevin Josue Barba Ramirez</h3>
+                        <p class="member-role">Frontend Developer</p>
+                        <p class="member-bio">Especialista en desarrollo frontend con habilidades en diseño visual. Crea
+                            interfaces modernas y atractivas con atención al detalle y rendimiento.</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon">in</a>
+                            <a href="#" class="social-icon">gh</a>
+                            <a href="#" class="social-icon">tw</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">Inicio</a>
+                    <a href="#">Servicios</a>
+                    <a href="#">Proyectos</a>
+                    <a href="#">Contacto</a>
+                </div>
+                <p>Email: info@wjournal.com | Teléfono: +52 123 456 7890</p>
+                <p class="copyright">© 2025 WJournal. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

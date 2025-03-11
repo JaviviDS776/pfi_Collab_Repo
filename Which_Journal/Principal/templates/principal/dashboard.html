@@ -1,0 +1,43 @@
+{% extends "principal/base.html" %} {% block title %}Dashboard - Which Journal
+{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h1>Dashboard</h1>
+    <div class="alert alert-success">
+      <p class="mb-0">
+        ¡Bienvenido {{ user.username }}! Has iniciado sesión correctamente.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Navega a las páginas</h5>
+        <p class="card-text">
+          Estas páginas solo son accesibles después de iniciar sesión.
+        </p>
+        <div class="d-grid gap-2">
+          <a href="{% url 'pagina1' %}" class="btn btn-primary"
+            >Ir a Página 1</a
+          >
+          <a href="{% url 'pagina2' %}" class="btn btn-secondary"
+            >Ir a Página 2</a
+          >
+          <a href="{% url 'pagina3' %}" class="btn btn-info">Ir a Página 3</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5>{% lorem 4 b random %}</h5>
+      </div>
+      <div class="card-body"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

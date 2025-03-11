@@ -1,0 +1,85 @@
+2025-03-07 06:59:52.504 [info] 
+
+
+
+
+2025-03-07 06:59:52.523 [info] Extension host agent started.
+2025-03-07 06:59:52.751 [info] [<unknown>][5109216b][ExtensionHostConnection] New connection established.
+2025-03-07 06:59:52.751 [info] [<unknown>][aba77e0c][ManagementConnection] New connection established.
+2025-03-07 06:59:52.826 [info] [<unknown>][5109216b][ExtensionHostConnection] <648> Launched Extension Host Process.
+2025-03-07 06:59:57.421 [error] CodeExpectedError: Could not find pty 4 on pty host
+    at I.W (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:12275)
+    at I.updateTitle (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:7722)
+    at O.s.<computed> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:2962)
+    at Object.call (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4204)
+    at el.s (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80918)
+    at el.q (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80441)
+    at ds.value (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:79843)
+    at x.B (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2373)
+    at x.fire (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2591)
+    at process.C (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:24:29877)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2025-03-07 06:59:57.422 [error] CodeExpectedError: Could not find pty 4 on pty host
+    at I.W (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:12275)
+    at I.updateIcon (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:7772)
+    at O.s.<computed> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:2962)
+    at Object.call (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4204)
+    at el.s (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80918)
+    at el.q (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80441)
+    at ds.value (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:79843)
+    at x.B (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2373)
+    at x.fire (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2591)
+    at process.C (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:24:29877)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2025-03-07 07:00:18.509 [info] [<unknown>][aba77e0c][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+2025-03-07 07:00:18.532 [info] [<unknown>][5109216b][ExtensionHostConnection] <648> Extension Host Process exited with code: 0, signal: null.
+2025-03-07 07:00:18.533 [info] Cancelling previous shutdown timeout
+2025-03-07 07:00:18.533 [info] Last EH closed, waiting before shutting down
+2025-03-07 07:00:23.455 [info] [<unknown>][a9c82eef][ExtensionHostConnection] New connection established.
+2025-03-07 07:00:23.456 [info] [<unknown>][673684f6][ManagementConnection] New connection established.
+2025-03-07 07:00:23.460 [info] [<unknown>][a9c82eef][ExtensionHostConnection] <743> Launched Extension Host Process.
+2025-03-07 07:00:28.114 [error] CodeExpectedError: Could not find pty 8 on pty host
+    at I.W (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:12275)
+    at I.updateIcon (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:7772)
+    at O.s.<computed> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:2962)
+    at Object.call (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4204)
+    at el.s (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80918)
+    at el.q (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80441)
+    at ds.value (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:79843)
+    at x.B (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2373)
+    at x.fire (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2591)
+    at process.C (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:24:29877)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2025-03-07 07:00:28.127 [error] CodeExpectedError: Could not find pty 8 on pty host
+    at I.W (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:12275)
+    at I.updateTitle (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:7722)
+    at O.s.<computed> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:45:2962)
+    at Object.call (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:28:4204)
+    at el.s (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80918)
+    at el.q (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:80441)
+    at ds.value (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:79843)
+    at x.B (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2373)
+    at x.fire (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:26:2591)
+    at process.C (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/vs/platform/terminal/node/ptyHostMain.js:24:29877)
+    at process.emit (node:events:518:28)
+    at emit (node:internal/child_process:950:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+2025-03-07 07:00:42.315 [warning] No ptyHost heartbeat after 6 seconds
+2025-03-07 07:01:13.907 [warning] No ptyHost heartbeat after 6 seconds
+2025-03-07 07:01:28.822 [warning] No ptyHost heartbeat after 6 seconds
+2025-03-07 07:21:01.689 [error] No ptyHost heartbeat after 12 seconds
+2025-03-07 07:21:01.777 [info] New EH opened, aborting shutdown
+2025-03-07 07:21:01.845 [error] Error: Unexpected SIGPIPE
+    at process.<anonymous> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/server-main.js:183:1060)
+    at process.emit (node:events:530:35)
+2025-03-07 07:21:01.945 [info] [<unknown>][673684f6][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+2025-03-07 10:21:08.494 [info] [<unknown>][673684f6][ManagementConnection] The reconnection grace time of 3h has expired, so the connection will be disposed.
+2025-03-07 10:21:13.751 [info] [<unknown>][a9c82eef][ExtensionHostConnection] <743> Extension Host Process exited with code: 0, signal: null.
+2025-03-07 10:21:13.754 [info] Last EH closed, waiting before shutting down
+2025-03-07 10:26:13.755 [info] Last EH closed, shutting down

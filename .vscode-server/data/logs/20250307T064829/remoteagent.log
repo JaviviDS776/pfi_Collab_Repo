@@ -1,0 +1,17 @@
+2025-03-07 06:48:29.686 [info] 
+
+
+
+
+2025-03-07 06:48:29.706 [info] Extension host agent started.
+2025-03-07 06:48:29.907 [error] [<unknown>][81504ca7][ManagementConnection] Unknown reconnection token (never seen).
+2025-03-07 06:48:43.279 [info] [<unknown>][673cf429][ManagementConnection] New connection established.
+2025-03-07 06:48:43.280 [info] [<unknown>][d2c2dbd7][ExtensionHostConnection] New connection established.
+2025-03-07 06:48:43.284 [info] [<unknown>][d2c2dbd7][ExtensionHostConnection] <677> Launched Extension Host Process.
+2025-03-07 06:52:57.446 [warning] No ptyHost heartbeat after 6 seconds
+2025-03-07 06:53:05.966 [error] Error: Unexpected SIGPIPE
+    at process.<anonymous> (file:///home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/server/out/server-main.js:183:1060)
+    at process.emit (node:events:530:35)
+2025-03-07 06:53:15.462 [warning] No ptyHost heartbeat after 6 seconds
+2025-03-07 06:53:29.833 [info] New EH opened, aborting shutdown
+2025-03-07 06:54:24.307 [warning] No ptyHost heartbeat after 6 seconds

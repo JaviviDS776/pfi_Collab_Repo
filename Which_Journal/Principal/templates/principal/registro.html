@@ -1,0 +1,30 @@
+{% extends "principal/base.html" %} {% block title %}Registro - Which
+Journal{%endblock %} {% block content %}
+<div class="auth-container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Crear una cuenta</h2>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">{{ form.username }}</div>
+        <div class="mb-3">{{ form.email }}</div>
+        <div class="mb-3">{{ form.password1 }}</div>
+        <div class="mb-3">{{ form.password2 }}</div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Registrarse</button>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-center">
+      <p class="mb-0">
+        ¿Ya tienes una cuenta?
+        <a href="{% url 'login' %}">Inicia sesión aquí</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

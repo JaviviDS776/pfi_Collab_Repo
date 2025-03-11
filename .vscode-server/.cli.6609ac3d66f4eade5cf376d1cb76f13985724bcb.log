@@ -1,0 +1,6 @@
+Listening on 127.0.0.1:35089
+[2025-03-08 04:14:30] info Disposed of connection to running server.
+[2025-03-08 04:14:31] info Checking /home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/log.txt and /home/admin/.vscode-server/cli/servers/Stable-6609ac3d66f4eade5cf376d1cb76f13985724bcb/pid.txt for a running server...
+[2025-03-08 04:14:31] info Starting server...
+[2025-03-08 04:14:31] info Server started
+[2025-03-08 04:14:41] info Disposed of connection to running server.

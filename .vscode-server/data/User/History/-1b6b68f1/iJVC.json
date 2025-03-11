@@ -1,0 +1,18 @@
+{
+  "workbench.colorTheme": "Pokemon",
+  "figma.autocompleteBlocks": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "git.confirmSync": false,
+  "vscode-pets.petSize": "medium",
+  "explorer.confirmDragAndDrop": false,
+  "git.autofetch": true,
+  "chat.commandCenter.enabled": false,
+  "remote.SSH.remotePlatform": {
+    "184.169.146.137": "linux"
+  }
+}
