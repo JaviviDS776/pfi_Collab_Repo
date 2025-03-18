@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Gestor de Documentos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .register-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 450px;
+      max-width: 90%;
+      padding: 30px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .register-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .register-header h1 {
+      color: #4285F4;
+      margin-bottom: 10px;
+    }
+
+    .register-header p {
+      color: #666;
+    }
+
+    .register-icon {
+      font-size: 48px;
+      color: #4285F4;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: #4285F4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+      outline: none;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+
+    .input-with-icon .form-input {
+      padding-left: 45px;
+    }
+
+    .register-button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .register-button:hover {
+      background-color: #3367d6;
+    }
+
+    .register-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #666;
+    }
+
+    .register-footer a {
+      color: #4285F4;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .register-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background-color: #ffebee;
+      color: #d32f2f;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .error-message i {
+      margin-right: 10px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      cursor: pointer;
+    }
+
+    .password-requirements {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="register-container">
+    <div class="register-header">
+      <div class="register-icon">
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <h1>Crear Cuenta</h1>
+      <p>Regístrate para comenzar a gestionar tus documentos</p>
+    </div>
+
+    <% if (error) { %>
+      <div class="error-message">
+        <i class="fas fa-exclamation-circle"></i>
+        <%= error %>
+      </div>
+      <% } %>
+
+        <form action="/register" method="POST">
+          <div class="form-group">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user input-icon"></i>
+              <input type="text" id="username" name="username" class="form-input"
+                placeholder="Elige un nombre de usuario" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="email" id="email" name="email" class="form-input" placeholder="Ingresa tu correo electrónico"
+                required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Contraseña</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="password" name="password" class="form-input"
+                placeholder="Crea una contraseña segura" required>
+              <i class="fas fa-eye password-toggle" id="password-toggle"></i>
+            </div>
+            <div class="password-requirements">
+              La contraseña debe tener al menos 8 caracteres
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" id="confirmPassword" name="confirmPassword" class="form-input"
+                placeholder="Confirma tu contraseña" required>
+              <i class="fas fa-eye password-toggle" id="confirm-password-toggle"></i>
+            </div>
+          </div>
+
+          <button type="submit" class="register-button">Crear Cuenta</button>
+        </form>
+
+        <div class="register-footer">
+          ¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a>
+        </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    const passwordToggle = document.getElementById('password-toggle');
+    const passwordInput = document.getElementById('password');
+
+    passwordToggle.addEventListener('click', function () {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.classList.remove('fa-eye');
+        passwordToggle.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.classList.remove('fa-eye-slash');
+        passwordToggle.classList.add('fa-eye');
+      }
+    });
+
+    // Toggle confirm password visibility
+    const confirmPasswordToggle = document.getElementById('confirm-password-toggle');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    confirmPasswordToggle.addEventListener('click', function () {
+      if (confirmPasswordInput.type === 'password') {
+        confirmPasswordInput.type = 'text';
+        confirmPasswordToggle.classList.remove('fa-eye');
+        confirmPasswordToggle.classList.add('fa-eye-slash');
+      } else {
+        confirmPasswordInput.type = 'password';
+        confirmPasswordToggle.classList.remove('fa-eye-slash');
+        confirmPasswordToggle.classList.add('fa-eye');
+      }
+    });
+
+    // Password validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (password.length < 8) {
+        event.preventDefault();
+        alert('La contraseña debe tener al menos 8 caracteres');
+      } else if (password !== confirmPassword) {
+        event.preventDefault();
+        alert('Las contraseñas no coinciden');
+      }
+    });
+  </script>
+</body>
+
+</html>
