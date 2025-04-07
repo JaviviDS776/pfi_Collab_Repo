@@ -1,292 +1,221 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro - Gestor de Documentos</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Registration Form</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Roboto', Arial, sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      background-color: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
+      background-color: #f5f5f5;
+      animation: fadeIn 1s forwards;
     }
 
-    .register-container {
-      background-color: white;
+    .container {
+      display: flex;
+      width: 80vw;
+      height: 90vh;
+      background: #F5F4D0;
       border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      width: 450px;
-      max-width: 90%;
-      padding: 30px;
-      animation: fadeIn 0.5s ease;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .left-side {
+      flex: 1;
+      padding: 40px;
+      position: relative;
     }
 
-    .register-header {
-      text-align: center;
+    .right-side {
+      flex: 1;
+      background: linear-gradient(135deg, #f9e79f 0%, #aed6a3 100%);
+      border-radius: 100px 0 0 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 32px;
       margin-bottom: 30px;
+      color: #333;
+      text-align: center;
     }
 
-    .register-header h1 {
-      color: #4285F4;
-      margin-bottom: 10px;
-    }
-
-    .register-header p {
-      color: #666;
-    }
-
-    .register-icon {
-      font-size: 48px;
-      color: #4285F4;
-      margin-bottom: 20px;
+    .user-icon {
+      width: 90px;
+      height: 90px;
+      margin: -10px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .form-group {
       margin-bottom: 20px;
     }
 
-    .form-label {
+    label {
       display: block;
       margin-bottom: 5px;
-      font-weight: 500;
       color: #333;
     }
 
-    .form-input {
+    input {
       width: 100%;
-      padding: 12px 15px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-      font-size: 16px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .form-input:focus {
-      border-color: #4285F4;
-      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+      padding: 10px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50px;
       outline: none;
+      box-shadow: rgba(0, 0, 0, 0.089) 0px 5px 15px;
     }
 
-    .input-with-icon {
-      position: relative;
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: -10px;
+      margin-bottom: 20px;
     }
 
-    .input-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #666;
+    .checkbox-group label {
+      margin-left: 5px;
+      font-size: 14px;
     }
 
-    .input-with-icon .form-input {
-      padding-left: 45px;
-    }
-
-    .register-button {
+    button {
       width: 100%;
       padding: 12px;
-      background-color: #4285F4;
-      color: white;
+      background-color: #f9e79f;
       border: none;
       border-radius: 5px;
-      font-size: 16px;
-      font-weight: 500;
+      color: #333;
+      font-weight: bold;
       cursor: pointer;
       transition: background-color 0.3s;
     }
 
-    .register-button:hover {
-      background-color: #3367d6;
+    button:hover {
+      background-color: #f7dc6f;
     }
 
-    .register-footer {
-      margin-top: 20px;
-      text-align: center;
-      color: #666;
+    .welcome-text {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
     }
 
-    .register-footer a {
-      color: #4285F4;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .register-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .error-message {
-      background-color: #ffebee;
-      color: #d32f2f;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 20px;
+    .account-text {
       font-size: 14px;
-      display: flex;
-      align-items: center;
+      margin-bottom: 20px;
+      color: #333;
     }
 
-    .error-message i {
-      margin-right: 10px;
-    }
-
-    .password-toggle {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #666;
+    .login-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.5);
+      width: 80%;
+      border: none;
+      border-radius: 5px;
+      color: #333;
+      font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
     }
 
-    .password-requirements {
-      margin-top: 5px;
-      font-size: 12px;
-      color: #666;
+    .login-btn:hover {
+      background-color: #f7dc6f;
+    }
+
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="register-container">
-    <div class="register-header">
-      <div class="register-icon">
-        <i class="fas fa-user-plus"></i>
+  <div class="container">
+    <div class="left-side">
+      <h1>Registration</h1>
+      <div class="user-icon">
+        <svg width="200" height="200" viewBox="0 0 147 147" fill="none" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink">
+          <rect width="147" height="147" fill="url(#pattern0_123_230)" />
+          <defs>
+            <pattern id="pattern0_123_230" patternContentUnits="objectBoundingBox" width="1" height="1">
+              <use xlink:href="#image0_123_230" transform="scale(0.01)" />
+            </pattern>
+            <image id="image0_123_230" width="100" height="100" preserveAspectRatio="none"
+              xlink:href="data:image/png;base64,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" />
+          </defs>
+        </svg>
       </div>
-      <h1>Crear Cuenta</h1>
-      <p>Regístrate para comenzar a gestionar tus documentos</p>
-    </div>
-
-    <% if (error) { %>
-      <div class="error-message">
-        <i class="fas fa-exclamation-circle"></i>
-        <%= error %>
-      </div>
-      <% } %>
-
-        <form action="/register" method="POST">
-          <div class="form-group">
-            <label for="username" class="form-label">Nombre de Usuario</label>
-            <div class="input-with-icon">
-              <i class="fas fa-user input-icon"></i>
-              <input type="text" id="username" name="username" class="form-input"
-                placeholder="Elige un nombre de usuario" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email" class="form-label">Correo Electrónico</label>
-            <div class="input-with-icon">
-              <i class="fas fa-envelope input-icon"></i>
-              <input type="email" id="email" name="email" class="form-input" placeholder="Ingresa tu correo electrónico"
-                required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password" class="form-label">Contraseña</label>
-            <div class="input-with-icon">
-              <i class="fas fa-lock input-icon"></i>
-              <input type="password" id="password" name="password" class="form-input"
-                placeholder="Crea una contraseña segura" required>
-              <i class="fas fa-eye password-toggle" id="password-toggle"></i>
-            </div>
-            <div class="password-requirements">
-              La contraseña debe tener al menos 8 caracteres
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-            <div class="input-with-icon">
-              <i class="fas fa-lock input-icon"></i>
-              <input type="password" id="confirmPassword" name="confirmPassword" class="form-input"
-                placeholder="Confirma tu contraseña" required>
-              <i class="fas fa-eye password-toggle" id="confirm-password-toggle"></i>
-            </div>
-          </div>
-
-          <button type="submit" class="register-button">Crear Cuenta</button>
-        </form>
-
-        <div class="register-footer">
-          ¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a>
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label for="username">User:</label>
+          <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+    <div class="right-side">
+      <div class="welcome-text">Welcome!</div>
+      <div class="account-text">Already have an account?</div>
+      <button class="login-btn" id="login-btn">Login</button>
+    </div>
   </div>
-
-  <script>
-    // Toggle password visibility
-    const passwordToggle = document.getElementById('password-toggle');
-    const passwordInput = document.getElementById('password');
-
-    passwordToggle.addEventListener('click', function () {
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        passwordToggle.classList.remove('fa-eye');
-        passwordToggle.classList.add('fa-eye-slash');
-      } else {
-        passwordInput.type = 'password';
-        passwordToggle.classList.remove('fa-eye-slash');
-        passwordToggle.classList.add('fa-eye');
-      }
-    });
-
-    // Toggle confirm password visibility
-    const confirmPasswordToggle = document.getElementById('confirm-password-toggle');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-
-    confirmPasswordToggle.addEventListener('click', function () {
-      if (confirmPasswordInput.type === 'password') {
-        confirmPasswordInput.type = 'text';
-        confirmPasswordToggle.classList.remove('fa-eye');
-        confirmPasswordToggle.classList.add('fa-eye-slash');
-      } else {
-        confirmPasswordInput.type = 'password';
-        confirmPasswordToggle.classList.remove('fa-eye-slash');
-        confirmPasswordToggle.classList.add('fa-eye');
-      }
-    });
-
-    // Password validation
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function (event) {
-      const password = passwordInput.value;
-      const confirmPassword = confirmPasswordInput.value;
-
-      if (password.length < 8) {
-        event.preventDefault();
-        alert('La contraseña debe tener al menos 8 caracteres');
-      } else if (password !== confirmPassword) {
-        event.preventDefault();
-        alert('Las contraseñas no coinciden');
-      }
-    });
-  </script>
 </body>
 
 </html>
+
+<script>
+  document.getElementById('login-btn').addEventListener('click', function () {
+    document.body.classList.add('fade-in');
+    setTimeout(function () {
+      window.location.href = '/login';
+    }, 1000);  // Esperar que la animación termine
+  });
+</script>
