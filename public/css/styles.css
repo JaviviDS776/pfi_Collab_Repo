@@ -1,0 +1,263 @@
+/* Paleta de colores basada en la imagen proporcionada */
+:root {
+  --color-light-green: #d1e1bf;
+  --color-medium-green: #9eb586;
+  --color-lime-green: #cbda81;
+  --color-cream: #fcecb1;
+  --color-yellow: #f0cd4e;
+  --primary-color: #9eb586;
+  --primary-hover: #8ea577;
+  --accent-color: #f0cd4e;
+  --text-color: #333;
+  --light-text: #666;
+  --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--color-light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Contenedor principal con disposición de dos columnas */
+body > div {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 900px;
+  min-height: 500px;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Panel izquierdo para formulario */
+body > div > form {
+  flex: 1;
+  background-color: white;
+  padding: 40px;
+  margin: 0;
+}
+
+/* Panel derecho para mensaje de bienvenida */
+body > div > div:first-child {
+  flex: 1;
+  background-color: var(--color-lime-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Círculo decorativo en el panel derecho */
+body > div > div:first-child::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -50px;
+  right: -100px;
+}
+
+/* Encabezados y textos */
+h1 {
+  color: var(--primary-color);
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+p {
+  color: var(--light-text);
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+/* Mensajes de error */
+div[class] {
+  background-color: rgba(240, 205, 78, 0.2);
+  border-left: 4px solid var(--accent-color);
+  color: var(--text-color);
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+/* Formularios */
+form > div {
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Campos de entrada */
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: var(--transition);
+  background-color: #f9f9f9;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(158, 181, 134, 0.2);
+  background-color: white;
+}
+
+/* Contenedor para input y botón de mostrar/ocultar */
+div > div {
+  position: relative;
+}
+
+/* Botón de mostrar/ocultar contraseña */
+div > div > button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--light-text);
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+div > div > button:hover {
+  color: var(--primary-color);
+}
+
+/* Texto de ayuda para contraseña */
+div > div + div {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+/* Botones principales */
+button[type="submit"] {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Links de navegación */
+body > div > div:last-child {
+  text-align: center;
+  font-size: 15px;
+  color: var(--light-text);
+  margin-top: 20px;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Diseño para página de bienvenida en el panel derecho */
+.welcome-panel {
+  background-color: var(--color-cream);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  max-width: 80%;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-panel h2 {
+  color: var(--primary-color);
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.welcome-panel .login-btn {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.welcome-panel .login-btn:hover {
+  text-decoration: none;
+  background-color: #e5c349;
+}
+
+/* Icono decorativo */
+.icon {
+  font-size: 40px;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  body > div {
+    flex-direction: column;
+    max-width: 450px;
+  }
+
+  body > div > div:first-child {
+    padding: 30px;
+  }
+
+  body > div > form {
+    padding: 30px;
+  }
+
+  .welcome-panel {
+    max-width: 100%;
+  }
+}

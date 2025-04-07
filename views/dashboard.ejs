@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Documentos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="profile-button" data-title="Mi perfil">
+          <i class="fas fa-user"></i>
+          <span>Mi perfil</span>
+        </div>
+      </div>
+
+      <div class="sidebar-sections">
+        <div class="section-item <%= section === 'documents' ? 'active' : '' %>" data-title="Mis documentos">
+          <a href="/dashboard"
+            style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+            <i class="fas fa-file"></i>
+            <span>Mis documentos</span>
+          </a>
+        </div>
+
+        <!-- Update the Destacados section to link to the starred endpoint -->
+        <div class="section-item <%= section === 'starred' ? 'active' : '' %>" data-title="Destacados">
+          <a href="/starred"
+            style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+            <i class="fas fa-star"></i>
+            <span>Destacados</span>
+          </a>
+        </div>
+        <!-- Update the trash section to link to the trash endpoint -->
+        <div class="section-item <%= section === 'trash' ? 'active' : '' %>" data-title="Papelera">
+          <a href="/trash"
+            style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+            <i class="fas fa-trash"></i>
+            <span>Papelera</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="theme-toggle-container" data-title="Cambiar tema">
+          <div class="theme-toggle-label">
+            <i class="fas fa-sun"></i>
+            <span>Tema</span>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+          </label>
+          <div class="theme-toggle-dark">
+            <i class="fas fa-moon"></i>
+          </div>
+        </div>
+        <div class="logout-button" id="logout-button" data-title="Cerrar sesión">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar sesión</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="header">
+        <div class="menu-toggle" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-box" id="search-box" placeholder="Buscar documentos">
+        </div>
+
+        <div class="filter-button">
+          <i class="fas fa-filter"></i>
+          <span>Filtros</span>
+        </div>
+
+        <div class="user-info">
+          <span class="user-name">
+            Hola de nuevo, <%= username %>
+          </span>
+        </div>
+      </div>
+
+      <div class="drop-area" id="drop-area">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <h3>Arrastra archivos aquí</h3>
+        <p>O haz clic para seleccionar archivos</p>
+        <input type="file" class="file-upload-input" id="file-upload" multiple>
+      </div>
+
+      <div class="files-container">
+        <!-- Update the files-header to show the correct section title -->
+        <div class="files-header-container">
+          <div class="files-header">
+            <%= section==='starred' ? 'Documentos destacados' : section==='trash' ? 'Papelera' : 'Mis documentos' %>
+          </div>
+
+          <% if (section==='trash' && documents && documents.length> 0) { %>
+            <button id="empty-trash-button" class="empty-trash-button">
+              <i class="fas fa-trash-alt"></i> Vaciar papelera
+            </button>
+            <% } %>
+        </div>
+        <div class="files-grid" id="files-grid">
+          <% if (documents && documents.length> 0) { %>
+            <% documents.forEach(function(doc) { %>
+              <div class="file-card" data-id="<%= doc._id %>" data-size="<%= doc.fileSize %>"
+                data-date="<%= doc.uploadDate.toISOString().split('T')[0] %>" data-tags="<%= doc.tags.join(',') %>">
+                <div class="file-thumbnail">
+                  <% if (doc.fileType && doc.fileType.includes('image')) { %>
+                    <img src="/documents/<%= doc._id %>" alt="<%= doc.name %>" class="file-preview-image">
+                    <% } else { %>
+                      <div class="file-preview-placeholder">
+                        <span class="file-name-preview">
+                          <%= doc.name.split('.').pop().toUpperCase() %>
+                        </span>
+                      </div>
+                      <% } %>
+                        <div class="file-type-indicator">
+                          <% if (doc.fileType && doc.fileType.includes('pdf')) { %>
+                            <i class="fas fa-file-pdf"></i>
+                            <% } else if (doc.fileType && doc.fileType.includes('image')) { %>
+                              <i class="fas fa-file-image"></i>
+                              <% } else if (doc.fileType && (doc.fileType.includes('word') ||
+                                doc.fileType.includes('document'))) { %>
+                                <i class="fas fa-file-word"></i>
+                                <% } else if (doc.fileType && (doc.fileType.includes('excel') ||
+                                  doc.fileType.includes('sheet'))) { %>
+                                  <i class="fas fa-file-excel"></i>
+                                  <% } else { %>
+                                    <i class="fas fa-file"></i>
+                                    <% } %>
+                        </div>
+                </div>
+                <div class="file-info">
+                  <div class="file-name">
+                    <%= doc.name %>
+                  </div>
+                  <div class="file-details">
+                    <span class="file-date">
+                      <%= new Date(doc.uploadDate).toLocaleDateString() %>
+                    </span>
+                    <span class="file-size">
+                      <%= formatFileSize(doc.fileSize) %>
+                    </span>
+                  </div>
+                </div>
+                <!-- Add star button to card-actions -->
+                <div class="card-actions">
+                  <div class="action-button preview-button" title="Ver">
+                    <i class="fas fa-eye"></i>
+                  </div>
+
+                  <% if (section !=='trash' ) { %>
+                    <!-- Only show star button for non-trash items -->
+                    <div class="action-button star-button"
+                      title="<%= doc.isStarred ? 'Quitar de destacados' : 'Destacar' %>" data-id="<%= doc._id %>"
+                      data-starred="<%= doc.isStarred ? 'true' : 'false' %>">
+                      <i class="<%= doc.isStarred ? 'fas fa-star' : 'far fa-star' %>"></i>
+                    </div>
+                    <% } %>
+
+                      <div class="action-button fullscreen-button" title="Pantalla completa">
+                        <i class="fas fa-expand"></i>
+                      </div>
+
+                      <% if (section==='trash' ) { %>
+                        <!-- Show restore button for trash items -->
+                        <div class="action-button restore-button" title="Restaurar">
+                          <i class="fas fa-undo"></i>
+                        </div>
+                        <!-- Show permanent delete button for trash items -->
+                        <div class="action-button permanent-delete-button" title="Eliminar permanentemente">
+                          <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <% } else { %>
+                          <!-- Show regular delete button for non-trash items -->
+                          <div class="action-button delete-button" title="Mover a papelera">
+                            <i class="fas fa-trash"></i>
+                          </div>
+                          <% } %>
+                </div>
+              </div><!-- Removed the extra closing div that was here -->
+              <% }); %>
+                <% } else { %>
+                  <div class="empty-state">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>No hay documentos</h3>
+                    <p>Sube tus primeros documentos usando el área de arrastre superior</p>
+                  </div>
+                  <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para añadir/editar información de documento -->
+  <div class="modal" id="file-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="file-icon">
+          <i class="fas fa-file"></i>
+        </div>
+        <div class="modal-title" id="modal-file-name">Información del documento</div>
+        <div class="close-modal" id="close-modal">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form id="document-form">
+          <input type="hidden" id="document-id">
+          <div class="form-group">
+            <label class="form-label">Nombre del documento</label>
+            <input type="text" class="form-input" id="input-file-name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-textarea" id="input-file-description"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Etiquetas (separadas por comas)</label>
+            <input type="text" class="form-input" id="input-file-tags">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-button" id="cancel-button">Cancelar</button>
+        <button class="save-button" id="save-button">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para filtros -->
+  <div class="modal" id="filter-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="file-icon">
+          <i class="fas fa-filter"></i>
+        </div>
+        <div class="modal-title">Filtrar documentos</div>
+        <div class="close-modal" id="close-filter-modal">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form id="filter-form">
+          <div class="form-group">
+            <label class="form-label">Tamaño del archivo</label>
+            <div class="range-slider">
+              <div class="range-values">
+                <span id="size-min-value">0 KB</span>
+                <span id="size-max-value">10 MB</span>
+              </div>
+              <div class="range-inputs">
+                <input type="range" id="size-min" min="0" max="10240" value="0" class="range-input">
+                <input type="range" id="size-max" min="0" max="10240" value="10240" class="range-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fecha de subida</label>
+            <div class="date-inputs">
+              <div class="date-input-group">
+                <label>Desde</label>
+                <input type="date" id="date-from" class="form-input">
+              </div>
+              <div class="date-input-group">
+                <label>Hasta</label>
+                <input type="date" id="date-to" class="form-input">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Etiquetas</label>
+            <div id="tags-container" class="tags-container">
+              <!-- Las etiquetas se cargarán dinámicamente -->
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-button" id="reset-filters-button">Restablecer</button>
+        <button class="save-button" id="apply-filters-button">Aplicar filtros</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para previsualizar documento -->
+  <div class="modal preview-modal" id="preview-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="file-icon">
+          <i class="fas fa-file" id="preview-file-icon"></i>
+        </div>
+        <div class="modal-title">
+          <input type="text" class="editable-title" id="preview-file-name" placeholder="Nombre del documento">
+        </div>
+        <div class="close-modal" id="close-preview">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+
+      <div class="document-details">
+        <div class="form-group">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-textarea" id="preview-description" placeholder="Añade una descripción"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Etiquetas (separadas por comas)</label>
+          <input type="text" class="form-input" id="preview-tags" placeholder="Añade etiquetas separadas por comas">
+        </div>
+      </div>
+
+      <iframe class="preview-iframe" id="preview-iframe"></iframe>
+
+      <div class="modal-footer">
+        <button class="cancel-button" id="close-preview-button">Cerrar</button>
+        <button class="save-button" id="save-preview-button">Guardar cambios</button>
+        <a href="#" class="download-button" id="download-preview-button" download>Descargar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para perfil de usuario -->
+  <div class="modal profile-modal" id="profile-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="file-icon">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="modal-title">Mi Perfil</div>
+        <div class="close-modal" id="close-profile-modal">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="profile-tabs">
+          <div class="profile-tab active" data-tab="username">Nombre de Usuario</div>
+          <div class="profile-tab" data-tab="email">Correo Electrónico</div>
+          <div class="profile-tab" data-tab="password">Contraseña</div>
+        </div>
+
+        <div class="profile-tab-content active" id="username-tab">
+          <div class="current-info">
+            <label>Nombre de usuario actual</label>
+            <div class="current-value" id="current-username"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nuevo nombre de usuario</label>
+            <input type="text" class="form-input" id="new-username" placeholder="Ingresa un nuevo nombre de usuario">
+          </div>
+          <div class="profile-action-buttons">
+            <button class="cancel-button" id="cancel-username-button">Cancelar</button>
+            <button class="save-button" id="save-username-button">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="profile-tab-content" id="email-tab">
+          <div class="current-info">
+            <label>Correo electrónico actual</label>
+            <div class="current-value" id="current-email"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo electrónico actual</label>
+            <input type="email" class="form-input" id="current-email-input"
+              placeholder="Ingresa tu correo electrónico actual">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nuevo correo electrónico</label>
+            <input type="email" class="form-input" id="new-email" placeholder="Ingresa un nuevo correo electrónico">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmar nuevo correo electrónico</label>
+            <input type="email" class="form-input" id="confirm-email"
+              placeholder="Confirma el nuevo correo electrónico">
+          </div>
+          <div class="profile-action-buttons">
+            <button class="cancel-button" id="cancel-email-button">Cancelar</button>
+            <button class="save-button" id="save-email-button">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="profile-tab-content" id="password-tab">
+          <div class="current-info">
+            <label>Contraseña actual</label>
+            <div class="current-value">••••••••</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña actual</label>
+            <input type="password" class="form-input" id="current-password" placeholder="Ingresa tu contraseña actual">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nueva contraseña</label>
+            <input type="password" class="form-input" id="new-password" placeholder="Ingresa una nueva contraseña">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmar nueva contraseña</label>
+            <input type="password" class="form-input" id="confirm-password" placeholder="Confirma la nueva contraseña">
+          </div>
+          <div class="profile-action-buttons">
+            <button class="cancel-button" id="cancel-password-button">Cancelar</button>
+            <button class="save-button" id="save-password-button">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+
+</html>
