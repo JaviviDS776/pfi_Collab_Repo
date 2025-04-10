@@ -200,6 +200,13 @@ app.get("/", (req, res) => {
 // =============================================================================
 
 /**
+ * Mostrar página de inicio de sesión
+ */
+app.get("/login", (req, res) => {
+  res.render("login", { error: null });
+});
+
+/**
  * Procesar solicitud de inicio de sesión
  * Verifica credenciales y establece sesión si son correctas
  */
