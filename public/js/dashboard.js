@@ -1070,12 +1070,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // SEARCH & FILTERING
     // ==========================================
-    
+
     // Búsqueda de documentos
     searchBox.addEventListener('input', function () {
         applyFiltersAndSearch();
     });
-    
+
+    // Track selected tags for persistence
+    let selectedTagsArray = [];
+
     // Función para aplicar filtros y búsqueda
     function applyFiltersAndSearch() {
         const searchTerm = searchBox.value.toLowerCase();
@@ -1086,7 +1089,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const sizeMax = parseInt(document.getElementById('size-max')?.value || 10240) * 1024; // Convertir a bytes
         const dateFrom = document.getElementById('date-from')?.value;
         const dateTo = document.getElementById('date-to')?.value;
-        const selectedTags = Array.from(document.querySelectorAll('.tag-item.selected')).map(tag => tag.dataset.tag);
+
+        // Store selected tags in the global array for persistence
+        selectedTagsArray = Array.from(document.querySelectorAll('.tag-item.selected')).map(tag => tag.dataset.tag);
 
         let visibleCount = 0;
 
@@ -1106,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const matchesDate = (!dateFrom || fileDate >= dateFrom) && (!dateTo || fileDate <= dateTo);
 
             // Aplicar filtro de etiquetas
-            const matchesTags = selectedTags.length === 0 || selectedTags.some(tag => fileTags.includes(tag.toLowerCase()));
+            const matchesTags = selectedTagsArray.length === 0 || selectedTagsArray.some(tag => fileTags.includes(tag.toLowerCase()));
 
             // Mostrar u ocultar la tarjeta según los filtros
             if (matchesSearch && matchesSize && matchesDate && matchesTags) {
@@ -1136,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    
+
     // Cargar etiquetas disponibles
     function loadAvailableTags() {
         const tagsContainer = document.getElementById('tags-container');
@@ -1158,6 +1163,11 @@ document.addEventListener('DOMContentLoaded', function () {
             tagElement.dataset.tag = tag;
             tagElement.innerHTML = `<i class="fas fa-tag"></i>${tag}`;
 
+            // Mark tag as selected if it was previously selected
+            if (selectedTagsArray.includes(tag)) {
+                tagElement.classList.add('selected');
+            }
+
             tagElement.addEventListener('click', function () {
                 this.classList.toggle('selected');
                 // No aplicar filtros automáticamente para permitir selección múltiple
@@ -1166,17 +1176,17 @@ document.addEventListener('DOMContentLoaded', function () {
             tagsContainer.appendChild(tagElement);
         });
     }
-    
+
     // Configurar eventos para el modal de filtros
     filterButton.addEventListener('click', function () {
         loadAvailableTags();
         filterModal.style.display = 'block';
     });
-    
+
     closeFilterModal.addEventListener('click', function () {
         filterModal.style.display = 'none';
     });
-    
+
     resetFiltersButton.addEventListener('click', function () {
         // Restablecer valores de los filtros
         document.getElementById('size-min').value = 0;
@@ -1187,11 +1197,20 @@ document.addEventListener('DOMContentLoaded', function () {
             tag.classList.remove('selected');
         });
 
+        // Clear the selected tags array
+        selectedTagsArray = [];
+
         // Actualizar visualización de valores
         document.getElementById('size-min-value').textContent = '0 KB';
         document.getElementById('size-max-value').textContent = '10 MB';
+
+        // Apply the reset filters immediately
+        applyFiltersAndSearch();
+
+        // Close the filter modal
+        filterModal.style.display = 'none';
     });
-    
+
     applyFiltersButton.addEventListener('click', function () {
         applyFiltersAndSearch();
         filterModal.style.display = 'none';
