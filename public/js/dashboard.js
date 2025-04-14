@@ -1,3 +1,7 @@
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
 // Función para formatear el tamaño del archivo
 function formatFileSize(bytes) {
     if (!bytes) return '0 B';
@@ -7,7 +11,15 @@ function formatFileSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
 
+// ==========================================
+// MAIN INITIALIZATION
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', function () {
+    // ==========================================
+    // DOM ELEMENTS
+    // ==========================================
+    
     // Variables para los elementos del DOM
     const sidebar = document.getElementById('sidebar');
     const menuToggle = document.getElementById('menu-toggle');
@@ -30,6 +42,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const applyFiltersButton = document.getElementById('apply-filters-button');
     const savePreviewButton = document.getElementById('save-preview-button');
     const themeToggle = document.getElementById('theme-toggle');
+    const profileModal = document.getElementById('profile-modal');
+    const closeProfileModal = document.getElementById('close-profile-modal');
+    const profileTabs = document.querySelectorAll('.profile-tab');
+    const profileTabContents = document.querySelectorAll('.profile-tab-content');
+    const profileButton = document.querySelector('.profile-button');
+    
+    // Botones para guardar cambios
+    const saveUsernameButton = document.getElementById('save-username-button');
+    const saveEmailButton = document.getElementById('save-email-button');
+    const savePasswordButton = document.getElementById('save-password-button');
+    
+    // Botones para cancelar cambios
+    const cancelUsernameButton = document.getElementById('cancel-username-button');
+    const cancelEmailButton = document.getElementById('cancel-email-button');
+    const cancelPasswordButton = document.getElementById('cancel-password-button');
+    
+    // ==========================================
+    // STATE VARIABLES
+    // ==========================================
+    
+    // Estado de la aplicación
+    let currentDocumentId = null;
+    let currentFile = null;
+    
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    
+    // Inicializar sidebar state
     const savedSidebarState = localStorage.getItem('sidebarState');
     if (savedSidebarState === 'true') {
         sidebar.classList.add('open');
@@ -39,14 +80,26 @@ document.addEventListener('DOMContentLoaded', function () {
         // Default behavior - initialize with the sidebar open
         sidebar.classList.add('open');
     }
+    
     // Prevenir autofill en el campo de búsqueda
     if (searchBox) {
         searchBox.setAttribute('autocomplete', 'off');
         searchBox.setAttribute('name', 'search-docs'); // Nombre específico para evitar confusión con campos de login
     }
-
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggle.checked = true;
+    }
+    
+    // ==========================================
+    // SECTION NAVIGATION
+    // ==========================================
+    
     const sectionLinks = document.querySelectorAll('.section-item a');
-
+    
     sectionLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
@@ -164,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     });
-
+    
     // Function to initialize event listeners for file cards
     function initializeFileCardEvents() {
         // Re-attach event listeners to new file cards if needed
@@ -179,9 +232,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Add other event listeners as needed
     }
-
-    // Variables para el modal de perfil
-    const profileButton = document.querySelector('.profile-button');
+    
+    // ==========================================
+    // PROFILE MANAGEMENT
+    // ==========================================
+    
+    // Abrir modal de perfil
     if (profileButton) {
         profileButton.addEventListener('click', function () {
             // Cargar información del perfil
@@ -189,96 +245,12 @@ document.addEventListener('DOMContentLoaded', function () {
             profileModal.style.display = 'block';
         });
     }
-
-
-    // Validación de correo electrónico
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // Validación de contraseña (mínimo 6 caracteres)
-    function isValidPassword(password) {
-        return password.length >= 6;
-    }
-
-    // Mejorar la validación en el formulario de correo electrónico
-    document.getElementById('new-email').addEventListener('blur', function () {
-        const email = this.value.trim();
-        if (email && !isValidEmail(email)) {
-            showProfileMessage('email', 'Por favor, ingresa un correo electrónico válido', 'error');
-        }
-    });
-
-    // Mejorar la validación en el formulario de contraseña
-    document.getElementById('new-password').addEventListener('blur', function () {
-        const password = this.value;
-        if (password && !isValidPassword(password)) {
-            showProfileMessage('password', 'La contraseña debe tener al menos 6 caracteres', 'error');
-        }
-    });
-
-    // Verificar que las contraseñas coinciden mientras se escribe
-    document.getElementById('confirm-password').addEventListener('input', function () {
-        const newPassword = document.getElementById('new-password').value;
-        const confirmPassword = this.value;
-
-        if (newPassword && confirmPassword) {
-            if (newPassword !== confirmPassword) {
-                this.setCustomValidity('Las contraseñas no coinciden');
-            } else {
-                this.setCustomValidity('');
-            }
-        }
-    });
-
-    // Verificar que los correos coinciden mientras se escribe
-    document.getElementById('confirm-email').addEventListener('input', function () {
-        const newEmail = document.getElementById('new-email').value;
-        const confirmEmail = this.value;
-
-        if (newEmail && confirmEmail) {
-            if (newEmail !== confirmEmail) {
-                this.setCustomValidity('Los correos no coinciden');
-            } else {
-                this.setCustomValidity('');
-            }
-        }
-    });
-
-    // Cerrar modal de perfil cuando se hace clic fuera
-    window.addEventListener('click', function (event) {
-        if (event.target === profileModal) {
-            profileModal.style.display = 'none';
-        }
-    });
-    const profileModal = document.getElementById('profile-modal');
-    const closeProfileModal = document.getElementById('close-profile-modal');
-    const profileTabs = document.querySelectorAll('.profile-tab');
-    const profileTabContents = document.querySelectorAll('.profile-tab-content');
-
-    // Botones para guardar cambios
-    const saveUsernameButton = document.getElementById('save-username-button');
-    const saveEmailButton = document.getElementById('save-email-button');
-    const savePasswordButton = document.getElementById('save-password-button');
-
-    // Botones para cancelar cambios
-    const cancelUsernameButton = document.getElementById('cancel-username-button');
-    const cancelEmailButton = document.getElementById('cancel-email-button');
-    const cancelPasswordButton = document.getElementById('cancel-password-button');
-
-    // Abrir modal de perfil
-    profileButton.addEventListener('click', function () {
-        // Cargar información del perfil
-        loadProfileInfo();
-        profileModal.style.display = 'block';
-    });
-
+    
     // Cerrar modal de perfil
     closeProfileModal.addEventListener('click', function () {
         profileModal.style.display = 'none';
     });
-
+    
     // Cambiar entre pestañas
     profileTabs.forEach(tab => {
         tab.addEventListener('click', function () {
@@ -291,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
         });
     });
-
+    
     // Cargar información del perfil
     function loadProfileInfo() {
         fetch('/api/profile')
@@ -316,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error al cargar información del perfil:', error);
             });
     }
-
+    
     // Función para mostrar mensajes de error o éxito
     function showProfileMessage(tabId, message, type) {
         // Eliminar mensajes anteriores
@@ -341,7 +313,69 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => messageElement.remove(), 300);
         }, 5000);
     }
-
+    
+    // Validación de correo electrónico
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    // Validación de contraseña (mínimo 6 caracteres)
+    function isValidPassword(password) {
+        return password.length >= 6;
+    }
+    
+    // Mejorar la validación en el formulario de correo electrónico
+    document.getElementById('new-email').addEventListener('blur', function () {
+        const email = this.value.trim();
+        if (email && !isValidEmail(email)) {
+            showProfileMessage('email', 'Por favor, ingresa un correo electrónico válido', 'error');
+        }
+    });
+    
+    // Mejorar la validación en el formulario de contraseña
+    document.getElementById('new-password').addEventListener('blur', function () {
+        const password = this.value;
+        if (password && !isValidPassword(password)) {
+            showProfileMessage('password', 'La contraseña debe tener al menos 6 caracteres', 'error');
+        }
+    });
+    
+    // Verificar que las contraseñas coinciden mientras se escribe
+    document.getElementById('confirm-password').addEventListener('input', function () {
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = this.value;
+        
+        if (newPassword && confirmPassword) {
+            if (newPassword !== confirmPassword) {
+                this.setCustomValidity('Las contraseñas no coinciden');
+            } else {
+                this.setCustomValidity('');
+            }
+        }
+    });
+    
+    // Verificar que los correos coinciden mientras se escribe
+    document.getElementById('confirm-email').addEventListener('input', function () {
+        const newEmail = document.getElementById('new-email').value;
+        const confirmEmail = this.value;
+        
+        if (newEmail && confirmEmail) {
+            if (newEmail !== confirmEmail) {
+                this.setCustomValidity('Los correos no coinciden');
+            } else {
+                this.setCustomValidity('');
+            }
+        }
+    });
+    
+    // Cerrar modal de perfil cuando se hace clic fuera
+    window.addEventListener('click', function (event) {
+        if (event.target === profileModal) {
+            profileModal.style.display = 'none';
+        }
+    });
+    
     // Actualizar nombre de usuario
     saveUsernameButton.addEventListener('click', function () {
         const newUsername = document.getElementById('new-username').value.trim();
@@ -378,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showProfileMessage('username', 'Error al actualizar nombre de usuario', 'error');
             });
     });
-
+    
     // Actualizar correo electrónico
     saveEmailButton.addEventListener('click', function () {
         const currentEmail = document.getElementById('current-email-input').value.trim();
@@ -421,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showProfileMessage('email', 'Error al actualizar correo electrónico', 'error');
             });
     });
-
+    
     // Actualizar contraseña
     savePasswordButton.addEventListener('click', function () {
         const currentPassword = document.getElementById('current-password').value;
@@ -463,14 +497,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 showProfileMessage('password', 'Error al actualizar contraseña', 'error');
             });
     });
-
+    
     // Botones de cancelar
     cancelUsernameButton.addEventListener('click', function () {
         document.getElementById('new-username').value = '';
         // Cerrar el modal de perfil
         profileModal.style.display = 'none';
     });
-
+    
     cancelEmailButton.addEventListener('click', function () {
         document.getElementById('current-email-input').value = '';
         document.getElementById('new-email').value = '';
@@ -478,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Cerrar el modal de perfil
         profileModal.style.display = 'none';
     });
-
+    
     cancelPasswordButton.addEventListener('click', function () {
         document.getElementById('current-password').value = '';
         document.getElementById('new-password').value = '';
@@ -486,7 +520,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Cerrar el modal de perfil
         profileModal.style.display = 'none';
     });
-
+    
+    // ==========================================
+    // THEME MANAGEMENT
+    // ==========================================
+    
     // Theme toggle functionality
     themeToggle.addEventListener('change', function () {
         if (this.checked) {
@@ -497,66 +535,62 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('theme', 'light');
         }
     });
-
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        themeToggle.checked = true;
-    }
-    // Estado de la aplicación
-    let currentDocumentId = null;
-
+    
+    // ==========================================
+    // SIDEBAR MANAGEMENT
+    // ==========================================
+    
     // Toggle sidebar
     menuToggle.addEventListener('click', function () {
         sidebar.classList.toggle('open');
     });
-
-    // Inicializar con la sidebar abierta
-    sidebar.classList.add('open');
-
+    
+    // ==========================================
+    // FILE UPLOAD & DRAG-DROP
+    // ==========================================
+    
     // Drag and drop functionality
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropArea.addEventListener(eventName, preventDefaults, false);
     });
-
+    
     function preventDefaults(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-
+    
     ['dragenter', 'dragover'].forEach(eventName => {
         dropArea.addEventListener(eventName, highlight, false);
     });
-
+    
     ['dragleave', 'drop'].forEach(eventName => {
         dropArea.addEventListener(eventName, unhighlight, false);
     });
-
+    
     function highlight() {
         dropArea.classList.add('highlight');
     }
-
+    
     function unhighlight() {
         dropArea.classList.remove('highlight');
     }
-
+    
     dropArea.addEventListener('drop', handleDrop, false);
-
+    
     function handleDrop(e) {
         const dt = e.dataTransfer;
         const files = dt.files;
         handleFiles(files);
     }
-
+    
     dropArea.addEventListener('click', () => {
         fileUpload.click();
     });
-
+    
     fileUpload.addEventListener('change', () => {
         handleFiles(fileUpload.files);
     });
-
+    
     function handleFiles(fileList) {
         if (fileList.length === 0) return;
 
@@ -574,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function () {
             sidebar.classList.remove('open');
         }
     }
-
+    
     function uploadFile(file) {
         // Crear FormData para enviar el archivo
         const formData = new FormData();
@@ -587,7 +621,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Guardar referencia al archivo para subir después de completar el modal
         currentFile = file;
     }
-
+    
     function submitFile(file, name, description, tags) {
         // Store sidebar state before submission
         const sidebarState = sidebar.classList.contains('open');
@@ -619,7 +653,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('Error al subir el documento');
             });
     }
-
+    
+    // ==========================================
+    // FILE ACTIONS
+    // ==========================================
+    
     // Manejar clics en las acciones de las tarjetas de archivos
     document.addEventListener('click', function (e) {
         // Botón de vista previa
@@ -629,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const fileName = fileCard.querySelector('.file-name').textContent.trim();
             showPreview(documentId, fileName);
         }
-
+        
         // Función para configurar correctamente el botón de descarga
         if (e.target.closest('.star-button')) {
             const starButton = e.target.closest('.star-button');
@@ -638,25 +676,25 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleStarred(documentId, starButton);
             e.stopPropagation(); // Prevent other click handlers from firing
         }
-
+        
         // Botón de pantalla completa (antes era download-button)
         if (e.target.closest('.fullscreen-button')) {
             const fileCard = e.target.closest('.file-card');
             const documentId = fileCard.dataset.id;
             window.location.href = `/documents/${documentId}`;
         }
-
+        
         // Botón de eliminación (mover a papelera)
         if (e.target.closest('.delete-button')) {
             e.stopPropagation();
             const fileCard = e.target.closest('.file-card');
             const documentId = fileCard.dataset.id;
-
+            
             if (confirm('¿Estás seguro de que deseas mover este documento a la papelera?')) {
                 deleteDocument(documentId, fileCard);
             }
         }
-
+        
         // Botón de restaurar desde papelera
         if (e.target.closest('.restore-button')) {
             const fileCard = e.target.closest('.file-card');
@@ -665,7 +703,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 restoreFromTrash(documentId, fileCard);
             }
         }
-
+        
         // Botón de eliminación permanente
         if (e.target.closest('.permanent-delete-button')) {
             const fileCard = e.target.closest('.file-card');
@@ -675,9 +713,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-
-    // Update the moveToTrash function to actually delete the document
-    // Update the moveToTrash function to handle starred documents
+    
     function moveToTrash(documentId, cardElement) {
         fetch(`/documents/${documentId}`, {
             method: 'DELETE'
@@ -725,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('Error al mover el documento a la papelera');
             });
     }
-
+    
     function showFileModal(documentId, fileName) {
         currentDocumentId = documentId;
 
@@ -755,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Mostrar el modal
         fileModal.style.display = 'block';
     }
-
+    
     function showPreview(documentId, fileName) {
         currentDocumentId = documentId;
         document.getElementById('preview-file-name').value = fileName;
@@ -925,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Mostrar el modal
         previewModal.style.display = 'block';
     }
-
+    
     // Guardar cambios desde el modal de vista previa
     savePreviewButton.addEventListener('click', function () {
         if (!currentDocumentId) return;
@@ -966,7 +1002,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('Error al actualizar el documento');
             });
     });
-
+    
     // Manejar el envío del formulario de documento
     saveButton.addEventListener('click', function () {
         const documentId = document.getElementById('document-id').value;
@@ -1012,29 +1048,33 @@ document.addEventListener('DOMContentLoaded', function () {
             currentFile = null;
         }
     });
-
+    
     function closeFileModal() {
         fileModal.style.display = 'none';
         currentDocumentId = null;
     }
-
+    
     function closePreviewModal() {
         previewModal.style.display = 'none';
         document.getElementById('preview-iframe').src = '';
     }
-
+    
     // Event listeners para cerrar modales
     closeModal.addEventListener('click', closeFileModal);
     cancelButton.addEventListener('click', closeFileModal);
-
+    
     closePreview.addEventListener('click', closePreviewModal);
     closePreviewButton.addEventListener('click', closePreviewModal);
-
+    
+    // ==========================================
+    // SEARCH & FILTERING
+    // ==========================================
+    
     // Búsqueda de documentos
     searchBox.addEventListener('input', function () {
         applyFiltersAndSearch();
     });
-
+    
     // Función para aplicar filtros y búsqueda
     function applyFiltersAndSearch() {
         const searchTerm = searchBox.value.toLowerCase();
@@ -1095,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
+    
     // Cargar etiquetas disponibles
     function loadAvailableTags() {
         const tagsContainer = document.getElementById('tags-container');
@@ -1125,17 +1165,17 @@ document.addEventListener('DOMContentLoaded', function () {
             tagsContainer.appendChild(tagElement);
         });
     }
-
+    
     // Configurar eventos para el modal de filtros
     filterButton.addEventListener('click', function () {
         loadAvailableTags();
         filterModal.style.display = 'block';
     });
-
+    
     closeFilterModal.addEventListener('click', function () {
         filterModal.style.display = 'none';
     });
-
+    
     resetFiltersButton.addEventListener('click', function () {
         // Restablecer valores de los filtros
         document.getElementById('size-min').value = 0;
@@ -1150,18 +1190,18 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('size-min-value').textContent = '0 KB';
         document.getElementById('size-max-value').textContent = '10 MB';
     });
-
+    
     applyFiltersButton.addEventListener('click', function () {
         applyFiltersAndSearch();
         filterModal.style.display = 'none';
     });
-
+    
     // Configurar sliders de tamaño
     const sizeMin = document.getElementById('size-min');
     const sizeMax = document.getElementById('size-max');
     const sizeMinValue = document.getElementById('size-min-value');
     const sizeMaxValue = document.getElementById('size-max-value');
-
+    
     sizeMin.addEventListener('input', function () {
         const value = parseInt(this.value);
         sizeMinValue.textContent = value < 1024 ? `${value} KB` : `${(value / 1024).toFixed(1)} MB`;
@@ -1172,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', function () {
             sizeMaxValue.textContent = value < 1024 ? `${value} KB` : `${(value / 1024).toFixed(1)} MB`;
         }
     });
-
+    
     sizeMax.addEventListener('input', function () {
         const value = parseInt(this.value);
         sizeMaxValue.textContent = value < 1024 ? `${value} KB` : `${(value / 1024).toFixed(1)} MB`;
@@ -1183,15 +1223,17 @@ document.addEventListener('DOMContentLoaded', function () {
             sizeMinValue.textContent = value < 1024 ? `${value} KB` : `${(value / 1024).toFixed(1)} MB`;
         }
     });
-
+    
+    // ==========================================
+    // USER ACTIONS
+    // ==========================================
+    
     // Cerrar sesión
     logoutButton.addEventListener('click', function () {
         window.location.href = '/logout';
     });
-
-    // Variable para almacenar el archivo actual
-    let currentFile = null;
-    // In the toggleStarred function
+    
+    // Toggle starred status
     function toggleStarred(documentId, buttonElement) {
         fetch(`/documents/${documentId}/star`, {
             method: 'PUT',
@@ -1232,28 +1274,37 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+// ==========================================
+// THEME TOGGLE FOR COLLAPSED SIDEBAR
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', function () {
     const themeToggleContainer = document.querySelector('.theme-toggle-container');
-
+    
     themeToggleContainer.addEventListener('click', function (e) {
         const sidebar = document.getElementById('sidebar');
-
+        
         // Only handle click if sidebar is collapsed
         if (!sidebar.classList.contains('open')) {
             const themeToggle = document.getElementById('theme-toggle');
-
+            
             // Toggle the checkbox state
             themeToggle.checked = !themeToggle.checked;
-
+            
             // Trigger the change event to apply theme
             const changeEvent = new Event('change');
             themeToggle.dispatchEvent(changeEvent);
-
+            
             // Prevent event from reaching the checkbox directly
             e.preventDefault();
         }
     });
 });
+
+// ==========================================
+// TRASH MANAGEMENT
+// ==========================================
 
 // Update the restore function to handle the case when a document is restored
 function restoreFromTrash(documentId, cardElement) {
@@ -1332,7 +1383,6 @@ function permanentDelete(documentId, cardElement) {
             alert('Error al eliminar permanentemente el documento');
         });
 }
-
 // Empty trash button functionality
 const emptyTrashButton = document.getElementById('empty-trash-button');
 if (emptyTrashButton) {
@@ -1342,6 +1392,7 @@ if (emptyTrashButton) {
         }
     });
 }
+
 // Function to empty the trash
 function emptyTrash() {
     // Get filesGrid here to ensure it's available in this context
@@ -1375,6 +1426,8 @@ function emptyTrash() {
             alert('Error al vaciar la papelera');
         });
 }
+
+// Function to delete a document (move to trash)
 function deleteDocument(documentId, fileCard) {
     // Añadir clase de animación para la eliminación
     fileCard.classList.add('deleting');
