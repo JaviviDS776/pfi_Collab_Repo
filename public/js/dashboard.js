@@ -59,6 +59,33 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancelPasswordButton = document.getElementById('cancel-password-button');
     
     // ==========================================
+    // MODAL MANAGEMENT
+    // ==========================================
+
+    // Close modals when clicking outside of them
+    window.addEventListener('click', function (event) {
+        // Close preview modal when clicking outside
+        if (event.target === previewModal) {
+            closePreviewModal();
+        }
+
+        // Close filter modal when clicking outside
+        if (event.target === filterModal) {
+            filterModal.style.display = 'none';
+        }
+
+        // Close file modal when clicking outside
+        if (event.target === fileModal) {
+            closeFileModal();
+        }
+
+        // Close profile modal when clicking outside
+        if (event.target === profileModal) {
+            profileModal.style.display = 'none';
+        }
+    });
+
+    // ==========================================
     // STATE VARIABLES
     // ==========================================
     
