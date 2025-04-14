@@ -793,174 +793,148 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     function showPreview(documentId, fileName) {
-        currentDocumentId = documentId;
-        document.getElementById('preview-file-name').value = fileName;
+    currentDocumentId = documentId;
+    document.getElementById('preview-file-name').value = fileName;
 
-        // Determinar el icono basado en la extensión del archivo
-        const fileIcon = document.getElementById('preview-file-icon');
-        fileIcon.className = 'fas';
+    // Determinar el icono basado en la extensión del archivo
+    const fileIcon = document.getElementById('preview-file-icon');
+    fileIcon.className = 'fas';
 
-        if (fileName.toLowerCase().endsWith('.pdf')) {
-            fileIcon.classList.add('fa-file-pdf');
-        } else if (/\.(jpe?g|png|gif|bmp)$/i.test(fileName)) {
-            fileIcon.classList.add('fa-file-image');
-        } else if (/\.(docx?|odt)$/i.test(fileName)) {
-            fileIcon.classList.add('fa-file-word');
-        } else if (/\.(xlsx?|ods)$/i.test(fileName)) {
-            fileIcon.classList.add('fa-file-excel');
-        } else {
-            fileIcon.classList.add('fa-file');
-        }
+    // Get file extension
+    const fileExtension = fileName.split('.').pop().toLowerCase();
 
-        // Cargar los metadatos del documento primero
-        fetch(`/documents/${documentId}`, {
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar los metadatos del documento');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Llenar los campos con los datos del documento
-                document.getElementById('preview-description').value = data.description || '';
-                document.getElementById('preview-tags').value = data.tags ? data.tags.join(', ') : '';
-
-                // Add star button to preview modal if needed
-                // In the showPreview function where you handle the star button
-                const previewStarButton = document.querySelector('.preview-star-button');
-                if (previewStarButton) {
-                    if (data.isStarred) {
-                        previewStarButton.classList.add('starred');
-                        previewStarButton.querySelector('i').className = 'fas fa-star';
-                    } else {
-                        previewStarButton.classList.remove('starred');
-                        previewStarButton.querySelector('i').className = 'far fa-star';
-                    }
-                }
-                // Ahora manejar la vista previa según el tipo de archivo
-                const previewIframe = document.getElementById('preview-iframe');
-                const fileExtension = fileName.split('.').pop().toLowerCase();
-
-                // Verificar si es un tipo de archivo que no se puede previsualizar directamente
-                if (/^(docx?|xlsx?|pptx?|odt|ods|odp)$/i.test(fileExtension)) {
-                    // Para archivos de Office, mostrar un mensaje informativo en lugar de intentar cargarlos
-                    previewIframe.srcdoc = `
-            <html>
-            <head>
-              <style>
-                body {
-                  font-family: 'Roboto', Arial, sans-serif;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  justify-content: center;
-                  height: 100vh;
-                  margin: 0;
-                  background-color: #f9f9f9;
-                  color: #333;
-                  text-align: center;
-                  padding: 20px;
-                }
-                .preview-container {
-                  background-color: white;
-                  border-radius: 8px;
-                  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                  padding: 40px;
-                  max-width: 500px;
-                  width: 100%;
-                }
-                .icon {
-                  font-size: 80px;
-                  margin-bottom: 30px;
-                  color: ${fileExtension.includes('doc') ? '#4285F4' :
-                            fileExtension.includes('xls') ? '#0F9D58' :
-                                fileExtension.includes('ppt') ? '#DB4437' : '#4285F4'};
-                }
-                .file-name {
-                  font-size: 24px;
-                  font-weight: 500;
-                  margin-bottom: 20px;
-                  word-break: break-word;
-                }
-                .message {
-                  max-width: 500px;
-                  line-height: 1.6;
-                  margin-bottom: 30px;
-                  color: #555;
-                }
-                .button {
-                  margin-top: 10px;
-                  padding: 12px 24px;
-                  background-color: #4285F4;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-                  text-decoration: none;
-                  font-weight: 500;
-                  transition: background-color 0.2s;
-                  display: inline-block;
-                }
-                .button:hover {
-                  background-color: #3367d6;
-                }
-              </style>
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            </head>
-            <body>
-              <div class="preview-container">
-                <div class="icon">
-                  <i class="fas ${fileExtension.includes('doc') ? 'fa-file-word' :
-                            fileExtension.includes('xls') ? 'fa-file-excel' :
-                                fileExtension.includes('ppt') ? 'fa-file-powerpoint' : 'fa-file'}"></i>
-                </div>
-                <div class="file-name">${fileName}</div>
-                <div class="message">
-                  <p>Este tipo de archivo no puede ser visualizado directamente en el navegador.</p>
-                  <p>Puedes descargar el archivo para verlo en su aplicación correspondiente.</p>
-                </div>
-                <a href="/documents/${documentId}" class="button" download="${fileName}">
-                  <i class="fas fa-download" style="margin-right: 8px;"></i>Descargar archivo
-                </a>
-              </div>
-            </body>
-            </html>
-          `;
-                } else {
-                    // Para archivos que se pueden previsualizar (PDF, imágenes, etc.)
-                    fetch(`/documents/${documentId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error al cargar el documento');
-                            }
-                            return response.blob();
-                        })
-                        .then(blob => {
-                            previewIframe.src = URL.createObjectURL(blob);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            previewIframe.srcdoc = `<div style="padding: 20px; color: red;">Error al cargar el documento: ${error.message}</div>`;
-                        });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al cargar el documento: ' + error.message);
-            });
-
-        // Configurar el botón de descarga
-        const downloadButton = document.getElementById('download-preview-button');
-        downloadButton.href = `/documents/${documentId}`;
-        downloadButton.download = fileName;
-
-        // Mostrar el modal
-        previewModal.style.display = 'block';
+    if (fileName.toLowerCase().endsWith('.pdf')) {
+        fileIcon.classList.add('fa-file-pdf');
+    } else if (/\.(jpe?g|png|gif|bmp)$/i.test(fileName)) {
+        fileIcon.classList.add('fa-file-image');
+    } else if (/\.(docx?|odt)$/i.test(fileName)) {
+        fileIcon.classList.add('fa-file-word');
+    } else if (/\.(xlsx?|ods)$/i.test(fileName)) {
+        fileIcon.classList.add('fa-file-excel');
+    } else if (/\.(zip|rar|7z|tar|gz)$/i.test(fileName)) {
+        fileIcon.classList.add('fa-file-archive');
+    } else {
+        fileIcon.classList.add('fa-file');
     }
+
+    // Cargar los metadatos del documento primero
+    fetch(`/documents/${documentId}`, {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al cargar los metadatos del documento');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Llenar los campos con los datos del documento
+            document.getElementById('preview-description').value = data.description || '';
+            document.getElementById('preview-tags').value = data.tags ? data.tags.join(', ') : '';
+
+            // Add star button to preview modal if needed
+            // In the showPreview function where you handle the star button
+            const previewStarButton = document.querySelector('.preview-star-button');
+            if (previewStarButton) {
+                if (data.isStarred) {
+                    previewStarButton.classList.add('starred');
+                    previewStarButton.querySelector('i').className = 'fas fa-star';
+                } else {
+                    previewStarButton.classList.remove('starred');
+                    previewStarButton.querySelector('i').className = 'far fa-star';
+                }
+            }
+            
+            // Ahora manejar la vista previa según el tipo de archivo
+            const previewIframe = document.getElementById('preview-iframe');
+            
+            // List of non-previewable file extensions
+            const nonPreviewableExtensions = ['zip', 'rar', '7z', 'tar', 'gz', 'exe', 'dll', 'bin', 'iso', 'dmg'];
+            
+            // Check if the file is non-previewable
+            if (nonPreviewableExtensions.includes(fileExtension)) {
+                // Show a message for non-previewable files
+                previewIframe.srcdoc = `
+                <html>
+                <head>
+                  <style>
+                    body {
+                      font-family: 'Roboto', Arial, sans-serif;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100vh;
+                      margin: 0;
+                      background-color: #f5f5f5;
+                      color: #333;
+                      text-align: center;
+                      padding: 20px;
+                    }
+                    .icon {
+                      font-size: 64px;
+                      color: #db4437;
+                      margin-bottom: 20px;
+                    }
+                    h2 {
+                      margin-bottom: 10px;
+                    }
+                    p {
+                      margin-bottom: 20px;
+                      color: #666;
+                      max-width: 500px;
+                    }
+                    .download-btn {
+                      background-color: #4285f4;
+                      color: white;
+                      border: none;
+                      padding: 10px 20px;
+                      border-radius: 4px;
+                      cursor: pointer;
+                      font-weight: 500;
+                      text-decoration: none;
+                      display: inline-block;
+                    }
+                    .download-btn:hover {
+                      background-color: #3367d6;
+                    }
+                  </style>
+                  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                </head>
+                <body>
+                  <div class="icon">
+                    <i class="fas fa-file-archive"></i>
+                  </div>
+                  <h2>Este tipo de archivo no se puede previsualizar</h2>
+                  <p>Los archivos ${fileExtension.toUpperCase()} no pueden mostrarse en el navegador. Puedes descargar el archivo para verlo en tu dispositivo.</p>
+                  <a href="/documents/${documentId}" download="${fileName}" class="download-btn">
+                    <i class="fas fa-download"></i> Descargar archivo
+                  </a>
+                </body>
+                </html>`;
+            } else if (/^(docx?|xlsx?|pptx?|odt|ods|odp)$/i.test(fileExtension)) {
+                // Para archivos de Office, mostrar un mensaje informativo en lugar de intentar cargarlos
+                previewIframe.srcdoc = `
+                // ... existing code for Office files ...
+                `;
+            } else {
+                // ... existing code for other file types ...
+            }
+            
+            // Show the preview modal
+            previewModal.style.display = 'block';
+            
+            // Set up the download button
+            const downloadButton = document.getElementById('download-preview-button');
+            downloadButton.href = `/documents/${documentId}`;
+            downloadButton.setAttribute('download', fileName);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
     
     // Guardar cambios desde el modal de vista previa
     savePreviewButton.addEventListener('click', function () {
