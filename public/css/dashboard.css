@@ -1739,3 +1739,86 @@ body.dark-theme .spinner {
 body.dark-theme .loading-state p {
   color: #ccc;
 }
+/* Estilos para el resumen */
+.summary-content {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 8px;
+  border-left: 3px solid #4285f4;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dark-theme .summary-content {
+  background-color: #2d2d2d;
+  border-left-color: #8ab4f8;
+}
+
+/* Estilos para el sistema de etiquetas */
+.tags-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  min-height: 40px;
+  align-items: center;
+}
+
+.tag-item {
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tag-item .remove-tag {
+  cursor: pointer;
+  color: #666;
+  font-size: 12px;
+}
+
+.tag-item .remove-tag:hover {
+  color: #333;
+}
+
+.tag-input-container {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-input-container input {
+  flex: 1;
+}
+
+.add-tag-button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-tag-button:hover {
+  background-color: #3367d6;
+}
+
+.dark-theme .tag-item {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+}
+
+.dark-theme .tag-item .remove-tag {
+  color: #aaa;
+}
+
+.dark-theme .tag-item .remove-tag:hover {
+  color: #fff;
+}

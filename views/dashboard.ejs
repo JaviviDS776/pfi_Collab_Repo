@@ -303,6 +303,7 @@
   </div>
 
   <!-- Modal para previsualizar documento -->
+  <!-- Modal para previsualizar documento -->
   <div class="modal preview-modal" id="preview-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -326,6 +327,12 @@
         <div class="form-group">
           <label class="form-label">Etiquetas (separadas por comas)</label>
           <input type="text" class="form-input" id="preview-tags" placeholder="Añade etiquetas separadas por comas">
+        </div>
+
+        <!-- Añade esta sección para mostrar el resumen -->
+        <div class="form-group" id="summary-container" style="display: none;">
+          <label class="form-label">Resumen</label>
+          <div class="summary-content" id="preview-summary"></div>
         </div>
       </div>
 

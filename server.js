@@ -155,6 +155,7 @@ const documentSchema = new mongoose.Schema({
   isStarred: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false }, // Indica si está en papelera
   deletedAt: { type: Date }, // Fecha de eliminación
+  summary: { type: String }, // Añade este campo para el resumen
 });
 
 // Crear modelos a partir de los esquemas
@@ -194,6 +195,43 @@ app.get("/", (req, res) => {
     res.redirect("/login");
   }
 });
+
+// Añade al inicio con las otras dependencias
+const axios = require("axios");
+const pdf = require("pdf-parse");
+
+// =============================================================================
+// CONFIGURACIÓN DE LA API DE RESUMEN
+// =============================================================================
+const MAGIC_LOOPS_API_URL =
+  "https://magicloops.dev/api/loop/3ab3f2fc-d4fc-4d72-a4f8-5965b361975d/run";
+
+// Función para resumir texto usando la API
+async function summarizeText(text) {
+  try {
+    console.log("Texto a resumir:", text); // Esto aparecerá en los logs del servidor
+    const response = await axios.post(MAGIC_LOOPS_API_URL, {
+      text: text,
+    });
+
+    return response.data.summary || "No se pudo generar el resumen";
+  } catch (error) {
+    console.error("Error al llamar a la API de resumen:", error);
+    return "Error al generar el resumen";
+  }
+}
+
+// Función para extraer texto de un PDF
+async function extractTextFromPdf(filePath) {
+  try {
+    const dataBuffer = fs.readFileSync(filePath);
+    const data = await pdf(dataBuffer);
+    return data.text;
+  } catch (error) {
+    console.error("Error al extraer texto del PDF:", error);
+    return "";
+  }
+}
 
 // =============================================================================
 // RUTAS DE AUTENTICACIÓN
@@ -354,6 +392,16 @@ app.post(
           .json({ error: "No se ha subido ningún archivo" });
       }
 
+      let summary = "";
+
+      // Procesar PDF para extraer texto y generar resumen
+      if (req.file.mimetype === "application/pdf") {
+        const text = await extractTextFromPdf(req.file.path);
+        if (text) {
+          summary = await summarizeText(text);
+        }
+      }
+
       // Crear registro de documento en la base de datos
       const newDocument = new Document({
         name: req.body.name || req.file.originalname,
@@ -366,6 +414,7 @@ app.post(
           ? req.body.tags.split(",").map((tag) => tag.trim())
           : [],
         userId: req.session.userId,
+        summary: summary, // Añadir el resumen
       });
 
       await newDocument.save();
@@ -411,6 +460,7 @@ app.get("/documents/:id", requireLogin, async (req, res) => {
         isDeleted: document.isDeleted,
         deletedAt: document.deletedAt,
         isStarred: document.isStarred,
+        summary: document.summary, // Añadir el resumen
       });
     }
 
