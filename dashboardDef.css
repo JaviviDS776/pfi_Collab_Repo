@@ -208,7 +208,7 @@ body {
 
 .section-item.active {
     background-color: #e5f1d7;
-    color: #9EB586;
+    color: #688649;
 }
 
 .section-item i {
@@ -1630,12 +1630,12 @@ body.dark-theme .sidebar:not(.open) .theme-toggle-container .theme-toggle-label 
 }
 
 .profile-tab:hover {
-    color: #4285f4;
+    color: #91c55e;
 }
 
 .profile-tab.active {
-    color: #4285f4;
-    border-bottom-color: #6b2071;
+    color: #688649;
+    border-bottom-color: #4f702e;
 }
 
 .profile-tab-content {
@@ -1695,9 +1695,12 @@ body.dark-theme .profile-tab {
     color: #aaa;
 }
 
-body.dark-theme .profile-tab:hover,
+body.dark-theme .profile-tab:hover{
+    color: #ae27c3 ;
+}
 body.dark-theme .profile-tab.active {
     color: #e661fb;
+    border-bottom-color: #9d4aaa;
 }
 
 body.dark-theme .profile-tabs {
