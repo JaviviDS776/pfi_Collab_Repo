@@ -1143,17 +1143,8 @@ body.dark-theme .drop-area.highlight {
 
 /* Modal */
 body.dark-theme .modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #190024 !important;
-    padding: 30px;
-    border-radius: 10px;
-    width: 500px;
-    max-width: 90%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
-    animation: bounceIn 0.5s;
 }
 
 body.dark-theme .files-header {
@@ -1446,8 +1437,8 @@ body.dark-theme .preview-modal .modal-content {
 }
 
 body.dark-theme .preview-modal .document-details {
-    background-color: #1e1e1e;
-    border: 1px solid #444;
+    background-color: #210030;
+    border: 1px solid #272429;
 }
 
 body.dark-theme .preview-modal .file-icon {
@@ -1812,7 +1803,7 @@ body.dark-theme .loading-state p {
 
 .dark-theme .summary-content {
     background-color: #2d2d2d;
-    border-left-color: #8ab4f8;
+    border-left-color: #8515ff;
 }
 
 /* Estilos para el sistema de etiquetas */
