@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login Form</title>
   <style>
+
+/* Contenedor principal ocupa siempre toda la ventana,
+pero mantiene un máximo para pantallas muy grandes */
 * {
   margin: 0;
   padding: 0;
@@ -24,10 +27,11 @@ body {
 /* Contenedor principal ocupa siempre toda la ventana,
    pero mantiene un máximo para pantallas muy grandes */
 .container {
+  flex: 1;
   display: flex;
   width: 100vw;
-  height: 100vh;
-  max-width: 1200px;
+  min-height: 100vh;
+  width: 1200px;
   background: #F5F4D0;
   border-radius: 10px;
   overflow: hidden;
@@ -35,61 +39,21 @@ body {
 }
 
 /* Dos columnas iguales */
-.left-side,
-.right-side {
+.left-side, .right-side {
   flex: 1;
-  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 40px;
+  min-height: 100vh;
 }
 
 /* Estilo especial de la izquierda */
 .left-side {
   background: linear-gradient(210deg, #F5DE70, #D1E1BF);
   border-radius: 0 100px 100px 0;
-  align-items: center;
-}
-
-/* --------------------------------
-   RESPONSIVE
-   Cuando el ancho sea menor de 768px
-   pasamos a una sola columna
-----------------------------------*/
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
-  .left-side {
-    border-radius: 0 0 100px 100px;
-    padding: 20px;
-  }
-  .right-side {
-    padding: 20px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-  .welcome-text {
-    font-size: 28px;
-  }
-  .account-text,
-  label,
-  .forgot-password,
-  .checkbox-group label {
-    font-size: 12px;
-  }
-  input {
-    padding: 8px;
-  }
-  button,
-  .register-btn {
-    padding: 10px;
-    font-size: 14px;
-  }
+  text-align: center;
 }
 
 /* título y textos */
@@ -117,74 +81,87 @@ h1 {
 
 /* formulario */
 .form-group {
+  width: 100%;
+  max-width: 400px;
   margin-bottom: 20px;
 }
+
 label {
   display: block;
   margin-bottom: 5px;
   color: #333;
 }
-input {
+
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 10px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid transparent;
+  background-color: rgba(255,255,255,0.5);
   border-radius: 50px;
   outline: none;
-  box-shadow: rgba(0, 0, 0, 0.089) 0px 5px 15px;
+  box-shadow: rgba(0,0,0,0.089) 0px 5px 15px;
+  transition: all 0.3s ease;
 }
 
-/* checkbox y forgot */
+input:focus {
+  border-color: #aed6a3;
+  outline: none;
+}
+
+/* checkbox */
 .checkbox-group {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
+
 .checkbox-group label {
   margin-left: 5px;
   font-size: 14px;
 }
+
 .forgot-password {
   text-align: right;
   margin-bottom: 20px;
   font-size: 14px;
 }
 
-/* botones */
+/* botón register */
 button {
   width: 100%;
   padding: 12px;
-  background-color: #F8E68E;
+  background-color: #f9e79f;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   color: #333;
-  font-weight: bold;
+  font-size: bold;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 button:hover {
-  background-color: #f8a38e;
+  background-color: #f7dc6f;
 }
 
-/* register en la izquierda */
+/* link a login */
 .register-btn {
   display: block;
   text-align: center;
   padding: 12px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #F5F4D0;
   width: 80%;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   color: #333;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
   text-decoration: none;
 }
+
 .register-btn:hover {
-  background-color: #f7dc6f;
+  background-color: #f3bf6c;
 }
 
 /* error fijo */
@@ -225,6 +202,49 @@ button:hover {
   to   { opacity: 1; }
 }
 
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    min-height: 100vh;
+    border-radius: 0;
+  }
+
+  .right-side {
+    min-height: 60vh;
+    justify-content: center;
+  }
+
+  .left-side {
+    border-radius: 0px 0px 100px 100px;
+    min-height: 40vh;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .welcome-text {
+    font-size: 28px;
+  }
+
+  .account-text,
+  label,
+  .forgot-password,
+  .checkbox-group label {
+    font-size: 12px;
+  }
+
+  input {
+    padding: 8px;
+  }
+
+  button,
+  .register-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
   </style>
 </head>
 <body>
@@ -240,12 +260,13 @@ button:hover {
 
   <div class="container">
     <div class="left-side">
-      <div class="welcome-text">Welcome!</div>
+      <div class="welcome-text">Welcome Back!</div>
       <div class="account-text">Don't have an account?</div>
       <a href="/register" class="register-btn" id="register-btn">Register</a>
     </div>
+
     <div class="right-side">
-      <h1>Login</h1>
+      <div class="welcome-text">Login</div>
       <div class="user-icon">
         <!-- Imagen SVG o ícono -->
         <!-- Puedes reemplazar o eliminar el SVG base64 largo si no lo necesitas -->
@@ -255,14 +276,14 @@ button:hover {
         </svg>
       </div>
 
-      <form>
+      <form style="width: 100%; max-width: 400px;">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" />
+          <label for="username">User:</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required/>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" />
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
         </div>
 
         <div class="checkbox-group">
