@@ -1,0 +1,78 @@
+WHICHJOURNAL - LICENCIA DE USO RESTRINGIDO
+
+Autores del software:
+- Kevin Josué Barba Ramírez (@kevenbarba)
+- Luis Javier Garnica Escamilla (@JaviviDS776)
+- Fabián Emmanuel Candia Villa (@galaxyfab72)
+- Ramón Toribio Rodríguez Gutiérrez (@RamonToribio1403)
+- Santiago Vargas Aceves (@VaacSS)
+
+Copyright (c) [2025] WhichJournal Development Team. Todos los derechos reservados.
+
+1. DERECHOS DE AUTOR
+
+WhichJournal es una obra de autoría colectiva. Todos los derechos relacionados con el uso, reproducción, modificación y distribución del software están reservados exclusivamente a sus autores.
+
+2. CONDICIONES DE USO
+
+El uso de este software está sujeto a acuerdo previo por escrito con los autores. El uso no autorizado constituye una infracción a los derechos de autor.
+
+Se prohíbe expresamente:
+- La modificación, copia, ingeniería inversa, distribución o redistribución del código fuente o binario sin autorización explícita.
+- La inclusión parcial o total del software en sistemas, documentos o materiales de acceso privado, cerrado o institucional.
+- El uso del software con fines educativos, administrativos o investigativos dentro de instituciones educativas (públicas o privadas) sin un acuerdo previo.
+
+3. USO EN INSTITUCIONES EDUCATIVAS
+
+El software no puede ser utilizado dentro de ninguna institución educativa sin consentimiento por escrito del equipo desarrollador. El uso podrá estar sujeto a condiciones, incluyendo o no un pago acordado.
+
+4. LIMITACIÓN DE RESPONSABILIDAD
+
+Este software se proporciona "tal cual", sin garantías expresas ni implícitas. Los autores no se hacen responsables por ningún daño directo o indirecto derivado del uso del mismo.
+
+5. ACEPTACIÓN
+
+El uso, copia, instalación o distribución de este software implica la aceptación total de esta licencia. Si no está de acuerdo con los términos, no utilice este software.
+
+Para solicitar autorización, comuníquese con cualquier miembro del equipo mediante sus identificadores o canales oficiales.
+
+
+---
+
+WHICHJOURNAL – RESTRICTED USE LICENSE
+
+Software Authors:
+- Kevin Josué Barba Ramírez (@kevenbarba)
+- Luis Javier Garnica Escamilla (@JaviviDS776)
+- Fabián Emmanuel Candia Villa (@galaxyfab72)
+- Ramón Toribio Rodríguez Gutiérrez (@RamonToribio1403)
+- Santiago Vargas Aceves (@VaacSS)
+
+Copyright (c) [2025] WhichJournal Development Team. All rights reserved.
+
+1. COPYRIGHT
+
+WhichJournal is a collective work. All rights related to the use, reproduction, modification, and distribution of the software are exclusively reserved by its authors.
+
+2. TERMS OF USE
+
+Use of this software is subject to a prior written agreement with the authors. Unauthorized use constitutes a violation of copyright.
+
+The following is strictly prohibited:
+- Modification, copying, reverse engineering, distribution, or redistribution of the source code or binary without explicit authorization.
+- Inclusion of the software (partially or fully) in private, restricted, or institutional systems, documents, or materials.
+- Use of the software for educational, administrative, or research purposes within educational institutions (public or private) without prior agreement.
+
+3. USE IN EDUCATIONAL INSTITUTIONS
+
+This software may not be used within any educational institution without prior written consent from the development team. Use may be subject to conditions, which may or may not include payment.
+
+4. LIMITATION OF LIABILITY
+
+This software is provided "as is", without express or implied warranties. The authors shall not be held liable for any direct or indirect damages resulting from its use.
+
+5. ACCEPTANCE
+
+Using, copying, installing, or distributing this software implies full acceptance of the terms of this license. If you do not agree with the terms, do not use this software.
+
+To request authorization, contact any team member through their identifiers or official communication channels.
