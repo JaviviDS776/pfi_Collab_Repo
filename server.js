@@ -155,10 +155,7 @@ const documentSchema = new mongoose.Schema({
   isStarred: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false }, // Indica si está en papelera
   deletedAt: { type: Date }, // Fecha de eliminación
-<<<<<<< HEAD
   summary: { type: String }, // Añade este campo para el resumen
-=======
->>>>>>> Back/main
 });
 
 // Crear modelos a partir de los esquemas
@@ -199,7 +196,6 @@ app.get("/", (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // Añade al inicio con las otras dependencias
 const axios = require("axios");
 const pdf = require("pdf-parse");
@@ -237,8 +233,6 @@ async function extractTextFromPdf(filePath) {
   }
 }
 
-=======
->>>>>>> Back/main
 // =============================================================================
 // RUTAS DE AUTENTICACIÓN
 // =============================================================================
@@ -398,7 +392,6 @@ app.post(
           .json({ error: "No se ha subido ningún archivo" });
       }
 
-<<<<<<< HEAD
       let summary = "";
 
       // Procesar PDF para extraer texto y generar resumen
@@ -409,8 +402,6 @@ app.post(
         }
       }
 
-=======
->>>>>>> Back/main
       // Crear registro de documento en la base de datos
       const newDocument = new Document({
         name: req.body.name || req.file.originalname,
@@ -423,10 +414,7 @@ app.post(
           ? req.body.tags.split(",").map((tag) => tag.trim())
           : [],
         userId: req.session.userId,
-<<<<<<< HEAD
         summary: summary, // Añadir el resumen
-=======
->>>>>>> Back/main
       });
 
       await newDocument.save();
@@ -472,10 +460,7 @@ app.get("/documents/:id", requireLogin, async (req, res) => {
         isDeleted: document.isDeleted,
         deletedAt: document.deletedAt,
         isStarred: document.isStarred,
-<<<<<<< HEAD
         summary: document.summary, // Añadir el resumen
-=======
->>>>>>> Back/main
       });
     }
 
