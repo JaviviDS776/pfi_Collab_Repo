@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+      animation: fadeIn 1s forwards;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      min-height: 100vh;
+      width: 100vw;
+      background: #F5F4D0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* columnas izquierda/derecha */
+    .left-side, .right-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    /* formulario en la izquierda */
+    .left-side {
+      position: relative;
+      align-items: center;
+    }
+
+    /* panel de bienvenida en la derecha */
+    .right-side {
+      background: linear-gradient(135deg, #f9e79f 0%, #aed6a3 100%);
+      align-items: center;
+      border-radius: 100px 0 0 100px;
+      text-align: center;
+    }
+
+    /* títulos y textos */
+    h1 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #333;
+      text-align: center;
+    }
+
+    .welcome-text {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      text-align: center;
+    }
+
+    .account-text {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    /* inputs y labels */
+    .form-group {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid transparent;
+      background-color: rgba(255,255,255,0.5);
+      border-radius: 50px;
+      outline: none;
+      box-shadow: rgba(0,0,0,0.089) 0px 5px 15px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #aed6a3;
+      outline: none;
+    }
+
+    /* checkbox */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .checkbox-group label {
+      margin-left: 5px;
+      font-size: 14px;
+    }
+
+    /* botón register */
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #f9e79f;
+      border: none;
+      border-radius: 10px;
+      color: #333;
+      font-size: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #f7dc6f;
+    }
+
+    /* link a login */
+    .login-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background-color: #F5F4D0;
+      width: 80%;
+      border: none;
+      border-radius: 10px;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+    .login-btn:hover {
+      background-color: #f3bf6c;
+    }
+
+    /* error fijo (si lo usas) */
+    .error-message { /* ...igual que antes... */ }
+
+    /* animación */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        min-height: 100vh;
+        border-radius: 0;
+      }
+
+      .left-side {
+        min-height: 60vh;
+        justify-content: center;
+        padding-top: 3rem;
+      }
+
+      .right-side {
+        border-radius: 100px 100px 0px 0px;
+        min-height: 40vh;
+        justify-content: center;
+      }
+
+      h1 { font-size: 24px; }
+      .welcome-text { font-size: 28px; }
+      .account-text,
+      label,
+      .checkbox-group label { font-size: 12px; }
+      input { padding: 8px; }
+      button,
+      .login-btn { padding: 10px; font-size: 14px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-side">
+      <div class="welcome-text">Create Account</div>
+      <div class="user-icon">
+        <!-- Imagen SVG o ícono -->
+        <!-- Puedes reemplazar o eliminar el SVG base64 largo si no lo necesitas -->
+        <svg width="100" height="100" viewBox="0 0 100 100" fill="gray" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="30" r="20"/>
+          <rect x="25" y="60" width="50" height="30" rx="15"/>
+        </svg>
+      </div>
+      
+      <form style="width: 100%; max-width: 400px;">
+        <div class="form-group">
+          <label for="name">User:</label>
+          <input type="text" id="name" placeholder="Enter your Username" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" placeholder="Enter your password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="terms" required />
+            <label for="terms">I agree to the terms and conditions</label>
+        </div>
+        <button type="submit">Register Now</button>
+      </form>
+    </div>
+
+    <div class="right-side">
+      <div class="welcome-text">Welcome!</div>
+      <div class="account-text">Already have an account?</div>
+      <a class="login-btn" href="#">Login</a>
+    </div>
+  </div>
+</body>
+</html>
