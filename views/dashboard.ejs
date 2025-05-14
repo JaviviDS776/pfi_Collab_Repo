@@ -50,7 +50,7 @@
         <div class="theme-toggle-container" data-title="Cambiar tema">
           <div class="theme-toggle-label">
             <i class="fas fa-sun"></i>
-            <span>Tema</span>
+
           </div>
           <label class="theme-switch">
             <input type="checkbox" id="theme-toggle">
@@ -153,6 +153,7 @@
                       <%= formatFileSize(doc.fileSize) %>
                     </span>
                   </div>
+
                 </div>
                 <!-- Add star button to card-actions -->
                 <div class="card-actions">
@@ -231,7 +232,11 @@
 
           <div class="form-group">
             <label class="form-label">Etiquetas (separadas por comas)</label>
-            <input type="text" class="form-input" id="input-file-tags">
+            <div class="tag-input-container">
+              <div id="tag-list" class="tag-list"></div>
+              <input type="text" class="form-input" id="tag-input" placeholder="Escribe y presiona Enter">
+              <input type="hidden" id="input-file-tags" name="tags">
+            </div>
           </div>
         </form>
       </div>
@@ -326,7 +331,21 @@
 
         <div class="form-group">
           <label class="form-label">Etiquetas (separadas por comas)</label>
-          <input type="text" class="form-input" id="preview-tags" placeholder="Añade etiquetas separadas por comas">
+          <!-- Apartado de carga de etiquetas -->
+          <div id="preview-tags-loading-info"
+            style="display:none; margin-bottom: 8px; color: #4285f4; font-size: 14px;">
+            <i class="fas fa-spinner fa-spin"></i> Cargando etiquetas...
+          </div>
+          <!-- Barra de progreso para carga de etiquetas -->
+          <div id="preview-tags-loading-bar" class="tags-loading-bar" style="display:none;">
+            <div class="tags-loading-bar-inner"></div>
+          </div>
+          <div class="tag-list" id="preview-tag-list">
+            <!-- Los badges se gestionan por JS -->
+            <input type="text" class="form-input tag-inline-input" id="preview-tag-input"
+              placeholder="Añade etiqueta y presiona Enter" autocomplete="off">
+          </div>
+          <input type="hidden" id="preview-tags" placeholder="Añade etiquetas separadas por comas">
         </div>
 
         <!-- Añade esta sección para mostrar el resumen -->
@@ -431,6 +450,73 @@
       </div>
     </div>
   </div>
+
+  <style>
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .tag-badge {
+      background: #e0e7ef;
+      color: #333;
+      border-radius: 12px;
+      padding: 3px 10px 3px 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      margin-right: 2px;
+      margin-bottom: 2px;
+      cursor: default;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .tag-badge:hover {
+      background: #d1d8e6;
+    }
+
+    .tag-remove {
+      margin-left: 6px;
+      color: #888;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tag-remove:hover {
+      color: #c00;
+    }
+
+    .tag-inline-input {
+      border: 1px solid #e0e7ef;
+      font-size: 13px;
+      padding: 2px 6px;
+      margin-left: 2px;
+      min-width: 40px;
+      background: #FFF;
+    }
+
+    .tags-loading-bar {
+      width: 100%;
+      height: 6px;
+      background: #e0e7ef;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .tags-loading-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4285f4 0%, #6ec6ff 100%);
+      transition: width 0.3s;
+      border-radius: 4px;
+    }
+  </style>
 
   <script src="/js/dashboard.js"></script>
 </body>

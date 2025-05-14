@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
             filesGrid.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-exclamation-circle"></i>
-                            <h3>Error al cargar contenido</h3>
+                            <h3>Error al cargar contenido</3>
                             <p>No se pudo cargar el contenido de esta sección</p>
                         </div>
                     `;
@@ -875,6 +875,16 @@ document.addEventListener("DOMContentLoaded", function () {
       fileIcon.classList.add("fa-file");
     }
 
+    // Mostrar barra de carga de etiquetas
+    const tagsLoadingBar = document.getElementById("preview-tags-loading-bar");
+    const tagsLoadingBarInner = tagsLoadingBar
+      ? tagsLoadingBar.querySelector(".tags-loading-bar-inner")
+      : null;
+    if (tagsLoadingBar && tagsLoadingBarInner) {
+      tagsLoadingBar.style.display = "block";
+      tagsLoadingBarInner.style.width = "30%";
+    }
+
     // Cargar los metadatos del documento primero
     fetch(`/documents/${documentId}`, {
       headers: {
@@ -885,6 +895,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!response.ok) {
           throw new Error("Error al cargar los metadatos del documento");
         }
+        // Simula progreso de carga
+        if (tagsLoadingBarInner) tagsLoadingBarInner.style.width = "60%";
         return response.json();
       })
       .then((data) => {
@@ -1029,8 +1041,112 @@ document.addEventListener("DOMContentLoaded", function () {
               previewIframe.srcdoc = `<div style="padding: 20px; color: red;">Error al cargar el documento: ${error.message}</div>`;
             });
         }
+        // Mostrar badges de etiquetas en el modal de vista previa
+        const badgeContainer = document.getElementById("preview-tag-list");
+        if (badgeContainer && typeof renderTagBadges === "function") {
+          let tags = (data.tags || []).map((t) => t.trim()).filter(Boolean);
+          renderTagBadges(
+            badgeContainer,
+            tags,
+            null,
+            document.getElementById("preview-tags")
+          );
+          // Sincronizar el input de etiquetas con los badges
+          document.getElementById("preview-tags").value = tags.join(", ");
+          // Habilitar el input para añadir etiquetas
+          let tagInput = badgeContainer.querySelector("#preview-tag-input");
+          if (!tagInput) {
+            tagInput = document.createElement("input");
+            tagInput.type = "text";
+            tagInput.className = "form-input tag-inline-input";
+            tagInput.id = "preview-tag-input";
+            tagInput.placeholder = "Añade etiqueta y presiona Enter";
+            tagInput.autocomplete = "off";
+            badgeContainer.appendChild(tagInput);
+          }
+          tagInput.style.display = "inline-block";
+          tagInput.removeAttribute("hidden");
+          tagInput.disabled = false;
+
+          // Configurar eventos solo una vez
+          if (!tagInput.dataset.eventsSet) {
+            let localTags = tags.slice();
+            function syncBadges() {
+              badgeContainer
+                .querySelectorAll(".tag-badge")
+                .forEach((b) => b.remove());
+              localTags.forEach((tag, idx) => {
+                const badge = document.createElement("span");
+                badge.className = "tag-badge";
+                badge.textContent = tag;
+                const remove = document.createElement("span");
+                remove.className = "tag-remove";
+                remove.textContent = "×";
+                remove.title = "Eliminar etiqueta";
+                remove.addEventListener("click", function (e) {
+                  e.stopPropagation();
+                  localTags.splice(idx, 1);
+                  syncBadges();
+                });
+                badge.appendChild(remove);
+                badgeContainer.insertBefore(badge, tagInput);
+              });
+              document.getElementById("preview-tags").value =
+                localTags.join(", ");
+            }
+            tagInput.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
+                e.preventDefault();
+                const value = tagInput.value.replace(/,/g, "");
+                if (value && !localTags.includes(value)) {
+                  localTags.push(value);
+                  syncBadges();
+                }
+                tagInput.value = "";
+              } else if (
+                e.key === "Backspace" &&
+                !tagInput.value &&
+                localTags.length
+              ) {
+                localTags.pop();
+                syncBadges();
+              }
+            });
+            tagInput.addEventListener("paste", function (e) {
+              e.preventDefault();
+              const paste = (e.clipboardData || window.clipboardData).getData(
+                "text"
+              );
+              paste.split(",").forEach((t) => {
+                t = t.trim();
+                if (t && !localTags.includes(t)) localTags.push(t);
+              });
+              syncBadges();
+              tagInput.value = "";
+            });
+            // Al guardar, sincroniza el input oculto
+            document
+              .getElementById("save-preview-button")
+              .addEventListener("click", function () {
+                document.getElementById("preview-tags").value =
+                  localTags.join(", ");
+              });
+            tagInput.dataset.eventsSet = "true";
+            syncBadges();
+          }
+        }
+        // Oculta barra de carga y completa animación
+        if (tagsLoadingBar && tagsLoadingBarInner) {
+          tagsLoadingBarInner.style.width = "100%";
+          setTimeout(() => {
+            tagsLoadingBar.style.display = "none";
+            tagsLoadingBarInner.style.width = "0%";
+          }, 400);
+        }
       })
       .catch((error) => {
+        // Oculta barra de carga en caso de error
+        if (tagsLoadingBar) tagsLoadingBar.style.display = "none";
         console.error("Error:", error);
         alert("Error al cargar el documento: " + error.message);
       });
@@ -1374,6 +1490,191 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Error al actualizar estado destacado");
       });
   }
+
+  // --- BADGES/ETIQUETAS INTUITIVAS ---
+  // Utilidad para crear badges de etiquetas
+  function renderTagBadges(container, tags, input, hiddenInput) {
+    container.innerHTML = "";
+    tags.forEach((tag, idx) => {
+      const badge = document.createElement("span");
+      badge.className = "tag-badge";
+      badge.textContent = tag;
+      const remove = document.createElement("span");
+      remove.className = "tag-remove";
+      remove.textContent = "×";
+      remove.title = "Eliminar etiqueta";
+      remove.addEventListener("click", function (e) {
+        e.stopPropagation();
+        tags.splice(idx, 1);
+        renderTagBadges(container, tags, input, hiddenInput);
+      });
+      badge.appendChild(remove);
+      container.appendChild(badge);
+    });
+    if (hiddenInput) hiddenInput.value = tags.join(", ");
+  }
+
+  // Inicializa el sistema de badges para el modal de documento
+  (function setupTagBadgesForModal() {
+    const tagInput = document.getElementById("tag-input");
+    const tagList = document.getElementById("tag-list");
+    const hiddenTagsInput = document.getElementById("input-file-tags");
+    let tags = [];
+
+    // Sincroniza el input oculto con los badges
+    function syncBadges() {
+      renderTagBadges(tagList, tags, tagInput, hiddenTagsInput);
+    }
+
+    // Añade etiqueta si es válida
+    function addTag(tag) {
+      tag = tag.trim();
+      if (tag && !tags.includes(tag)) {
+        tags.push(tag);
+        syncBadges();
+      }
+    }
+
+    // Maneja el input para añadir etiquetas
+    tagInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
+        e.preventDefault();
+        const value = tagInput.value.replace(/,/g, "");
+        addTag(value);
+        tagInput.value = "";
+      } else if (e.key === "Backspace" && !tagInput.value && tags.length) {
+        tags.pop();
+        syncBadges();
+      }
+    });
+
+    // Permite pegar varias etiquetas separadas por coma
+    tagInput.addEventListener("paste", function (e) {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData("text");
+      paste.split(",").forEach((t) => addTag(t));
+      tagInput.value = "";
+    });
+
+    // Sincroniza badges al abrir el modal (para editar)
+    document.getElementById("file-modal").addEventListener("show", function () {
+      tags = (hiddenTagsInput.value || "")
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+      syncBadges();
+    });
+
+    // Al guardar, sincroniza el input oculto
+    document
+      .getElementById("save-button")
+      .addEventListener("click", function () {
+        hiddenTagsInput.value = tags.join(", ");
+      });
+
+    // Inicializa badges al cargar
+    syncBadges();
+  })();
+
+  // Sistema de badges para el modal de previsualización (input siempre visible y editable)
+  (function setupTagBadgesForPreview() {
+    const previewTagsInput = document.getElementById("preview-tags");
+    const badgeContainer = document.getElementById("preview-tag-list");
+    let tagInput = badgeContainer.querySelector("#preview-tag-input");
+    if (!previewTagsInput || !badgeContainer) return;
+    // Si el input no existe, lo creamos (por si el HTML no lo tiene)
+    if (!tagInput) {
+      tagInput = document.createElement("input");
+      tagInput.type = "text";
+      tagInput.className = "form-input tag-inline-input";
+      tagInput.id = "preview-tag-input";
+      tagInput.placeholder = "Añade etiqueta y presiona Enter";
+      tagInput.autocomplete = "off";
+      badgeContainer.appendChild(tagInput);
+    }
+    let tags = [];
+
+    function addTag(tag) {
+      tag = tag.trim();
+      if (tag && !tags.includes(tag)) {
+        tags.push(tag);
+        syncBadges();
+      }
+    }
+
+    function syncBadges() {
+      badgeContainer.querySelectorAll(".tag-badge").forEach((b) => b.remove());
+      tags.forEach((tag, idx) => {
+        const badge = document.createElement("span");
+        badge.className = "tag-badge";
+        badge.textContent = tag;
+        const remove = document.createElement("span");
+        remove.className = "tag-remove";
+        remove.textContent = "×";
+        remove.title = "Eliminar etiqueta";
+        remove.addEventListener("click", function (e) {
+          e.stopPropagation();
+          tags.splice(idx, 1);
+          syncBadges();
+        });
+        badge.appendChild(remove);
+        badgeContainer.insertBefore(badge, tagInput);
+      });
+      previewTagsInput.value = tags.join(", ");
+    }
+
+    tagInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
+        e.preventDefault();
+        const value = tagInput.value.replace(/,/g, "");
+        addTag(value);
+        tagInput.value = "";
+      } else if (e.key === "Backspace" && !tagInput.value && tags.length) {
+        tags.pop();
+        syncBadges();
+      }
+    });
+
+    tagInput.addEventListener("paste", function (e) {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData("text");
+      paste.split(",").forEach((t) => addTag(t));
+      tagInput.value = "";
+    });
+
+    function showPreviewTags() {
+      tags = (previewTagsInput.value || "")
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+      syncBadges();
+    }
+
+    // Hook en showPreview para actualizar badges al abrir el modal
+    const origShowPreview = window.showPreview;
+    window.showPreview = function () {
+      if (typeof origShowPreview === "function")
+        origShowPreview.apply(this, arguments);
+      showPreviewTags();
+      tagInput.style.display = "inline-block";
+      tagInput.removeAttribute("hidden");
+      tagInput.disabled = false;
+    };
+
+    document
+      .getElementById("save-preview-button")
+      .addEventListener("click", function () {
+        previewTagsInput.value = tags.join(", ");
+      });
+
+    // Inicializa badges al cargar
+    syncBadges();
+    tagInput.style.display = "inline-block";
+    tagInput.removeAttribute("hidden");
+    tagInput.disabled = false;
+  })();
+
+  // --- FIN BADGES/ETIQUETAS INTUITIVAS ---
 });
 document.addEventListener("DOMContentLoaded", function () {
   const themeToggleContainer = document.querySelector(
