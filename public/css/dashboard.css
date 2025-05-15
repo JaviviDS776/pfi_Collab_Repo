@@ -10,31 +10,53 @@ body {
   overflow-x: hidden;
 }
 
+/* MODIFICACIÓN: Contenedor principal con overflow hidden */
 .container {
-  display: flex;
-  min-height: 100vh;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden; /* Evita scroll no deseado en el contenedor */
 }
 
+/* MODIFICACIÓN: Sidebar fija */
 .sidebar {
-  width: 60px;
-  /* Changed from 0 to 60px for mini sidebar mode */
-  background: #d1e1bf;
-  background: linear-gradient(
-    0deg,
-    rgba(209, 225, 191, 1) 0%,
-    rgba(247, 237, 181, 1) 100%
-  );
-  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Improved animation easing */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+    width: 60px;
+    background: linear-gradient(0deg, rgba(209, 225, 191, 1) 0%, rgba(247, 237, 181, 1) 100%);
+    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto; /* Scroll interno si es necesario */
+    display: flex;
+    flex-direction: column;
+    position: sticky; /* Fija la sidebar */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Altura completa */
+    z-index: 100; /* Prioridad sobre otros elementos */
+     overflow-x: hidden;
 }
 
 .sidebar.open {
   width: 250px;
+}
+
+/* MODIFICACIÓN: Main-content desplazable */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* Scroll solo aquí */
+    height: 100vh; /* Altura completa */
+    -webkit-overflow-scrolling: touch; /* Mejor scroll en iOS */
+}
+
+/* MODIFICACIÓN: Header sticky opcional */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky; /* Fija el header */
+    top: 0;
+    background-color: #f8f8e200;
+    z-index: 90; /* Debajo de la sidebar */
+    padding: 10px 0;
 }
 
 /* Add styles for mini sidebar mode */
@@ -245,12 +267,12 @@ body {
   padding: 20px;
 }
 
-.header {
+/* .header {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   position: relative;
-}
+} */
 
 .menu-toggle {
   font-size: 24px;
@@ -723,6 +745,10 @@ body {
   border-radius: 5px;
 }
 
+input#size-max{
+  height: 0px;
+}
+
 .range-input::-webkit-slider-thumb {
   pointer-events: auto;
   appearance: none;
@@ -1045,7 +1071,7 @@ body {
 }
 
 input:checked + .slider {
-  background-color: #71825f;
+  background-color: #7a008d;
 }
 
 input:focus + .slider {
