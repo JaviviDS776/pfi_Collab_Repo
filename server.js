@@ -111,6 +111,13 @@ const requireLogin = (req, res, next) => {
     return res.redirect("/login");
   }
 };
+// Middleware para evitar caché en rutas protegidas
+const noCache = (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  next();
+};
 
 // =============================================================================
 // CONEXIÓN A BASE DE DATOS
@@ -298,6 +305,14 @@ app.post("/register", async (req, res) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
 
+    const passwordPattern =
+      /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]).{8,}$/;
+    if (!passwordPattern.test(password)) {
+      return res.render("register", {
+        error:
+          "La contraseña debe tener al menos 8 caracteres, una mayúscula y un símbolo",
+      });
+    }
     // Validar que las contraseñas coincidan
     if (password !== confirmPassword) {
       return res.render("register", { error: "Las contraseñas no coinciden" });
@@ -344,6 +359,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       console.error("Error al cerrar sesión:", err);
     }
+    res.clearCookie("connect.sid"); // nombre por defecto de cookie de sesión
     res.redirect("/login");
   });
 });
@@ -356,7 +372,7 @@ app.get("/logout", (req, res) => {
  * Dashboard - Página principal después de login
  * Muestra los documentos del usuario (no eliminados)
  */
-app.get("/dashboard", requireLogin, async (req, res) => {
+app.get("/dashboard", requireLogin, noCache, async (req, res) => {
   try {
     // Obtener documentos activos del usuario
     const documents = await Document.find({
@@ -397,6 +413,7 @@ app.post(
       // Procesar PDF para extraer texto y generar resumen
       if (req.file.mimetype === "application/pdf") {
         const text = await extractTextFromPdf(req.file.path);
+
         if (text) {
           summary = await summarizeText(text);
         }

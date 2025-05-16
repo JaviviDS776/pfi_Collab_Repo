@@ -854,11 +854,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("preview-file-name").value = fileName;
 
     const summaryContainer = document.getElementById("summary-container");
-    if (fileName.toLowerCase().endsWith(".pdf")) {
-      summaryContainer.style.display = "block";
-    } else {
-      summaryContainer.style.display = "none";
-    }
+    summaryContainer.style.display = "block";
+
     // Determinar el icono basado en la extensión del archivo
     const fileIcon = document.getElementById("preview-file-icon");
     fileIcon.className = "fas";
@@ -1404,6 +1401,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Actualizar visualización de valores
     document.getElementById("size-min-value").textContent = "0 KB";
     document.getElementById("size-max-value").textContent = "10 MB";
+    location.reload(); // Recargar la página para aplicar los filtros
   });
 
   applyFiltersButton.addEventListener("click", function () {

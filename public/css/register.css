@@ -274,3 +274,10 @@ a {
     font-size: 12px;
   }
 }
+
+.password-requirements {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}

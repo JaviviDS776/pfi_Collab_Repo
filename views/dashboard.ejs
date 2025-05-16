@@ -7,6 +7,15 @@
   <title>Gestor de Documentos</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/dashboard.css">
+  <script>
+    window.addEventListener('pageshow', function (event) {
+      if (event.persisted) {
+        // Si la página fue cargada desde cache (bfcache)
+        window.location.reload();
+      }
+    });
+  </script>
+
 </head>
 
 <body>
@@ -231,7 +240,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Etiquetas (separadas por comas)</label>
+            <label class="form-label">Etiquetas</label>
             <div class="tag-input-container">
               <div id="tag-list" class="tag-list"></div>
               <input type="text" class="form-input" id="tag-input" placeholder="Escribe y presiona Enter">
@@ -330,7 +339,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">Etiquetas (separadas por comas)</label>
+          <label class="form-label">Etiquetas</label>
           <!-- Apartado de carga de etiquetas -->
           <div id="preview-tags-loading-info"
             style="display:none; margin-bottom: 8px; color: #4285f4; font-size: 14px;">
@@ -345,7 +354,7 @@
             <input type="text" class="form-input tag-inline-input" id="preview-tag-input"
               placeholder="Añade etiqueta y presiona Enter" autocomplete="off">
           </div>
-          <input type="hidden" id="preview-tags" placeholder="Añade etiquetas separadas por comas">
+          <input type="hidden" id="preview-tags">
         </div>
 
         <!-- Añade esta sección para mostrar el resumen -->
