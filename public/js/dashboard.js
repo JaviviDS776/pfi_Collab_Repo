@@ -854,8 +854,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("preview-file-name").value = fileName;
 
     const summaryContainer = document.getElementById("summary-container");
-    summaryContainer.style.display = "block";
-
+    if (fileName.toLowerCase().endsWith(".pdf")) {
+      summaryContainer.style.display = "block";
+    } else {
+      summaryContainer.style.display = "none";
+    }
     // Determinar el icono basado en la extensión del archivo
     const fileIcon = document.getElementById("preview-file-icon");
     fileIcon.className = "fas";
@@ -1401,7 +1404,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Actualizar visualización de valores
     document.getElementById("size-min-value").textContent = "0 KB";
     document.getElementById("size-max-value").textContent = "10 MB";
-    location.reload(); // Recargar la página para aplicar los filtros
   });
 
   applyFiltersButton.addEventListener("click", function () {
@@ -1673,6 +1675,67 @@ document.addEventListener("DOMContentLoaded", function () {
   })();
 
   // --- FIN BADGES/ETIQUETAS INTUITIVAS ---
+
+  const downloadSelectedButton = document.getElementById(
+    "download-selected-button"
+  );
+  const fileCheckboxes = document.querySelectorAll(".file-select-checkbox");
+
+  // Actualizar el estado del botón de descarga
+  function updateDownloadButtonState() {
+    const selectedFiles = document.querySelectorAll(
+      ".file-select-checkbox:checked"
+    );
+    downloadSelectedButton.style.display =
+      selectedFiles.length > 0 ? "inline-block" : "none";
+  }
+
+  // Manejar la selección de archivos
+  fileCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", updateDownloadButtonState);
+  });
+
+  // Descargar archivos seleccionados como ZIP
+  downloadSelectedButton.addEventListener("click", async function () {
+    const selectedFiles = document.querySelectorAll(
+      ".file-select-checkbox:checked"
+    );
+    if (selectedFiles.length === 0) return;
+
+    const zip = new JSZip();
+    const promises = [];
+
+    selectedFiles.forEach((checkbox) => {
+      const fileCard = checkbox.closest(".file-card");
+      const documentId = fileCard.dataset.id;
+      let fileName = fileCard.querySelector(".file-name").textContent.trim();
+
+      // Agregar extensión .pdf si no está presente
+      if (!fileName.toLowerCase().endsWith(".pdf")) {
+        fileName += ".pdf";
+      }
+
+      // Descargar cada archivo y añadirlo al ZIP
+      const promise = fetch(`/documents/${documentId}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          zip.file(fileName, blob);
+        });
+      promises.push(promise);
+    });
+
+    // Esperar a que todos los archivos se descarguen
+    await Promise.all(promises);
+
+    // Generar el archivo ZIP y descargarlo
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(content);
+      a.download = "Archivos.zip";
+      a.click();
+      window.location.reload();
+    });
+  });
 });
 document.addEventListener("DOMContentLoaded", function () {
   const themeToggleContainer = document.querySelector(

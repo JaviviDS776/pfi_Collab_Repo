@@ -15,7 +15,7 @@
       }
     });
   </script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 
 <body>
@@ -112,10 +112,9 @@
           <div class="files-header">
             <%= section==='starred' ? 'Documentos destacados' : section==='trash' ? 'Papelera' : 'Mis documentos' %>
           </div>
-
-          <% if (section==='trash' && documents && documents.length> 0) { %>
-            <button id="empty-trash-button" class="empty-trash-button">
-              <i class="fas fa-trash-alt"></i> Vaciar papelera
+          <% if (section !=='trash' ) { %>
+            <button id="download-selected-button" class="download-selected-button" style="display: none;">
+              <i class="fas fa-download"></i> Descargar seleccionados
             </button>
             <% } %>
         </div>
@@ -124,6 +123,7 @@
             <% documents.forEach(function(doc) { %>
               <div class="file-card" data-id="<%= doc._id %>" data-size="<%= doc.fileSize %>"
                 data-date="<%= doc.uploadDate.toISOString().split('T')[0] %>" data-tags="<%= doc.tags.join(',') %>">
+                <input type="checkbox" class="file-select-checkbox" data-id="<%= doc._id %>">
                 <div class="file-thumbnail">
                   <% if (doc.fileType && doc.fileType.includes('image')) { %>
                     <img src="/documents/<%= doc._id %>" alt="<%= doc.name %>" class="file-preview-image">
