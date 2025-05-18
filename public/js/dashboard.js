@@ -173,6 +173,236 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  sectionLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Remove active class from all section items
+      document.querySelectorAll(".section-item").forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      // Add active class to clicked section
+      this.parentElement.classList.add("active");
+
+      // Get the section URL
+      const sectionUrl = this.getAttribute("href");
+
+      // Show loading state
+      filesGrid.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Cargando...</p>
+                </div>
+            `;
+
+      // Fetch the section content
+      fetch(sectionUrl, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      })
+        .then((response) => response.text())
+        .then((html) => {
+          // Create a temporary element to parse the HTML
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = html;
+
+          // Extract the files grid content
+          const newFilesGrid = tempDiv.querySelector("#files-grid");
+
+          if (newFilesGrid) {
+            // Replace the current files grid with the new one
+            filesGrid.innerHTML = newFilesGrid.innerHTML;
+
+            // Update page title if needed
+            const newTitle = tempDiv.querySelector("title");
+            if (newTitle) {
+              document.title = newTitle.textContent;
+            }
+
+            // Update section title based on the clicked link
+            const sectionTitle = document.querySelector(".files-header");
+            if (sectionTitle) {
+              // Get the text content of the clicked link
+              const linkText = this.textContent.trim();
+              sectionTitle.textContent = linkText;
+
+              // Check if we're in the trash section and update the empty trash button
+              const filesHeaderContainer = document.querySelector(
+                ".files-header-container"
+              );
+              const emptyTrashButton =
+                document.getElementById("empty-trash-button");
+
+              if (sectionUrl === "/trash") {
+                // We're in trash section - show empty trash button if there are documents
+                if (newFilesGrid.querySelectorAll(".file-card").length > 0) {
+                  // If button doesn't exist, create it
+                  if (!emptyTrashButton) {
+                    const newButton = document.createElement("button");
+                    newButton.id = "empty-trash-button";
+                    newButton.className = "empty-trash-button";
+                    newButton.innerHTML =
+                      '<i class="fas fa-trash-alt"></i> Vaciar papelera';
+
+                    // Add event listener to the new button
+                    newButton.addEventListener("click", function () {
+                      if (
+                        confirm(
+                          "¿Estás seguro de que deseas vaciar la papelera? Esta acción eliminará permanentemente todos los documentos en la papelera."
+                        )
+                      ) {
+                        emptyTrash();
+                      }
+                    });
+
+                    filesHeaderContainer.appendChild(newButton);
+                  }
+                } else if (emptyTrashButton) {
+                  // No documents in trash, remove button if it exists
+                  emptyTrashButton.remove();
+                }
+              } else {
+                // Not in trash section, remove button if it exists
+                if (emptyTrashButton) {
+                  emptyTrashButton.remove();
+                }
+              }
+            }
+
+            // Update browser URL without reloading
+            window.history.pushState({}, "", sectionUrl);
+
+            // Re-initialize any event listeners for the new content
+            initializeFileCardEvents();
+          } else {
+            filesGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>Error al cargar contenido</h3>
+                            <p>No se pudo cargar el contenido de esta sección</p>
+                        </div>
+                    `;
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading section:", error);
+          filesGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error al cargar contenido</h3>
+                        <p>Ocurrió un error al cargar esta sección</p>
+                    </div>
+                `;
+        });
+
+      if (sectionUrl === "/trash") {
+        // Hide download button and remove checkboxes in trash section
+        downloadSelectedButton.style.display = "none";
+        document
+          .querySelectorAll(".file-select-checkbox")
+          .forEach((checkbox) => {
+            checkbox.style.display = "none";
+          });
+      } else {
+        // Show checkboxes and reset download button state for other sections
+        document
+          .querySelectorAll(".file-select-checkbox")
+          .forEach((checkbox) => {
+            checkbox.style.display = "";
+          });
+        updateDownloadButtonState();
+      }
+    });
+  });
+
+  sectionLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Remove active class from all section items
+      document.querySelectorAll(".section-item").forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      // Add active class to clicked section
+      this.parentElement.classList.add("active");
+
+      // Get the section URL
+      const sectionUrl = this.getAttribute("href");
+
+      // Show loading state
+      filesGrid.innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Cargando...</p>
+        </div>
+      `;
+
+      // Fetch the section content
+      fetch(sectionUrl, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      })
+        .then((response) => response.text())
+        .then((html) => {
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = html;
+
+          const newFilesGrid = tempDiv.querySelector("#files-grid");
+          if (newFilesGrid) {
+            filesGrid.innerHTML = newFilesGrid.innerHTML;
+
+            // Handle trash section logic
+            if (sectionUrl === "/trash") {
+              downloadSelectedButton.style.display = "none";
+              document
+                .querySelectorAll(".file-select-checkbox")
+                .forEach((checkbox) => {
+                  checkbox.style.display = "none";
+                });
+            } else {
+              document
+                .querySelectorAll(".file-select-checkbox")
+                .forEach((checkbox) => {
+                  checkbox.style.display = "";
+                });
+              updateDownloadButtonState();
+            }
+
+            // Initialize tag suggestions after loading new content
+            initializeTagSuggestions();
+
+            // Update browser URL without reloading
+            window.history.pushState({}, "", sectionUrl);
+
+            // Re-initialize any event listeners for the new content
+            initializeFileCardEvents();
+          } else {
+            filesGrid.innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Error al cargar contenido</h3>
+                <p>No se pudo cargar el contenido de esta sección</p>
+              </div>
+            `;
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading section:", error);
+          filesGrid.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-circle"></i>
+              <h3>Error al cargar contenido</h3>
+              <p>Ocurrió un error al cargar esta sección</p>
+            </div>
+          `;
+        });
+    });
+  });
+
   // Function to initialize event listeners for file cards
   function initializeFileCardEvents() {
     // Re-attach event listeners to new file cards if needed
@@ -854,11 +1084,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("preview-file-name").value = fileName;
 
     const summaryContainer = document.getElementById("summary-container");
-    if (fileName.toLowerCase().endsWith(".pdf")) {
-      summaryContainer.style.display = "block";
-    } else {
-      summaryContainer.style.display = "none";
-    }
+    summaryContainer.style.display = "block";
+
     // Determinar el icono basado en la extensión del archivo
     const fileIcon = document.getElementById("preview-file-icon");
     fileIcon.className = "fas";
@@ -1736,6 +1963,77 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.reload();
     });
   });
+
+  // Update the state of the download button when checkboxes are toggled
+  function updateDownloadButtonState() {
+    const selectedFiles = document.querySelectorAll(
+      ".file-select-checkbox:checked"
+    );
+    downloadSelectedButton.style.display =
+      selectedFiles.length > 0 ? "inline-block" : "none";
+  }
+
+  // Attach event listeners to file checkboxes
+  document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("file-select-checkbox")) {
+      updateDownloadButtonState();
+    }
+  });
+
+  // Handle multiple file downloads as a ZIP
+  downloadSelectedButton.addEventListener("click", async function () {
+    const selectedFiles = document.querySelectorAll(
+      ".file-select-checkbox:checked"
+    );
+    if (selectedFiles.length === 0) return;
+
+    const zip = new JSZip();
+    const promises = [];
+
+    selectedFiles.forEach((checkbox) => {
+      const fileCard = checkbox.closest(".file-card");
+      const documentId = fileCard.dataset.id;
+      let fileName = fileCard.querySelector(".file-name").textContent.trim();
+
+      // Ensure file has an extension
+      if (!fileName.includes(".")) {
+        fileName += ".file";
+      }
+
+      // Fetch each file and add it to the ZIP
+      const promise = fetch(`/documents/${documentId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch document: ${fileName}`);
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          zip.file(fileName, blob);
+        })
+        .catch((error) => {
+          console.error("Error fetching file:", error);
+        });
+
+      promises.push(promise);
+    });
+
+    // Wait for all files to be added to the ZIP
+    await Promise.all(promises);
+
+    // Generate and download the ZIP file
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(content);
+      a.download = "Archivos.zip";
+      a.click();
+    });
+  });
+
+  // Initialize the state of the download button on page load
+  document.addEventListener("DOMContentLoaded", function () {
+    updateDownloadButtonState();
+  });
 });
 document.addEventListener("DOMContentLoaded", function () {
   const themeToggleContainer = document.querySelector(
@@ -1881,6 +2179,7 @@ function emptyTrash() {
       } else {
         alert("Error al vaciar la papelera: " + data.error);
       }
+      location.reload();
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -1926,4 +2225,243 @@ function deleteDocument(documentId, fileCard) {
       fileCard.classList.remove("deleting");
       alert("Error al eliminar el documento");
     });
+}
+
+// Add tag suggestion functionality after your existing code
+document.addEventListener("DOMContentLoaded", function () {
+  // Initialize tag suggestions on page load
+  initializeTagSuggestions();
+});
+
+// Function to initialize tag suggestions
+function initializeTagSuggestions() {
+  // Get all unique tags from documents
+  const allTags = getAllUniqueTags();
+
+  // Initialize suggestions for document upload modal
+  setupTagSuggestions("tag-input", "tag-list", allTags);
+
+  // Initialize suggestions for preview modal
+  setupTagSuggestions("preview-tag-input", "preview-tag-list", allTags);
+}
+
+// Function to get all unique tags from document cards
+function getAllUniqueTags() {
+  const uniqueTags = new Set();
+
+  // Collect tags from all file cards
+  document.querySelectorAll(".file-card").forEach((card) => {
+    const tagString = card.dataset.tags;
+    if (tagString) {
+      tagString.split(",").forEach((tag) => {
+        if (tag.trim()) uniqueTags.add(tag.trim());
+      });
+    }
+  });
+
+  return Array.from(uniqueTags).sort();
+}
+
+// Function to setup tag suggestions for a specific input
+function setupTagSuggestions(inputId, listId, allTags) {
+  const tagInput = document.getElementById(inputId);
+  const suggestionContainer = tagInput
+    ? tagInput.parentElement.querySelector(".tag-suggestions")
+    : null;
+
+  if (!tagInput || !suggestionContainer) return;
+
+  // Clear any existing event listeners (to prevent duplicates)
+  tagInput.removeEventListener("input", tagInput.suggestionHandler);
+  document.removeEventListener("click", tagInput.documentClickHandler);
+
+  // Handler for input events
+  tagInput.suggestionHandler = function () {
+    const value = this.value.toLowerCase().trim();
+
+    // Hide suggestions if empty
+    if (!value) {
+      suggestionContainer.style.display = "none";
+      return;
+    }
+
+    // Filter tags based on input
+    const filteredTags = allTags.filter(
+      (tag) =>
+        tag.toLowerCase().includes(value) &&
+        !getExistingTags(listId).includes(tag.toLowerCase())
+    );
+
+    // Show or hide suggestions based on matches
+    if (filteredTags.length > 0) {
+      showSuggestions(suggestionContainer, filteredTags, this, listId);
+    } else {
+      suggestionContainer.style.display = "none";
+    }
+  };
+
+  // Document click handler to close suggestions
+  tagInput.documentClickHandler = function (e) {
+    if (
+      !tagInput.contains(e.target) &&
+      !suggestionContainer.contains(e.target)
+    ) {
+      suggestionContainer.style.display = "none";
+    }
+  };
+
+  // Add event listeners
+  tagInput.addEventListener("input", tagInput.suggestionHandler);
+  document.addEventListener("click", tagInput.documentClickHandler);
+
+  // Handle keyboard navigation
+  tagInput.addEventListener("keydown", function (e) {
+    // Skip if suggestions are hidden
+    if (suggestionContainer.style.display === "none") return;
+
+    const suggestions = suggestionContainer.querySelectorAll(".tag-suggestion");
+    if (!suggestions.length) return;
+
+    // Find currently focused item
+    const focusedIndex = Array.from(suggestions).findIndex(
+      (item) =>
+        item === document.activeElement || item.classList.contains("focused")
+    );
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        navigateSuggestion(suggestions, focusedIndex, 1);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        navigateSuggestion(suggestions, focusedIndex, -1);
+        break;
+      case "Enter":
+        // If a suggestion is focused, select it
+        if (focusedIndex >= 0) {
+          e.preventDefault();
+          selectSuggestion(suggestions[focusedIndex], tagInput, listId);
+        }
+        break;
+      case "Escape":
+        e.preventDefault();
+        suggestionContainer.style.display = "none";
+        break;
+    }
+  });
+}
+
+// Helper function to get existing tags in a list
+function getExistingTags(listId) {
+  const tagList = document.getElementById(listId);
+  const existingTags = [];
+
+  if (tagList) {
+    tagList.querySelectorAll(".tag-badge").forEach((badge) => {
+      existingTags.push(
+        badge.textContent.replace("×", "").trim().toLowerCase()
+      );
+    });
+  }
+
+  return existingTags;
+}
+
+// Function to show tag suggestions
+function showSuggestions(container, tags, inputElement, listId) {
+  // Clear previous suggestions
+  container.innerHTML = "";
+
+  // Create suggestion elements
+  tags.slice(0, 5).forEach((tag) => {
+    const suggestion = document.createElement("div");
+    suggestion.className = "tag-suggestion";
+    suggestion.textContent = tag;
+    suggestion.setAttribute("tabindex", "0");
+
+    suggestion.addEventListener("click", function () {
+      selectSuggestion(this, inputElement, listId);
+    });
+
+    container.appendChild(suggestion);
+  });
+
+  // Position and show container just below the input
+  // Get input's position relative to the parent with position: relative
+  const parentRect = inputElement.offsetParent
+    ? inputElement.offsetParent.getBoundingClientRect()
+    : { top: 0, left: 0 };
+  const inputRect = inputElement.getBoundingClientRect();
+
+  // Calculate top and left relative to offsetParent
+  const top = inputRect.bottom - parentRect.top + 2; // 2px gap
+  const left = inputRect.left - parentRect.left;
+
+  container.style.position = "absolute";
+  container.style.top = `${top}px`;
+  container.style.left = `${left}px`;
+  container.style.minWidth = `${inputRect.width}px`;
+  container.style.zIndex = 1000;
+  container.style.display = "block";
+}
+
+// Function to navigate between suggestions with keyboard
+function navigateSuggestion(suggestions, currentIndex, direction) {
+  // Remove focus from current item
+  if (currentIndex >= 0 && currentIndex < suggestions.length) {
+    suggestions[currentIndex].classList.remove("focused");
+  }
+
+  // Calculate new index
+  let newIndex = currentIndex + direction;
+  if (newIndex < 0) newIndex = suggestions.length - 1;
+  if (newIndex >= suggestions.length) newIndex = 0;
+
+  // Focus new item
+  suggestions[newIndex].classList.add("focused");
+  suggestions[newIndex].focus();
+}
+
+// Function to select a tag suggestion
+function selectSuggestion(suggestionElement, inputElement, listId) {
+  // Get the tag value
+  const tagValue = suggestionElement.textContent.trim();
+
+  // Find input container and trigger tag addition
+  const tagList = document.getElementById(listId);
+  const parent = inputElement.parentElement;
+
+  // Different handling for preview and modal
+  if (listId === "preview-tag-list") {
+    // Get current tags
+    const currentTags = getExistingTags(listId);
+    currentTags.push(tagValue);
+
+    // Update preview-tags field
+    document.getElementById("preview-tags").value = currentTags.join(", ");
+
+    // Trigger tag update
+    const tagBadges = tagList.querySelectorAll(".tag-badge");
+    if (tagBadges.length > 0) {
+      // Need to trigger update through manually adding
+      inputElement.value = tagValue;
+      const keyEvent = new KeyboardEvent("keydown", { key: "Enter" });
+      inputElement.dispatchEvent(keyEvent);
+    } else {
+      // Manually add the tag
+      const event = new Event("input");
+      document.getElementById("preview-tags").dispatchEvent(event);
+    }
+  } else {
+    // For regular upload modal
+    inputElement.value = tagValue;
+    const keyEvent = new KeyboardEvent("keydown", { key: "Enter" });
+    inputElement.dispatchEvent(keyEvent);
+  }
+
+  // Clear input and hide suggestions
+  inputElement.value = "";
+  parent.querySelector(".tag-suggestions").style.display = "none";
+  inputElement.focus();
 }

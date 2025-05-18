@@ -123,82 +123,84 @@
             <% documents.forEach(function(doc) { %>
               <div class="file-card" data-id="<%= doc._id %>" data-size="<%= doc.fileSize %>"
                 data-date="<%= doc.uploadDate.toISOString().split('T')[0] %>" data-tags="<%= doc.tags.join(',') %>">
-                <input type="checkbox" class="file-select-checkbox" data-id="<%= doc._id %>">
-                <div class="file-thumbnail">
-                  <% if (doc.fileType && doc.fileType.includes('image')) { %>
-                    <img src="/documents/<%= doc._id %>" alt="<%= doc.name %>" class="file-preview-image">
-                    <% } else { %>
-                      <div class="file-preview-placeholder">
-                        <span class="file-name-preview">
-                          <%= doc.name.split('.').pop().toUpperCase() %>
-                        </span>
-                      </div>
-                      <% } %>
-                        <div class="file-type-indicator">
-                          <% if (doc.fileType && doc.fileType.includes('pdf')) { %>
-                            <i class="fas fa-file-pdf"></i>
-                            <% } else if (doc.fileType && doc.fileType.includes('image')) { %>
-                              <i class="fas fa-file-image"></i>
-                              <% } else if (doc.fileType && (doc.fileType.includes('word') ||
-                                doc.fileType.includes('document'))) { %>
-                                <i class="fas fa-file-word"></i>
-                                <% } else if (doc.fileType && (doc.fileType.includes('excel') ||
-                                  doc.fileType.includes('sheet'))) { %>
-                                  <i class="fas fa-file-excel"></i>
-                                  <% } else { %>
-                                    <i class="fas fa-file"></i>
-                                    <% } %>
-                        </div>
-                </div>
-                <div class="file-info">
-                  <div class="file-name">
-                    <%= doc.name %>
-                  </div>
-                  <div class="file-details">
-                    <span class="file-date">
-                      <%= new Date(doc.uploadDate).toLocaleDateString() %>
-                    </span>
-                    <span class="file-size">
-                      <%= formatFileSize(doc.fileSize) %>
-                    </span>
-                  </div>
-
-                </div>
-                <!-- Add star button to card-actions -->
-                <div class="card-actions">
-                  <div class="action-button preview-button" title="Ver">
-                    <i class="fas fa-eye"></i>
-                  </div>
-
-                  <% if (section !=='trash' ) { %>
-                    <!-- Only show star button for non-trash items -->
-                    <div class="action-button star-button"
-                      title="<%= doc.isStarred ? 'Quitar de destacados' : 'Destacar' %>" data-id="<%= doc._id %>"
-                      data-starred="<%= doc.isStarred ? 'true' : 'false' %>">
-                      <i class="<%= doc.isStarred ? 'fas fa-star' : 'far fa-star' %>"></i>
-                    </div>
-                    <% } %>
-
-                      <div class="action-button fullscreen-button" title="Pantalla completa">
-                        <i class="fas fa-expand"></i>
-                      </div>
-
-                      <% if (section==='trash' ) { %>
-                        <!-- Show restore button for trash items -->
-                        <div class="action-button restore-button" title="Restaurar">
-                          <i class="fas fa-undo"></i>
-                        </div>
-                        <!-- Show permanent delete button for trash items -->
-                        <div class="action-button permanent-delete-button" title="Eliminar permanentemente">
-                          <i class="fas fa-trash-alt"></i>
-                        </div>
+                <% if (section !=='trash' ) { %>
+                  <input type="checkbox" class="file-select-checkbox" data-id="<%= doc._id %>">
+                  <% } %>
+                    <div class="file-thumbnail">
+                      <% if (doc.fileType && doc.fileType.includes('image')) { %>
+                        <img src="/documents/<%= doc._id %>" alt="<%= doc.name %>" class="file-preview-image">
                         <% } else { %>
-                          <!-- Show regular delete button for non-trash items -->
-                          <div class="action-button delete-button" title="Mover a papelera">
-                            <i class="fas fa-trash"></i>
+                          <div class="file-preview-placeholder">
+                            <span class="file-name-preview">
+                              <%= doc.name.split('.').pop().toUpperCase() %>
+                            </span>
                           </div>
                           <% } %>
-                </div>
+                            <div class="file-type-indicator">
+                              <% if (doc.fileType && doc.fileType.includes('pdf')) { %>
+                                <i class="fas fa-file-pdf"></i>
+                                <% } else if (doc.fileType && doc.fileType.includes('image')) { %>
+                                  <i class="fas fa-file-image"></i>
+                                  <% } else if (doc.fileType && (doc.fileType.includes('word') ||
+                                    doc.fileType.includes('document'))) { %>
+                                    <i class="fas fa-file-word"></i>
+                                    <% } else if (doc.fileType && (doc.fileType.includes('excel') ||
+                                      doc.fileType.includes('sheet'))) { %>
+                                      <i class="fas fa-file-excel"></i>
+                                      <% } else { %>
+                                        <i class="fas fa-file"></i>
+                                        <% } %>
+                            </div>
+                    </div>
+                    <div class="file-info">
+                      <div class="file-name">
+                        <%= doc.name %>
+                      </div>
+                      <div class="file-details">
+                        <span class="file-date">
+                          <%= new Date(doc.uploadDate).toLocaleDateString() %>
+                        </span>
+                        <span class="file-size">
+                          <%= formatFileSize(doc.fileSize) %>
+                        </span>
+                      </div>
+
+                    </div>
+                    <!-- Add star button to card-actions -->
+                    <div class="card-actions">
+                      <div class="action-button preview-button" title="Ver">
+                        <i class="fas fa-eye"></i>
+                      </div>
+
+                      <% if (section !=='trash' ) { %>
+                        <!-- Only show star button for non-trash items -->
+                        <div class="action-button star-button"
+                          title="<%= doc.isStarred ? 'Quitar de destacados' : 'Destacar' %>" data-id="<%= doc._id %>"
+                          data-starred="<%= doc.isStarred ? 'true' : 'false' %>">
+                          <i class="<%= doc.isStarred ? 'fas fa-star' : 'far fa-star' %>"></i>
+                        </div>
+                        <% } %>
+
+                          <div class="action-button fullscreen-button" title="Pantalla completa">
+                            <i class="fas fa-expand"></i>
+                          </div>
+
+                          <% if (section==='trash' ) { %>
+                            <!-- Show restore button for trash items -->
+                            <div class="action-button restore-button" title="Restaurar">
+                              <i class="fas fa-undo"></i>
+                            </div>
+                            <!-- Show permanent delete button for trash items -->
+                            <div class="action-button permanent-delete-button" title="Eliminar permanentemente">
+                              <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <% } else { %>
+                              <!-- Show regular delete button for non-trash items -->
+                              <div class="action-button delete-button" title="Mover a papelera">
+                                <i class="fas fa-trash"></i>
+                              </div>
+                              <% } %>
+                    </div>
               </div><!-- Removed the extra closing div that was here -->
               <% }); %>
                 <% } else { %>
@@ -244,6 +246,7 @@
             <div class="tag-input-container">
               <div id="tag-list" class="tag-list"></div>
               <input type="text" class="form-input" id="tag-input" placeholder="Escribe y presiona Enter">
+              <div class="tag-suggestions"></div> <!-- Added for suggestions -->
               <input type="hidden" id="input-file-tags" name="tags">
             </div>
           </div>
@@ -353,6 +356,7 @@
             <!-- Los badges se gestionan por JS -->
             <input type="text" class="form-input tag-inline-input" id="preview-tag-input"
               placeholder="Añade etiqueta y presiona Enter" autocomplete="off">
+            <div class="tag-suggestions"></div> <!-- Added for suggestions -->
           </div>
           <input type="hidden" id="preview-tags">
         </div>
@@ -502,7 +506,7 @@
     .tag-inline-input {
       border: 1px solid #e0e7ef;
       font-size: 13px;
-      padding: 2px 6px;
+      padding: 10px 10px 10px 10px;
       margin-left: 2px;
       min-width: 40px;
       background: #FFF;

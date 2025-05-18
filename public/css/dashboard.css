@@ -1706,7 +1706,7 @@ body.dark-theme .sidebar:not(.open) .logout-button:hover {
   padding: 8px 16px;
   font-size: 14px;
   cursor: pointer;
-  display: flex;
+  display: none; /* Initially hidden */
   align-items: center;
   gap: 8px;
   transition: background-color 0.2s;
@@ -1729,13 +1729,11 @@ body.dark-theme .sidebar:not(.open) .logout-button:hover {
   margin-bottom: 15px;
 }
 
-/* ...existing code... */
-
-.files-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+/* Asegura que el contenedor de input de etiquetas sea relativo para el menú de sugerencias */
+.tag-input-container,
+#tag-list,
+#preview-tag-list {
+  position: relative;
 }
 
 .empty-trash-button {
@@ -2023,6 +2021,29 @@ body.dark-theme .loading-state p {
 
 .dark-theme .tag-item .remove-tag:hover {
   color: #fff;
+}
+
+/* Add styles for the tag suggestion dropdown */
+.tag-suggestions {
+  position: absolute;
+  background: #1f1f1f;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.tag-suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tag-suggestion:hover {
+  background: #3a3a3a;
 }
 
 /* Media Queries para Responsividad */
