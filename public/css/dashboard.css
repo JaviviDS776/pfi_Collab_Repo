@@ -400,6 +400,7 @@ body {
 .file-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .file-thumbnail {
@@ -1721,6 +1722,22 @@ body.dark-theme .sidebar:not(.open) .logout-button:hover {
   cursor: not-allowed;
 }
 
+/* Dark theme styles for download selected button */
+body.dark-theme .download-selected-button {
+  background-color: #9334a8;
+  color: #fff;
+}
+
+body.dark-theme .download-selected-button:hover {
+  background-color: #b96eee;
+}
+
+body.dark-theme .download-selected-button:disabled {
+  background-color: #444;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
 /* Ajustar el contenedor de los encabezados para incluir el botón */
 .files-header-container {
   display: flex;
@@ -2025,7 +2042,7 @@ body.dark-theme .loading-state p {
 
 /* Add styles for the tag suggestion dropdown */
 .tag-suggestions {
-  position: absolute;
+  position: relative;
   background: #1f1f1f;
   border: 1px solid #ccc;
   border-radius: 4px;

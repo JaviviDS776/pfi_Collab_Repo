@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.history.pushState({}, "", sectionUrl);
 
             // Re-initialize any event listeners for the new content
+            initializeTagSuggestions();
             initializeFileCardEvents();
           } else {
             filesGrid.innerHTML = `
@@ -275,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.history.pushState({}, "", sectionUrl);
 
             // Re-initialize any event listeners for the new content
+            initializeTagSuggestions();
             initializeFileCardEvents();
           } else {
             filesGrid.innerHTML = `
@@ -927,6 +929,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Manejar clics en las acciones de las tarjetas de archivos
   document.addEventListener("click", function (e) {
+    // Abrir preview al hacer clic en la card (excepto si es un botón de acción o checkbox)
+    const fileCard = e.target.closest(".file-card");
+    if (
+      fileCard &&
+      !e.target.closest(".card-actions") &&
+      !e.target.classList.contains("file-select-checkbox")
+    ) {
+      const documentId = fileCard.dataset.id;
+      const fileName = fileCard.querySelector(".file-name").textContent.trim();
+      showPreview(documentId, fileName);
+      return; // Evita que otros handlers de click actúen
+    }
+
     // Botón de vista previa
     if (e.target.closest(".preview-button")) {
       const fileCard = e.target.closest(".file-card");
@@ -1294,10 +1309,9 @@ document.addEventListener("DOMContentLoaded", function () {
           tagInput.style.display = "inline-block";
           tagInput.removeAttribute("hidden");
           tagInput.disabled = false;
-
+          let localTags = tags.slice();
           // Configurar eventos solo una vez
           if (!tagInput.dataset.eventsSet) {
-            let localTags = tags.slice();
             function syncBadges() {
               badgeContainer
                 .querySelectorAll(".tag-badge")
@@ -1361,6 +1375,113 @@ document.addEventListener("DOMContentLoaded", function () {
             tagInput.dataset.eventsSet = "true";
             syncBadges();
           }
+
+          // --- INICIO: Sugerencias de etiquetas en modal de preview ---
+          // Obtiene todas las etiquetas únicas
+          const allTags =
+            typeof getAllUniqueTags === "function" ? getAllUniqueTags() : [];
+          // Busca o crea el contenedor de sugerencias
+          let suggestionContainer =
+            tagInput.parentElement.querySelector(".tag-suggestions");
+          if (!suggestionContainer) {
+            suggestionContainer = document.createElement("div");
+            suggestionContainer.className = "tag-suggestions";
+            tagInput.parentElement.appendChild(suggestionContainer);
+          }
+          // Limpia eventos previos
+          tagInput.removeEventListener("input", tagInput.suggestionHandler);
+          document.removeEventListener("click", tagInput.documentClickHandler);
+
+          // Handler para mostrar sugerencias
+          tagInput.suggestionHandler = function () {
+            const value = this.value.toLowerCase().trim();
+            if (!value) {
+              suggestionContainer.style.display = "none";
+              return;
+            }
+            // Filtra etiquetas que no estén ya presentes
+            const filteredTags = allTags.filter(
+              (tag) =>
+                tag.toLowerCase().includes(value) &&
+                !localTags
+                  .map((t) => t.toLowerCase())
+                  .includes(tag.toLowerCase())
+            );
+            if (filteredTags.length > 0) {
+              suggestionContainer.innerHTML = "";
+              filteredTags.slice(0, 5).forEach((tag) => {
+                const suggestion = document.createElement("div");
+                suggestion.className = "tag-suggestion";
+                suggestion.textContent = tag;
+                suggestion.setAttribute("tabindex", "0");
+                suggestion.addEventListener("click", function () {
+                  if (!localTags.includes(tag)) {
+                    localTags.push(tag);
+                    syncBadges();
+                  }
+                  tagInput.value = "";
+                  suggestionContainer.style.display = "none";
+                  tagInput.focus();
+                });
+                suggestionContainer.appendChild(suggestion);
+              });
+              suggestionContainer.style.display = "block";
+            } else {
+              suggestionContainer.style.display = "none";
+            }
+          };
+          tagInput.addEventListener("input", tagInput.suggestionHandler);
+
+          // Cierra sugerencias al hacer click fuera
+          tagInput.documentClickHandler = function (e) {
+            if (
+              !tagInput.contains(e.target) &&
+              !suggestionContainer.contains(e.target)
+            ) {
+              suggestionContainer.style.display = "none";
+            }
+          };
+          document.addEventListener("click", tagInput.documentClickHandler);
+
+          // Navegación con teclado
+          tagInput.addEventListener("keydown", function (e) {
+            if (suggestionContainer.style.display === "none") return;
+            const suggestions =
+              suggestionContainer.querySelectorAll(".tag-suggestion");
+            if (!suggestions.length) return;
+            const focusedIndex = Array.from(suggestions).findIndex(
+              (item) =>
+                item === document.activeElement ||
+                item.classList.contains("focused")
+            );
+            switch (e.key) {
+              case "ArrowDown":
+                e.preventDefault();
+                let next = (focusedIndex + 1) % suggestions.length;
+                suggestions.forEach((s) => s.classList.remove("focused"));
+                suggestions[next].classList.add("focused");
+                suggestions[next].focus();
+                break;
+              case "ArrowUp":
+                e.preventDefault();
+                let prev =
+                  (focusedIndex - 1 + suggestions.length) % suggestions.length;
+                suggestions.forEach((s) => s.classList.remove("focused"));
+                suggestions[prev].classList.add("focused");
+                suggestions[prev].focus();
+                break;
+              case "Enter":
+                if (focusedIndex >= 0) {
+                  e.preventDefault();
+                  suggestions[focusedIndex].click();
+                }
+                break;
+              case "Escape":
+                suggestionContainer.style.display = "none";
+                break;
+            }
+          });
+          // --- FIN: Sugerencias de etiquetas en modal de preview ---
         }
         // Oculta barra de carga y completa animación
         if (tagsLoadingBar && tagsLoadingBarInner) {
@@ -1631,11 +1752,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Actualizar visualización de valores
     document.getElementById("size-min-value").textContent = "0 KB";
     document.getElementById("size-max-value").textContent = "10 MB";
+    applyFiltersAndSearch();
   });
 
   applyFiltersButton.addEventListener("click", function () {
     applyFiltersAndSearch();
-    filterModal.style.display = "none";
   });
 
   // Configurar sliders de tamaño
@@ -1672,7 +1793,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Cerrar sesión
   logoutButton.addEventListener("click", function () {
-    window.location.href = "/logout";
+    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+      window.location.href = "/logout";
+    }
   });
 
   // Variable para almacenar el archivo actual
@@ -2179,7 +2302,6 @@ function emptyTrash() {
       } else {
         alert("Error al vaciar la papelera: " + data.error);
       }
-      location.reload();
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -2231,6 +2353,26 @@ function deleteDocument(documentId, fileCard) {
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize tag suggestions on page load
   initializeTagSuggestions();
+
+  // --- NUEVO: Inicializar sugerencias en el modal de preview cada vez que se abre ---
+  // Hook para re-inicializar sugerencias cuando se muestra el modal de preview
+  const previewModal = document.getElementById("preview-modal");
+  const previewTagInput = document.getElementById("preview-tag-input");
+  if (previewModal && previewTagInput) {
+    // Cuando se abre el modal de preview, vuelve a inicializar sugerencias
+    const observer = new MutationObserver(() => {
+      if (previewModal.style.display === "block") {
+        // Recolecta todas las etiquetas únicas actuales
+        const allTags = getAllUniqueTags();
+        setupTagSuggestions("preview-tag-input", "preview-tag-list", allTags);
+      }
+    });
+    observer.observe(previewModal, {
+      attributes: true,
+      attributeFilter: ["style"],
+    });
+  }
+  // --- FIN NUEVO ---
 });
 
 // Function to initialize tag suggestions
@@ -2245,15 +2387,40 @@ function initializeTagSuggestions() {
   setupTagSuggestions("preview-tag-input", "preview-tag-list", allTags);
 }
 
-// Function to get all unique tags from document cards
+// Function to get all unique tags from ALL sources in the app (not solo file cards)
 function getAllUniqueTags() {
   const uniqueTags = new Set();
 
-  // Collect tags from all file cards
+  // 1. Tags from file cards (main source)
   document.querySelectorAll(".file-card").forEach((card) => {
     const tagString = card.dataset.tags;
     if (tagString) {
       tagString.split(",").forEach((tag) => {
+        if (tag.trim()) uniqueTags.add(tag.trim());
+      });
+    }
+  });
+
+  // 2. Tags from tag badges in modals (upload/edit modal)
+  document.querySelectorAll("#tag-list .tag-badge").forEach((badge) => {
+    const tag = badge.textContent.replace("×", "").trim();
+    if (tag) uniqueTags.add(tag);
+  });
+
+  // 3. Tags from tag badges in preview modal
+  document.querySelectorAll("#preview-tag-list .tag-badge").forEach((badge) => {
+    const tag = badge.textContent.replace("×", "").trim();
+    if (tag) uniqueTags.add(tag);
+  });
+
+  // 4. Tags from hidden inputs (in case not rendered as badges yet)
+  const tagInputs = [
+    document.getElementById("input-file-tags"),
+    document.getElementById("preview-tags"),
+  ];
+  tagInputs.forEach((input) => {
+    if (input && input.value) {
+      input.value.split(",").forEach((tag) => {
         if (tag.trim()) uniqueTags.add(tag.trim());
       });
     }
@@ -2265,9 +2432,19 @@ function getAllUniqueTags() {
 // Function to setup tag suggestions for a specific input
 function setupTagSuggestions(inputId, listId, allTags) {
   const tagInput = document.getElementById(inputId);
-  const suggestionContainer = tagInput
-    ? tagInput.parentElement.querySelector(".tag-suggestions")
-    : null;
+  // Cambia la forma de obtener el contenedor de sugerencias para el preview modal
+  let suggestionContainer = null;
+  if (tagInput) {
+    // Busca el .tag-suggestions dentro del mismo contenedor padre
+    suggestionContainer =
+      tagInput.parentElement.querySelector(".tag-suggestions");
+    // Si no existe (por ejemplo, en el preview modal), créalo dinámicamente
+    if (!suggestionContainer) {
+      suggestionContainer = document.createElement("div");
+      suggestionContainer.className = "tag-suggestions";
+      tagInput.parentElement.appendChild(suggestionContainer);
+    }
+  }
 
   if (!tagInput || !suggestionContainer) return;
 
@@ -2387,22 +2564,7 @@ function showSuggestions(container, tags, inputElement, listId) {
     container.appendChild(suggestion);
   });
 
-  // Position and show container just below the input
-  // Get input's position relative to the parent with position: relative
-  const parentRect = inputElement.offsetParent
-    ? inputElement.offsetParent.getBoundingClientRect()
-    : { top: 0, left: 0 };
-  const inputRect = inputElement.getBoundingClientRect();
-
-  // Calculate top and left relative to offsetParent
-  const top = inputRect.bottom - parentRect.top + 2; // 2px gap
-  const left = inputRect.left - parentRect.left;
-
-  container.style.position = "absolute";
-  container.style.top = `${top}px`;
-  container.style.left = `${left}px`;
-  container.style.minWidth = `${inputRect.width}px`;
-  container.style.zIndex = 1000;
+  // Position and show container
   container.style.display = "block";
 }
 
@@ -2465,3 +2627,24 @@ function selectSuggestion(suggestionElement, inputElement, listId) {
   parent.querySelector(".tag-suggestions").style.display = "none";
   inputElement.focus();
 }
+
+// Cerrar modales al hacer clic fuera de su contenido
+function setupModalCloseOnOutsideClick(modalId) {
+  const modal = document.getElementById(modalId);
+  if (!modal) return;
+  modal.addEventListener("mousedown", function (e) {
+    // Solo cerrar si el click es directamente sobre el fondo del modal
+    if (e.target === modal) {
+      modal.style.display = "none";
+      // Limpia el iframe si es el de preview
+      if (modalId === "preview-modal") {
+        const iframe = document.getElementById("preview-iframe");
+        if (iframe) iframe.src = "";
+      }
+    }
+  });
+}
+
+setupModalCloseOnOutsideClick("preview-modal");
+setupModalCloseOnOutsideClick("filter-modal");
+setupModalCloseOnOutsideClick("profile-modal");

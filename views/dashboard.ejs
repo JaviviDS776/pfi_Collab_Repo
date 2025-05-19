@@ -168,9 +168,7 @@
                     </div>
                     <!-- Add star button to card-actions -->
                     <div class="card-actions">
-                      <div class="action-button preview-button" title="Ver">
-                        <i class="fas fa-eye"></i>
-                      </div>
+
 
                       <% if (section !=='trash' ) { %>
                         <!-- Only show star button for non-trash items -->
@@ -355,9 +353,10 @@
           <div class="tag-list" id="preview-tag-list">
             <!-- Los badges se gestionan por JS -->
             <input type="text" class="form-input tag-inline-input" id="preview-tag-input"
-              placeholder="Añade etiqueta y presiona Enter" autocomplete="off">
-            <div class="tag-suggestions"></div> <!-- Added for suggestions -->
+              placeholder="Añade etiqueta y presiona Enter">
+            <div class="tag-suggestions"></div> <!-- Añadido para sugerencias -->
           </div>
+
           <input type="hidden" id="preview-tags">
         </div>
 
