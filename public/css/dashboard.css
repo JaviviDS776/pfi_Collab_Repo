@@ -2043,7 +2043,7 @@ body.dark-theme .loading-state p {
 /* Add styles for the tag suggestion dropdown */
 .tag-suggestions {
   position: relative;
-  background: #1f1f1f;
+  background: #969696;
   border: 1px solid #ccc;
   border-radius: 4px;
   max-height: 150px;

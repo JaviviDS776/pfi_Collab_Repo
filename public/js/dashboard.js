@@ -803,6 +803,15 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.classList.remove("dark-theme");
       localStorage.setItem("theme", "light");
     }
+    // --- INICIO: Actualizar dropdowns de sugerencias de etiquetas al cambiar tema ---
+    document.querySelectorAll(".tag-suggestions").forEach(function (dropdown) {
+      if (document.body.classList.contains("dark-theme")) {
+        dropdown.classList.add("dark-dropdown");
+      } else {
+        dropdown.classList.remove("dark-dropdown");
+      }
+    });
+    // --- FIN ---
   });
 
   // Check for saved theme preference
@@ -810,6 +819,19 @@ document.addEventListener("DOMContentLoaded", function () {
   if (savedTheme === "dark") {
     document.body.classList.add("dark-theme");
     themeToggle.checked = true;
+    // --- INICIO: Aplica clase de tema a los dropdowns de sugerencias ---
+    document.querySelectorAll(".tag-suggestions").forEach(function (dropdown) {
+      dropdown.classList.add("dark-dropdown");
+      dropdown.classList.remove("light-dropdown");
+    });
+    // --- FIN ---
+  } else {
+    // --- INICIO: Aplica clase de tema a los dropdowns de sugerencias ---
+    document.querySelectorAll(".tag-suggestions").forEach(function (dropdown) {
+      dropdown.classList.add("light-dropdown");
+      dropdown.classList.remove("dark-dropdown");
+    });
+    // --- FIN ---
   }
   // Estado de la aplicación
   let currentDocumentId = null;
@@ -1566,6 +1588,61 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // --- INICIO: Pantalla de carga al guardar documento ---
+    // Crea un overlay de carga si no existe
+    let loadingOverlay = document.getElementById("upload-loading-overlay");
+    if (!loadingOverlay) {
+      loadingOverlay = document.createElement("div");
+      loadingOverlay.id = "upload-loading-overlay";
+      loadingOverlay.style.position = "fixed";
+      loadingOverlay.style.top = "0";
+      loadingOverlay.style.left = "0";
+      loadingOverlay.style.width = "100vw";
+      loadingOverlay.style.height = "100vh";
+      // Color de fondo según tema
+      if (document.body.classList.contains("dark-theme")) {
+        loadingOverlay.style.background = "rgba(25,0,36,0.88)";
+      } else {
+        loadingOverlay.style.background = "rgba(255,255,255,0.85)";
+      }
+      loadingOverlay.style.zIndex = "2000";
+      loadingOverlay.style.display = "flex";
+      loadingOverlay.style.flexDirection = "column";
+      loadingOverlay.style.alignItems = "center";
+      loadingOverlay.style.justifyContent = "center";
+      // Color de texto y spinner según tema
+      let spinnerColor = document.body.classList.contains("dark-theme")
+        ? "#61dafb"
+        : "#4285f4";
+      let textColor = document.body.classList.contains("dark-theme")
+        ? "#e0e0e0"
+        : "#333";
+      loadingOverlay.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="spinner" style="border:4px solid #eee;border-top:4px solid ${spinnerColor};border-radius:50%;width:48px;height:48px;animation:spin 1s linear infinite;margin-bottom:18px;"></div>
+          <div style="font-size:18px;color:${textColor};">Analizando documento...</div>
+        </div>
+      `;
+      document.body.appendChild(loadingOverlay);
+    } else {
+      // Actualiza colores si el usuario cambia el tema antes de mostrar el overlay
+      if (document.body.classList.contains("dark-theme")) {
+        loadingOverlay.style.background = "rgba(25,0,36,0.88)";
+        loadingOverlay.querySelector("div[style*='font-size']").style.color =
+          "#e0e0e0";
+        loadingOverlay.querySelector(".spinner").style.borderTopColor =
+          "#61dafb";
+      } else {
+        loadingOverlay.style.background = "rgba(255,255,255,0.85)";
+        loadingOverlay.querySelector("div[style*='font-size']").style.color =
+          "#333";
+        loadingOverlay.querySelector(".spinner").style.borderTopColor =
+          "#4285f4";
+      }
+      loadingOverlay.style.display = "flex";
+    }
+    // --- FIN: Pantalla de carga al guardar documento ---
+
     if (documentId) {
       // Actualizar documento existente
       fetch(`/documents/${documentId}`, {
@@ -1589,16 +1666,20 @@ document.addEventListener("DOMContentLoaded", function () {
             fileCard.querySelector(".file-name").textContent = name;
           }
           closeFileModal();
+          // Oculta la pantalla de carga si no hay recarga
+          if (loadingOverlay) loadingOverlay.style.display = "none";
         })
         .catch((error) => {
           console.error("Error:", error);
           alert("Error al actualizar el documento");
+          if (loadingOverlay) loadingOverlay.style.display = "none";
         });
     } else if (currentFile) {
       // Subir nuevo documento
       submitFile(currentFile, name, description, tags);
       closeFileModal();
       currentFile = null;
+      // La recarga de página se maneja en submitFile, la pantalla de carga se oculta tras reload
     }
   });
 
@@ -2444,6 +2525,15 @@ function setupTagSuggestions(inputId, listId, allTags) {
       suggestionContainer.className = "tag-suggestions";
       tagInput.parentElement.appendChild(suggestionContainer);
     }
+    // --- INICIO: Añadir clase de tema al contenedor de sugerencias ---
+    if (document.body.classList.contains("dark-theme")) {
+      suggestionContainer.classList.add("dark-dropdown");
+      suggestionContainer.classList.remove("light-dropdown");
+    } else {
+      suggestionContainer.classList.add("light-dropdown");
+      suggestionContainer.classList.remove("dark-dropdown");
+    }
+    // --- FIN ---
   }
 
   if (!tagInput || !suggestionContainer) return;
